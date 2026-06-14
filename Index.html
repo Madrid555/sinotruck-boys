@@ -16,22 +16,21 @@
         body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #FFFFFF; color: #1A1A1A; line-height: 1.5; }
         @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
         
-        /* Body no scroll when dropdown open */
         body.no-scroll { overflow: hidden; }
         
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
         
-        /* Trust Bar - stays exactly as is */
+        /* Trust Bar */
         .trust-bar { background: #1A1A1A; display: flex; justify-content: center; gap: 2rem; padding: 0.75rem 1rem; font-size: 0.8rem; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; }
         .trust-item { display: flex; align-items: center; gap: 0.5rem; color: #FFFFFF; }
         .trust-item i { color: #D4AF37; width: 16px; }
         
-        /* Bell container - fixed top right corner */
+        /* Fixed Bell Container */
         .bell-container-fixed {
             position: fixed;
             top: 12px;
             right: 20px;
-            z-index: 1000;
+            z-index: 1001;
             cursor: pointer;
             background: #1A1A1A;
             padding: 6px 10px;
@@ -51,6 +50,8 @@
             border-radius: 50%;
             display: none;
         }
+        
+        /* Notification Dropdown */
         .notification-dropdown {
             position: fixed;
             top: 55px;
@@ -60,7 +61,7 @@
             border: 1px solid #E5E5E5;
             border-radius: 0.8rem;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            z-index: 1001;
+            z-index: 1002;
             display: none;
             max-height: 400px;
             overflow-y: auto;
@@ -74,12 +75,12 @@
             border-bottom: 1px solid #E5E5E5;
             font-weight: 700;
             background: #F8F8F8;
-            border-radius: 0.8rem 0.8rem 0 0;
             position: sticky;
             top: 0;
             background: white;
+            border-radius: 0.8rem 0.8rem 0 0;
         }
-        .notification-header .close-dropdown {
+        .close-dropdown {
             background: none;
             border: none;
             font-size: 1.4rem;
@@ -89,7 +90,7 @@
             padding: 0 8px;
             line-height: 1;
         }
-        .notification-header .close-dropdown:hover { color: #C41E3A; }
+        .close-dropdown:hover { color: #C41E3A; }
         .notification-item { padding: 12px 15px; border-bottom: 1px solid #F5F5F5; cursor: pointer; transition: background 0.2s; }
         .notification-item:hover { background: #F0F0F0; }
         .notification-time { font-size: 0.7rem; color: #888; margin-bottom: 4px; }
@@ -98,7 +99,7 @@
         .cancel-app-btn { background: none; border: none; color: #C41E3A; cursor: pointer; font-size: 0.75rem; margin-top: 6px; padding: 4px 0; width: 100%; text-align: left; display: block; }
         .cancel-app-btn:hover { text-decoration: underline; }
         
-        /* Rest of styles (same as before - keeping all existing styles) */
+        /* Rest of the styles */
         .main-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; flex-wrap: wrap; max-width: 1280px; margin: 0 auto; position: relative; }
         .logo-area { display: flex; align-items: center; gap: 0.8rem; }
         .logo-area img { height: 45px; width: auto; }
@@ -268,7 +269,7 @@
     <span><i class="fas fa-globe"></i> Worldwide Shipping</span>
 </div>
 
-    <div class="container">
+<div class="container">
     <div class="double-truck">
         <div class="truck-image-box"><img src="https://placehold.co/400x250?text=HOWO+Dump+Truck" alt="HOWO Dump Truck"><p>HOWO Heavy Duty Series</p></div>
         <div class="truck-image-box"><img src="https://placehold.co/400x250?text=HOWO+Cargo+Truck" alt="HOWO Cargo Truck"><p>HOWO Cargo Series</p></div>
@@ -342,21 +343,68 @@
         { id: 9, name: "HOWO Bus Chassis", category: "Passenger Transport", badge: "Commercial", badgeColor: "#D4AF37", capacity: "40-60 passengers", engine: "MC11 440HP", fullPrice: 72000, price: "$72,000", upfront30: "$21,600", upfrontValue: 21600, image: "https://placehold.co/600x400?text=HOWO+Bus+Chassis" }
     ];
 
-    // Store multiple applications
     let applications = JSON.parse(localStorage.getItem('sinotruk_applications')) || [];
     let currentAppId = null;
     let selectedTruck = null, claimData = null, businessData = null;
     let successTimerInterval = null;
 
-    function disableBodyScroll() { document.body.classList.add('no-scroll'); }
-    function enableBodyScroll() { document.body.classList.remove('no-scroll'); }
+    // ========== NOTIFICATION DROPDOWN - COMPLETELY REWRITTEN ==========
+    const bell = document.getElementById('bellContainerFixed');
+    const dropdown = document.getElementById('notificationDropdown');
+    const closeBtn = document.getElementById('closeNotificationBtn');
 
-    // Close notification dropdown and restore scroll
-    function closeNotificationDropdown() {
-        const dropdown = document.getElementById('notificationDropdown');
+    function closeDropdown() {
         dropdown.classList.remove('show');
-        enableBodyScroll();
+        document.body.classList.remove('no-scroll');
+        document.removeEventListener('click', handleClickOutside);
+        document.removeEventListener('touchstart', handleClickOutside);
+        window.removeEventListener('scroll', closeDropdown);
+        document.removeEventListener('keydown', handleEscape);
     }
+
+    function openDropdown() {
+        dropdown.classList.add('show');
+        document.body.classList.add('no-scroll');
+        setTimeout(() => {
+            document.addEventListener('click', handleClickOutside);
+            document.addEventListener('touchstart', handleClickOutside);
+            window.addEventListener('scroll', closeDropdown);
+            document.addEventListener('keydown', handleEscape);
+        }, 10);
+    }
+
+    function handleClickOutside(event) {
+        if (!bell.contains(event.target) && !dropdown.contains(event.target)) {
+            closeDropdown();
+        }
+    }
+
+    function handleEscape(event) {
+        if (event.key === 'Escape') {
+            closeDropdown();
+        }
+    }
+
+    if (bell) {
+        bell.addEventListener('click', function(event) {
+            event.stopPropagation();
+            if (dropdown.classList.contains('show')) {
+                closeDropdown();
+            } else {
+                openDropdown();
+            }
+        });
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            closeDropdown();
+        });
+    }
+
+    // ========== END NOTIFICATION DROPDOWN CODE ==========
 
     function saveNotification(title, detail, appId, step) { 
         let notifications = JSON.parse(localStorage.getItem('sinotruk_notifications')) || [];
@@ -403,13 +451,13 @@
                                 businessData = app.businessData;
                                 selectedTruck = app.selectedTruck;
                                 currentAppId = app.id;
-                                closeNotificationDropdown();
+                                closeDropdown();
                                 showSuccess();
                             } else if (app.step1Completed) {
                                 claimData = app.claimData;
                                 selectedTruck = app.selectedTruck;
                                 currentAppId = app.id;
-                                closeNotificationDropdown();
+                                closeDropdown();
                                 showBusinessModal();
                             }
                         }
@@ -437,33 +485,7 @@
         document.getElementById('cancelPopup').style.display = 'none';
     }
 
-    // Bell click - open dropdown, disable body scroll
-    document.getElementById('bellContainerFixed')?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const dropdown = document.getElementById('notificationDropdown');
-        if (dropdown.classList.contains('show')) {
-            closeNotificationDropdown();
-        } else {
-            dropdown.classList.add('show');
-            disableBodyScroll();
-        }
-    });
-    
-    // Close button inside dropdown
-    document.getElementById('closeNotificationBtn')?.addEventListener('click', () => {
-        closeNotificationDropdown();
-    });
-    
-    // Click outside to close
-    document.addEventListener('click', (e) => {
-        const bell = document.getElementById('bellContainerFixed');
-        const dropdown = document.getElementById('notificationDropdown');
-        if (dropdown && dropdown.classList.contains('show') && !bell.contains(e.target) && !dropdown.contains(e.target)) {
-            closeNotificationDropdown();
-        }
-    });
-
-document.getElementById('confirmCancelBtn')?.addEventListener('click', () => { if (currentAppId) cancelApplication(currentAppId); });
+    document.getElementById('confirmCancelBtn')?.addEventListener('click', () => { if (currentAppId) cancelApplication(currentAppId); });
     document.getElementById('dismissCancelBtn')?.addEventListener('click', () => { document.getElementById('cancelPopup').style.display = 'none'; });
 
     function calculateTotalUpfront(upfrontValue, quantity) { const total = upfrontValue * quantity; return `$${total.toLocaleString()}`; }
@@ -569,7 +591,7 @@ document.getElementById('confirmCancelBtn')?.addEventListener('click', () => { i
         }); 
     }
 
-function showSuccess() { 
+    function showSuccess() { 
         const modal = document.getElementById('successModal'), content = document.getElementById('successModalContent'); 
         let remainingTime = parseInt(localStorage.getItem('successTimer'));
         if (isNaN(remainingTime) || remainingTime <= 0) { remainingTime = 60; localStorage.setItem('successTimer', remainingTime); }
@@ -630,8 +652,7 @@ function showSuccess() {
     document.getElementById('heroClaimBtn')?.addEventListener('click', () => { document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); });
     document.getElementById('startClaimBtn')?.addEventListener('click', () => { document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); });
     document.getElementById('navClaimBtn')?.addEventListener('click', (e) => { e.preventDefault(); document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); });
-
-    // Mobile menu auto-close when link clicked
+    
     document.querySelectorAll('.footer-nav-link, .claim-nav').forEach(link => {
         link.addEventListener('click', () => {
             document.getElementById('navLinks').classList.remove('show');
@@ -641,7 +662,6 @@ function showSuccess() {
     document.getElementById('mobileMenuBtn')?.addEventListener('click', () => { document.getElementById('navLinks').classList.toggle('show'); });
     document.querySelectorAll('.footer-nav-link').forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const target = link.getAttribute('data-target'); if (target === 'giveaway') document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'info') document.getElementById('info-section')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'instruction') document.getElementById('instruction-section')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'transactions') document.getElementById('transactions-section')?.scrollIntoView({ behavior: 'smooth' }); }); });
 
-    // Check for any incomplete applications on page load
     const incompleteApp = applications.find(a => a.step1Completed && !a.step2Completed);
     if (incompleteApp && !localStorage.getItem('successTimer')) {
         document.getElementById('resumeModal').style.display = 'flex';
