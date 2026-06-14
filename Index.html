@@ -15,10 +15,90 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #FFFFFF; color: #1A1A1A; line-height: 1.5; }
         @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
+        
+        /* Body no scroll when dropdown open */
+        body.no-scroll { overflow: hidden; }
+        
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+        
+        /* Trust Bar - stays exactly as is */
         .trust-bar { background: #1A1A1A; display: flex; justify-content: center; gap: 2rem; padding: 0.75rem 1rem; font-size: 0.8rem; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; }
         .trust-item { display: flex; align-items: center; gap: 0.5rem; color: #FFFFFF; }
         .trust-item i { color: #D4AF37; width: 16px; }
+        
+        /* Bell container - fixed top right corner */
+        .bell-container-fixed {
+            position: fixed;
+            top: 12px;
+            right: 20px;
+            z-index: 1000;
+            cursor: pointer;
+            background: #1A1A1A;
+            padding: 6px 10px;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .bell-container-fixed i { font-size: 1.2rem; color: #D4AF37; }
+        .bell-container-fixed .bell-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #C41E3A;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: bold;
+            padding: 0.1rem 0.35rem;
+            border-radius: 50%;
+            display: none;
+        }
+        .notification-dropdown {
+            position: fixed;
+            top: 55px;
+            right: 20px;
+            width: 340px;
+            background: white;
+            border: 1px solid #E5E5E5;
+            border-radius: 0.8rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            z-index: 1001;
+            display: none;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .notification-dropdown.show { display: block; }
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid #E5E5E5;
+            font-weight: 700;
+            background: #F8F8F8;
+            border-radius: 0.8rem 0.8rem 0 0;
+            position: sticky;
+            top: 0;
+            background: white;
+        }
+        .notification-header .close-dropdown {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #888;
+            padding: 0 8px;
+            line-height: 1;
+        }
+        .notification-header .close-dropdown:hover { color: #C41E3A; }
+        .notification-item { padding: 12px 15px; border-bottom: 1px solid #F5F5F5; cursor: pointer; transition: background 0.2s; }
+        .notification-item:hover { background: #F0F0F0; }
+        .notification-time { font-size: 0.7rem; color: #888; margin-bottom: 4px; }
+        .notification-title { font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; }
+        .notification-detail { font-size: 0.75rem; color: #666; }
+        .cancel-app-btn { background: none; border: none; color: #C41E3A; cursor: pointer; font-size: 0.75rem; margin-top: 6px; padding: 4px 0; width: 100%; text-align: left; display: block; }
+        .cancel-app-btn:hover { text-decoration: underline; }
+        
+        /* Rest of styles (same as before - keeping all existing styles) */
         .main-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; flex-wrap: wrap; max-width: 1280px; margin: 0 auto; position: relative; }
         .logo-area { display: flex; align-items: center; gap: 0.8rem; }
         .logo-area img { height: 45px; width: auto; }
@@ -29,23 +109,6 @@
         .claim-nav { background: #C41E3A; color: white !important; padding: 0.4rem 1rem; border-radius: 2rem; }
         .claim-nav:hover { background: #8B0000; }
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #1A1A1A; }
-        .bell-container { position: relative; cursor: pointer; }
-        .bell-container i { font-size: 1.3rem; color: #1A1A1A; transition: color 0.2s; }
-        .bell-container i:hover { color: #C41E3A; }
-        .bell-badge { position: absolute; top: -8px; right: -10px; background: #C41E3A; color: white; font-size: 0.65rem; font-weight: bold; padding: 0.15rem 0.4rem; border-radius: 50%; display: none; }
-        .notification-dropdown { position: absolute; top: 45px; right: 0; width: 340px; background: white; border: 1px solid #E5E5E5; border-radius: 0.8rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 200; display: none; max-height: 400px; overflow-y: auto; }
-        .notification-dropdown.show { display: block; }
-        .notification-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; border-bottom: 1px solid #E5E5E5; font-weight: 700; background: #F8F8F8; border-radius: 0.8rem 0.8rem 0 0; }
-        .notification-header span { font-size: 1rem; }
-        .notification-header .close-dropdown { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #888; transition: color 0.2s; }
-        .notification-header .close-dropdown:hover { color: #C41E3A; }
-        .notification-item { padding: 12px 15px; border-bottom: 1px solid #F5F5F5; cursor: pointer; transition: background 0.2s; }
-        .notification-item:hover { background: #F0F0F0; }
-        .notification-time { font-size: 0.7rem; color: #888; margin-bottom: 4px; }
-        .notification-title { font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; }
-        .notification-detail { font-size: 0.75rem; color: #666; }
-        .cancel-app-btn { background: none; border: none; color: #C41E3A; cursor: pointer; font-size: 0.75rem; margin-top: 6px; padding: 4px 0; width: 100%; text-align: left; display: block; }
-        .cancel-app-btn:hover { text-decoration: underline; }
         .hero { text-align: center; padding: 2.5rem 1rem; max-width: 800px; margin: 0 auto; }
         .live-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: #FFF5F5; padding: 0.4rem 1rem; border-radius: 2rem; font-size: 0.8rem; margin-bottom: 1rem; }
         .live-dot { width: 8px; height: 8px; background: #22C55E; border-radius: 50%; display: inline-block; animation: pulse 1.5s infinite; }
@@ -146,11 +209,25 @@
             .mobile-menu-btn { display: block; }
             .timer { gap: 0.3rem; }
             .time-unit { padding: 0.3rem 0.6rem; font-size: 1rem; min-width: 50px; }
-            .notification-dropdown { position: fixed; top: auto; bottom: 20px; left: 50%; transform: translateX(-50%); right: auto; width: 90%; max-width: 340px; }
+            .notification-dropdown { width: 90%; right: 5%; left: 5%; top: 60px; }
+            .bell-container-fixed { top: 10px; right: 15px; padding: 4px 8px; }
         }
     </style>
 </head>
 <body>
+
+<!-- Fixed Bell Container - Top Right Corner -->
+<div class="bell-container-fixed" id="bellContainerFixed">
+    <i class="far fa-bell"></i>
+    <span class="bell-badge" id="bellBadgeFixed">0</span>
+    <div class="notification-dropdown" id="notificationDropdown">
+        <div class="notification-header">
+            <span>Notifications</span>
+            <button class="close-dropdown" id="closeNotificationBtn">&times;</button>
+        </div>
+        <div id="notificationList"></div>
+    </div>
+</div>
 
 <div class="trust-bar">
     <div class="trust-item"><i class="fas fa-check-circle"></i> Verified Chinese Manufacturer</div>
@@ -170,17 +247,6 @@
         <a class="footer-nav-link" data-target="info">Financing</a>
         <a class="footer-nav-link" data-target="instruction">How It Works</a>
         <a class="footer-nav-link" data-target="transactions">Live Orders</a>
-        <div class="bell-container" id="bellContainer">
-            <i class="far fa-bell"></i>
-            <span class="bell-badge" id="bellBadge">0</span>
-            <div class="notification-dropdown" id="notificationDropdown">
-                <div class="notification-header">
-                    <span>Notifications</span>
-                    <button class="close-dropdown" id="closeNotificationBtn">&times;</button>
-                </div>
-                <div id="notificationList"></div>
-            </div>
-        </div>
         <a href="#" class="claim-nav" id="navClaimBtn">Get Truck</a>
     </div>
 </div>
@@ -202,7 +268,7 @@
     <span><i class="fas fa-globe"></i> Worldwide Shipping</span>
 </div>
 
-<div class="container">
+    <div class="container">
     <div class="double-truck">
         <div class="truck-image-box"><img src="https://placehold.co/400x250?text=HOWO+Dump+Truck" alt="HOWO Dump Truck"><p>HOWO Heavy Duty Series</p></div>
         <div class="truck-image-box"><img src="https://placehold.co/400x250?text=HOWO+Cargo+Truck" alt="HOWO Cargo Truck"><p>HOWO Cargo Series</p></div>
@@ -282,14 +348,18 @@
     let selectedTruck = null, claimData = null, businessData = null;
     let successTimerInterval = null;
 
-    // Close notification dropdown
-    document.getElementById('closeNotificationBtn')?.addEventListener('click', () => {
-        document.getElementById('notificationDropdown').classList.remove('show');
-    });
+    function disableBodyScroll() { document.body.classList.add('no-scroll'); }
+    function enableBodyScroll() { document.body.classList.remove('no-scroll'); }
+
+    // Close notification dropdown and restore scroll
+    function closeNotificationDropdown() {
+        const dropdown = document.getElementById('notificationDropdown');
+        dropdown.classList.remove('show');
+        enableBodyScroll();
+    }
 
     function saveNotification(title, detail, appId, step) { 
         let notifications = JSON.parse(localStorage.getItem('sinotruk_notifications')) || [];
-        // Check if notification for this app already exists
         const exists = notifications.some(n => n.id === appId && n.title === title);
         if (!exists) {
             notifications.unshift({ id: appId, title, detail, time: new Date().toLocaleTimeString(), step }); 
@@ -300,13 +370,13 @@
     }
     
     function updateBell() { 
-        const badge = document.getElementById('bellBadge'), list = document.getElementById('notificationList'); 
+        const badge = document.getElementById('bellBadgeFixed'); 
+        const list = document.getElementById('notificationList'); 
         const notifications = JSON.parse(localStorage.getItem('sinotruk_notifications')) || [];
         if (notifications.length > 0) { badge.style.display = 'inline-block'; badge.innerText = notifications.length; } 
         else { badge.style.display = 'none'; } 
         if (list) { 
             list.innerHTML = notifications.map((n, idx) => {
-                // Find if this application is completed (step2 done)
                 const app = applications.find(a => a.id === n.id);
                 const isCompleted = app && app.step2Completed === true;
                 const cancelButton = !isCompleted ? `<button class="cancel-app-btn" data-appid="${n.id}">Cancel This Application</button>` : '';
@@ -333,15 +403,16 @@
                                 businessData = app.businessData;
                                 selectedTruck = app.selectedTruck;
                                 currentAppId = app.id;
+                                closeNotificationDropdown();
                                 showSuccess();
                             } else if (app.step1Completed) {
                                 claimData = app.claimData;
                                 selectedTruck = app.selectedTruck;
                                 currentAppId = app.id;
+                                closeNotificationDropdown();
                                 showBusinessModal();
                             }
                         }
-                        document.getElementById('notificationDropdown').classList.remove('show');
                     });
                 });
                 document.querySelectorAll('.cancel-app-btn').forEach(btn => {
@@ -366,15 +437,33 @@
         document.getElementById('cancelPopup').style.display = 'none';
     }
 
-    document.getElementById('bellContainer')?.addEventListener('click', (e) => { e.stopPropagation(); document.getElementById('notificationDropdown').classList.toggle('show'); });
-    document.addEventListener('click', (e) => { 
+    // Bell click - open dropdown, disable body scroll
+    document.getElementById('bellContainerFixed')?.addEventListener('click', (e) => {
+        e.stopPropagation();
         const dropdown = document.getElementById('notificationDropdown');
-        const bell = document.getElementById('bellContainer');
-        if (dropdown && !dropdown.contains(e.target) && !bell.contains(e.target)) {
-            dropdown.classList.remove('show');
+        if (dropdown.classList.contains('show')) {
+            closeNotificationDropdown();
+        } else {
+            dropdown.classList.add('show');
+            disableBodyScroll();
         }
     });
-    document.getElementById('confirmCancelBtn')?.addEventListener('click', () => { if (currentAppId) cancelApplication(currentAppId); });
+    
+    // Close button inside dropdown
+    document.getElementById('closeNotificationBtn')?.addEventListener('click', () => {
+        closeNotificationDropdown();
+    });
+    
+    // Click outside to close
+    document.addEventListener('click', (e) => {
+        const bell = document.getElementById('bellContainerFixed');
+        const dropdown = document.getElementById('notificationDropdown');
+        if (dropdown && dropdown.classList.contains('show') && !bell.contains(e.target) && !dropdown.contains(e.target)) {
+            closeNotificationDropdown();
+        }
+    });
+
+document.getElementById('confirmCancelBtn')?.addEventListener('click', () => { if (currentAppId) cancelApplication(currentAppId); });
     document.getElementById('dismissCancelBtn')?.addEventListener('click', () => { document.getElementById('cancelPopup').style.display = 'none'; });
 
     function calculateTotalUpfront(upfrontValue, quantity) { const total = upfrontValue * quantity; return `$${total.toLocaleString()}`; }
@@ -480,7 +569,7 @@
         }); 
     }
 
-    function showSuccess() { 
+function showSuccess() { 
         const modal = document.getElementById('successModal'), content = document.getElementById('successModalContent'); 
         let remainingTime = parseInt(localStorage.getItem('successTimer'));
         if (isNaN(remainingTime) || remainingTime <= 0) { remainingTime = 60; localStorage.setItem('successTimer', remainingTime); }
@@ -541,8 +630,16 @@
     document.getElementById('heroClaimBtn')?.addEventListener('click', () => { document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); });
     document.getElementById('startClaimBtn')?.addEventListener('click', () => { document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); });
     document.getElementById('navClaimBtn')?.addEventListener('click', (e) => { e.preventDefault(); document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); });
-    document.querySelectorAll('.footer-nav-link').forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const target = link.getAttribute('data-target'); if (target === 'giveaway') document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'info') document.getElementById('info-section')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'instruction') document.getElementById('instruction-section')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'transactions') document.getElementById('transactions-section')?.scrollIntoView({ behavior: 'smooth' }); }); });
+
+    // Mobile menu auto-close when link clicked
+    document.querySelectorAll('.footer-nav-link, .claim-nav').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('navLinks').classList.remove('show');
+        });
+    });
+    
     document.getElementById('mobileMenuBtn')?.addEventListener('click', () => { document.getElementById('navLinks').classList.toggle('show'); });
+    document.querySelectorAll('.footer-nav-link').forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const target = link.getAttribute('data-target'); if (target === 'giveaway') document.querySelector('.countdown-box')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'info') document.getElementById('info-section')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'instruction') document.getElementById('instruction-section')?.scrollIntoView({ behavior: 'smooth' }); else if (target === 'transactions') document.getElementById('transactions-section')?.scrollIntoView({ behavior: 'smooth' }); }); });
 
     // Check for any incomplete applications on page load
     const incompleteApp = applications.find(a => a.step1Completed && !a.step2Completed);
